@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.myBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes growShrink {
+  0% {
+    width: 0;
+  }
+  50% {
+    width: 100%;
+  }
+  100% {
+    width: 0;
+  } 
+}
+
+.notification {
+  display: flex;
+  align-items: center;
+
+  border: 2px solid white;
+  padding: 10px;
+  border-radius: 10px;
+  width: 0;
+  overflow: hidden;
+  animation: growShrink 5s ;
+}
+
+.bell-icon {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  z-index: 10;
+  margin-left: 10px;
+}
+
+.notification span {
+  font-size: 14px;
+  color: black;
+}
