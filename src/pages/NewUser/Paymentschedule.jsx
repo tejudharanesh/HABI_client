@@ -2,12 +2,12 @@ import React from "react";
 
 const PaymentSchedule = ({ scheduleData }) => {
   return (
-    <div className="container mx-auto my-8 text-black">
+    <div className="container mx-auto my-8 text-black px-2 md:px-0">
       <h1 className="text-center text-2xl font-bold">Payment Schedules</h1>
       <div className="border border-gray-300 mt-4">
         {scheduleData.map((schedule, index) => (
           <div key={index} className="flex border-b">
-            <div className="w-3/5 p-4 border-r">
+            <div className="w-2/4 md:w-3/5 lg:w-auto p-4 border-r">
               <h2 className="font-bold">{schedule.title}</h2>
               <ul className="list-disc list-inside">
                 {schedule.items.map((item, idx) => (
@@ -15,10 +15,10 @@ const PaymentSchedule = ({ scheduleData }) => {
                 ))}
               </ul>
             </div>
-            <div className="w-1/5 p-4 border-r flex items-center justify-center">
+            <div className="w-1/6 md:w-1/5 p-4 border-r flex items-center justify-center">
               <span className="text-lg font-bold">{schedule.percentage}%</span>
             </div>
-            <div className="w-1/5 p-4 flex items-center justify-center">
+            <div className="w-1/5 md:w-1/4 p-4 flex items-center justify-center">
               <span className="text-lg font-bold">
                 ₹{schedule.price.toLocaleString()}
               </span>
