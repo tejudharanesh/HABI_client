@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function CostEstimator1({ isExpanded }) {
-  // State variables for inputs
   const [state, setState] = useState(localStorage.getItem("state") || "State");
   const [city, setCity] = useState(localStorage.getItem("city") || "City");
   const [locality, setLocality] = useState(
@@ -12,6 +11,8 @@ function CostEstimator1({ isExpanded }) {
   const [breadth, setBreadth] = useState(
     localStorage.getItem("breadth") || "20"
   );
+  const [customLength, setCustomLength] = useState("");
+  const [customBreadth, setCustomBreadth] = useState("");
   const [floors, setFloors] = useState(localStorage.getItem("floors") || "");
   const [floorHeight, setFloorHeight] = useState(
     localStorage.getItem("floorHeight") || "Floor Height"
@@ -20,7 +21,6 @@ function CostEstimator1({ isExpanded }) {
     localStorage.getItem("packageType") || "Package"
   );
 
-  // State variables for calculated values
   const [siteArea, setSiteArea] = useState(0);
   const [builtUpArea, setBuiltUpArea] = useState(0);
   const [sump, setSump] = useState(0);
@@ -28,9 +28,11 @@ function CostEstimator1({ isExpanded }) {
 
   const navigate = useNavigate();
 
-  // Function to calculate costs
   const CalculateCost = () => {
-    const area = length * breadth;
+    const lengthValue = length === "Custom" ? customLength : length;
+    const breadthValue = breadth === "Custom" ? customBreadth : breadth;
+
+    const area = lengthValue * breadthValue;
     const groundCoverage = 0.9;
     const builtUp = area * groundCoverage * floors;
     const sumpCost = 5000 * floors;
@@ -42,7 +44,6 @@ function CostEstimator1({ isExpanded }) {
 
     const cost = builtUp * costMultiplier;
 
-    // Update state with calculated values
     setSiteArea(area);
     setBuiltUpArea(builtUp);
     setSump(sumpCost);
@@ -51,9 +52,8 @@ function CostEstimator1({ isExpanded }) {
 
   useEffect(() => {
     CalculateCost();
-  }, [length, breadth, floors, packageType]);
+  }, [length, breadth, floors, packageType, customLength, customBreadth]);
 
-  // Save values to localStorage
   useEffect(() => {
     localStorage.setItem("state", state);
     localStorage.setItem("city", city);
@@ -74,7 +74,6 @@ function CostEstimator1({ isExpanded }) {
     packageType,
   ]);
 
-  // Reset values on refresh or close
   useEffect(() => {
     const handleBeforeUnload = () => {
       localStorage.removeItem("state");
@@ -144,6 +143,7 @@ function CostEstimator1({ isExpanded }) {
         </div>
 
         {/* Land Dimensions */}
+        {/* Land Dimensions with datalist */}
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             Land Dimensions (in feet)
@@ -154,21 +154,42 @@ function CostEstimator1({ isExpanded }) {
               onChange={(e) => setLength(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring bg-layoutColor text-black"
             >
-              <option>20</option>
-              <option>30</option>
-              <option>40</option>
-              <option>50</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="40">40</option>
+              <option value="50">50</option>
+              <option value="Custom">Custom</option>
             </select>
+            {length === "Custom" && (
+              <input
+                type="number"
+                value={customLength}
+                onChange={(e) => setCustomLength(e.target.value)}
+                placeholder="Enter custom length"
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring bg-layoutColor text-black"
+              />
+            )}
+
             <select
               value={breadth}
               onChange={(e) => setBreadth(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring bg-layoutColor text-black"
             >
-              <option>20</option>
-              <option>30</option>
-              <option>40</option>
-              <option>50</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="40">40</option>
+              <option value="50">50</option>
+              <option value="Custom">Custom</option>
             </select>
+            {breadth === "Custom" && (
+              <input
+                type="number"
+                value={customBreadth}
+                onChange={(e) => setCustomBreadth(e.target.value)}
+                placeholder="Enter custom breadth"
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring bg-layoutColor text-black"
+              />
+            )}
           </div>
         </div>
 
