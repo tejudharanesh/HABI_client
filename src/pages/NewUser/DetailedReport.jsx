@@ -358,7 +358,7 @@ function DetailedReport({ isExpanded }) {
             </span>
           </div>
           {Object.keys(additionalCosts).map((key) => (
-            <div key={key} className="flex relative justify-between py-3">
+            <div key={key} className="flex relative justify-between py-2">
               <span className="text-gray-700">{key}</span>
               <span className="text-gray-700 absolute right-10 md:right-0">
                 ₹{additionalCosts[key].toFixed(2)}

@@ -83,7 +83,7 @@ function CostEstimator1({ isExpanded }) {
     }
 
     const groundCoverage = 0.9;
-    const builtUp = area * groundCoverage * floors;
+    const builtUp = Math.round(area * groundCoverage * floors);
     const sumpCost = 5000 * floors;
 
     let costMultiplier = 0;
@@ -176,7 +176,7 @@ function CostEstimator1({ isExpanded }) {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-background font-poppins w-full h-full">
+    <div className="min-h-screen flex flex-col bg-background font-poppins w-full h-auto">
       <div
         className={`items-center w-full bg-layoutColor shadow p-2 h-auto mb-3 ${
           isExpanded ? "md:px-20 lg:px-60" : "md:px-12 lg:px-40"
@@ -451,6 +451,9 @@ function CostEstimator1({ isExpanded }) {
         >
           Detailed Report
         </button>
+        <br />
+        <br />
+        <br />
       </div>
     </div>
   );
