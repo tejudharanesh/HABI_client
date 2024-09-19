@@ -9,7 +9,7 @@ function Back() {
       className="absolute top-3 left-5 md:hidden"
       onClick={() => navigate(-1)}
     >
-      <img src={back} alt="back" />
+      <img src={back} alt="Back" />
     </button>
   );
 }
