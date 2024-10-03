@@ -17,12 +17,12 @@ const Footer = () => {
   return (
     <footer className="py-10">
       <div className="max-w-4xl mx-auto text-center pb-5">
-        <div className="flex flex-wrap justify-center space-x-4 mb-4">
+        <div className="flex flex-wrap justify-center space-x-7">
           {footerLinks.map((item, index) => (
             <a
               key={index}
               href={item.url}
-              className="text-slate-500 text-xs md:text-sm hover:text-red-600 transition-colors duration-100"
+              className="text-slate-500 text-xs md:text-sm hover:text-red-600 transition-colors duration-100 py-1"
               target="_blank"
               rel="noopener noreferrer"
             >

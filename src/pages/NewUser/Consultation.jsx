@@ -13,6 +13,7 @@ import dayjs from "dayjs";
 import OnePercent from "../../components/Homepage/OnePercent";
 import Design from "../../components/Homepage/Design";
 import Youtube from "../../components/Homepage/Youtube";
+import ImageUpload from "../../components/Homepage/ImageUpload";
 
 function Consultation({ isExpanded }) {
   const [showPopup, setShowPopup] = useState(false);
@@ -147,6 +148,7 @@ function Consultation({ isExpanded }) {
           />
         )}
       </div>
+      <ImageUpload />
       <OnePercent isExpanded={isExpanded} />
       <Design isExpanded={isExpanded} />
       <HabiFeatures isExpanded={isExpanded} />
@@ -183,7 +185,7 @@ function Consultation({ isExpanded }) {
         onClose={handleScheduleClose}
         onConfirm={handleBookingConfirmed}
       />
-      {showScheduleBooked && <ScheduleBooked/>}
+      {showScheduleBooked && <ScheduleBooked />}
     </div>
   );
 }
