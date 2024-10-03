@@ -3,7 +3,7 @@ import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
 // Register components for Chart.js
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip);
 
 const PieChart1 = ({ costs }) => {
   const data = {
@@ -63,7 +63,7 @@ const PieChart1 = ({ costs }) => {
   };
 
   return (
-    <div className=" md:h-[500px]">
+    <div className="h-[400px] md:h-[400px]">
       <Doughnut data={data} />
     </div>
   );

@@ -1,449 +1,337 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-function CostEstimator1({ isExpanded }) {
-  const [state, setState] = useState(localStorage.getItem("state") || "State");
-  const [city, setCity] = useState(localStorage.getItem("city") || "City");
-  const [locality, setLocality] = useState(
-    localStorage.getItem("locality") || "Locality"
-  );
-  const [landType, setLandType] = useState(
-    localStorage.getItem("landType") || "Regular"
-  );
-  const [side1, setSide1] = useState(localStorage.getItem("side1") || "");
-  const [side2, setSide2] = useState(localStorage.getItem("side2") || "");
-  const [side3, setSide3] = useState(localStorage.getItem("side3") || "");
-  const [side4, setSide4] = useState(localStorage.getItem("side4") || "");
-  const [length, setLength] = useState(localStorage.getItem("length") || "20");
-  const [breadth, setBreadth] = useState(
-    localStorage.getItem("breadth") || "20"
-  );
-  const [customLength, setCustomLength] = useState(
-    localStorage.getItem("customLength") || ""
-  );
-  const [customBreadth, setCustomBreadth] = useState(
-    localStorage.getItem("customBreadth") || ""
-  );
-  const [floors, setFloors] = useState(localStorage.getItem("floors") || "");
-  const [floorHeight, setFloorHeight] = useState(
-    localStorage.getItem("floorHeight") || "Floor Height"
-  );
-  const [packageType, setPackageType] = useState(
-    localStorage.getItem("packageType") || "Package"
-  );
+const SelectInput = ({ value, onChange, options, label, name }) => (
+  <div className="relative mb-6">
+    {label && (
+      <label className="absolute -top-2.5 left-3 bg-layoutColor px-1 text-sm text-gray-400 capitalize">
+        {label}*
+      </label>
+    )}
+    <select
+      value={value}
+      onChange={onChange}
+      name={name}
+      className="text-black block w-full px-3 py-2 border border-gray-300 rounded-xl bg-layoutColor focus:outline-none"
+    >
+      {options.map((option) => (
+        <option key={option} value={option}>
+          {option}
+        </option>
+      ))}
+    </select>
+  </div>
+);
 
-  const [siteArea, setSiteArea] = useState(0);
-  const [builtUpArea, setBuiltUpArea] = useState(0);
-  const [sump, setSump] = useState(0);
-  const [estimatedCost, setEstimatedCost] = useState(0);
+const NumberInput = ({ value, onChange, name, label }) => (
+  <div className="relative mb-3">
+    {label && (
+      <label className="absolute -top-2.5 left-3 bg-layoutColor px-1 text-sm text-gray-400 capitalize">
+        {label}*
+      </label>
+    )}
+    <input
+      type="number"
+      value={value}
+      onChange={onChange}
+      name={name}
+      className="text-black block w-full px-3 py-2 border border-gray-300 rounded-xl bg-layoutColor focus:outline-none"
+    />
+  </div>
+);
+
+function CostEstimator1({ isExpanded }) {
+  const [inputs, setInputs] = useState({
+    state: localStorage.getItem("state") || "State",
+    city: localStorage.getItem("city") || "City",
+    locality: localStorage.getItem("locality") || "Locality",
+    landType: localStorage.getItem("landType") || "Regular",
+    side1: localStorage.getItem("side1") || "",
+    side2: localStorage.getItem("side2") || "",
+    side3: localStorage.getItem("side3") || "",
+    side4: localStorage.getItem("side4") || "",
+    length: localStorage.getItem("length") || "20",
+    breadth: localStorage.getItem("breadth") || "20",
+    customLength: localStorage.getItem("customLength") || "",
+    customBreadth: localStorage.getItem("customBreadth") || "",
+    floors: localStorage.getItem("floors") || "",
+    floorHeight: localStorage.getItem("floorHeight") || "Floor Height",
+    packageType: localStorage.getItem("packageType") || "Package",
+  });
+
+  const [results, setResults] = useState({
+    siteArea: 0,
+    builtUpArea: 0,
+    sump: 0,
+    estimatedCost: 0,
+  });
 
   const navigate = useNavigate();
 
-  // Function to calculate the area of a cyclic quadrilateral
-  const calculateQuadrilateralArea = () => {
-    const a = parseFloat(side1);
-    const b = parseFloat(side2);
-    const c = parseFloat(side3);
-    const d = parseFloat(side4);
-
-    // Semi-perimeter
-    const s = (a + b + c + d) / 2;
-
-    // Brahmagupta's formula for area of cyclic quadrilateral
-    return Math.round(Math.sqrt((s - a) * (s - b) * (s - c) * (s - d)));
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setInputs((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Function to calculate the area of a triangle using Heron's formula
-  const calculateTriangleArea = () => {
-    const a = parseFloat(side1);
-    const b = parseFloat(side2);
-    const c = parseFloat(side3);
+  const calculateArea = () => {
+    const {
+      side1,
+      side2,
+      side3,
+      side4,
+      length,
+      breadth,
+      customLength,
+      customBreadth,
+      landType,
+    } = inputs;
+    const a = parseFloat(side1),
+      b = parseFloat(side2),
+      c = parseFloat(side3),
+      d = parseFloat(side4);
 
-    // Semi-perimeter
-    const s = (a + b + c) / 2;
-
-    // Heron's formula for area of a triangle
-    return Math.round(Math.sqrt(s * (s - a) * (s - b) * (s - c)));
-  };
-
-  const CalculateCost = () => {
     let area = 0;
     if (landType === "Regular") {
-      const lengthValue = length === "Custom" ? customLength : length;
-      const breadthValue = breadth === "Custom" ? customBreadth : breadth;
-      area = lengthValue * breadthValue;
-    } else if (landType === "Triangular") {
-      if (side1 && side2 && side3) {
-        area = calculateTriangleArea();
-      }
-    } else if (landType === "Irregular") {
-      if (side1 && side2 && side3 && side4) {
-        area = calculateQuadrilateralArea();
-      }
+      area =
+        (length === "Custom" ? customLength : length) *
+        (breadth === "Custom" ? customBreadth : breadth);
+    } else if (landType === "Triangular" && side1 && side2 && side3) {
+      const s = (a + b + c) / 2;
+      area = Math.sqrt(s * (s - a) * (s - b) * (s - c));
+    } else if (landType === "Irregular" && side1 && side2 && side3 && side4) {
+      const s = (a + b + c + d) / 2;
+      area = Math.sqrt((s - a) * (s - b) * (s - c) * (s - d));
     }
+    return Math.round(area);
+  };
 
-    const groundCoverage = 0.9;
+  const calculateCost = () => {
+    const area = calculateArea();
+    const { floors, packageType } = inputs;
+    const groundCoverage = 0.9,
+      sumpCost = 5000 * floors;
     const builtUp = Math.round(area * groundCoverage * floors);
-    const sumpCost = 5000 * floors;
-
-    let costMultiplier = 0;
-    if (packageType === "Essential") costMultiplier = 1800;
-    else if (packageType === "Premium") costMultiplier = 2075;
-    else if (packageType === "Luxury") costMultiplier = 2485;
-
+    const costMultiplier =
+      packageType === "Essential"
+        ? 1800
+        : packageType === "Premium"
+        ? 2075
+        : 2485;
     const cost = builtUp * costMultiplier;
 
-    setSiteArea(area);
-    setBuiltUpArea(builtUp);
-    setSump(sumpCost);
-    setEstimatedCost(cost);
+    setResults({
+      siteArea: area,
+      builtUpArea: builtUp,
+      sump: sumpCost,
+      estimatedCost: cost,
+    });
   };
 
   useEffect(() => {
-    CalculateCost();
-  }, [
-    length,
-    breadth,
-    customLength,
-    customBreadth,
-    floors,
-    packageType,
-    side1,
-    side2,
-    side3,
-    side4,
-    landType,
-  ]);
+    calculateCost();
+  }, [inputs]);
 
   useEffect(() => {
-    localStorage.setItem("state", state);
-    localStorage.setItem("city", city);
-    localStorage.setItem("locality", locality);
-    localStorage.setItem("landType", landType);
-    localStorage.setItem("side1", side1);
-    localStorage.setItem("side2", side2);
-    localStorage.setItem("side3", side3);
-    localStorage.setItem("side4", side4);
-    localStorage.setItem("length", length);
-    localStorage.setItem("breadth", breadth);
-    localStorage.setItem("customLength", customLength);
-    localStorage.setItem("customBreadth", customBreadth);
-    localStorage.setItem("floors", floors);
-    localStorage.setItem("floorHeight", floorHeight);
-    localStorage.setItem("packageType", packageType);
-  }, [
-    state,
-    city,
-    locality,
-    landType,
-    side1,
-    side2,
-    side3,
-    side4,
-    length,
-    breadth,
-    customLength,
-    customBreadth,
-    floors,
-    floorHeight,
-    packageType,
-  ]);
+    Object.entries(inputs).forEach(([key, value]) => {
+      localStorage.setItem(key, value);
+    });
+  }, [inputs]);
 
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      localStorage.removeItem("state");
-      localStorage.removeItem("city");
-      localStorage.removeItem("locality");
-      localStorage.removeItem("landType");
-      localStorage.removeItem("side1");
-      localStorage.removeItem("side2");
-      localStorage.removeItem("side3");
-      localStorage.removeItem("side4");
-      localStorage.removeItem("length");
-      localStorage.removeItem("breadth");
-      localStorage.removeItem("customLength");
-      localStorage.removeItem("customBreadth");
-      localStorage.removeItem("floors");
-      localStorage.removeItem("floorHeight");
-      localStorage.removeItem("packageType");
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
+  const options = {
+    state: ["Karnataka"],
+    city: ["Bengaluru"],
+    locality: ["KR Puram", "Marathahalli", "Jayanagar"],
+    landType: ["Regular", "Triangular", "Irregular"],
+    length: ["20", "30", "40", "50", "Custom"],
+    breadth: ["20", "30", "40", "50", "Custom"],
+    floors: ["1", "2", "3", "4", "5", "6", "7", "8"],
+    floorHeight: ["10", "11", "12", "13"],
+    packageType: ["Essential", "Premium", "Luxury"],
+  };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background font-poppins w-full h-auto">
+    <div
+      className={`min-h-screen flex flex-col bg-background font-poppins w-full`}
+    >
       <div
-        className={`items-center w-full bg-layoutColor shadow p-2 h-auto mb-3 ${
+        className={`w-full bg-layoutColor shadow p-2 px-4 h-auto mb-3 ${
           isExpanded ? "md:px-20 lg:px-60" : "md:px-12 lg:px-40"
         }`}
       >
-        <h2 className="text-black font-bold text-2xl mb-6 text-center">
+        <h2 className="text-black font-bold text-xl md:text-2xl mb-6 text-center">
           Cost Estimator
         </h2>
+        <SelectInput
+          value={inputs.state}
+          onChange={handleInputChange}
+          options={options.state}
+          name="state"
+          label="State"
+        />
+        <SelectInput
+          value={inputs.city}
+          onChange={handleInputChange}
+          options={options.city}
+          name="city"
+          label="City"
+        />
+        <SelectInput
+          value={inputs.locality}
+          onChange={handleInputChange}
+          options={options.locality}
+          name="locality"
+          label="Locality"
+        />
+        <SelectInput
+          value={inputs.landType}
+          onChange={handleInputChange}
+          options={options.landType}
+          name="landType"
+          label="Land Type"
+        />
 
-        {/* State Selection */}
-        <div className="mb-4">
-          <select
-            value={state}
-            onChange={(e) => setState(e.target.value)}
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring bg-layoutColor text-black"
-          >
-            <option>State</option>
-            <option>Karnataka</option>
-          </select>
-        </div>
-
-        {/* City Selection */}
-        <div className="mb-4">
-          <select
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring bg-layoutColor text-black"
-          >
-            <option>City</option>
-            <option>Bengaluru</option>
-          </select>
-        </div>
-
-        {/* Locality Selection */}
-        <div className="mb-4">
-          <select
-            value={locality}
-            onChange={(e) => setLocality(e.target.value)}
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring bg-layoutColor text-black"
-          >
-            <option>Locality</option>
-            <option>KR Puram</option>
-            <option>Marathahalli</option>
-            <option>Jayanagar</option>
-          </select>
-        </div>
-
-        {/* Land Type Selection */}
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Land Type
-          </label>
-          <select
-            value={landType}
-            onChange={(e) => setLandType(e.target.value)}
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring bg-layoutColor text-black"
-          >
-            <option value="Regular">Regular</option>
-            <option value="Triangular">Triangular</option>
-            <option value="Irregular">Irregular</option>
-          </select>
-        </div>
-
-        {/* Land Dimensions */}
-        {landType === "Regular" && (
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Land Dimensions (in feet)
-            </label>
-            <div className="grid grid-cols-2 gap-4">
-              <select
-                value={length}
-                onChange={(e) => setLength(e.target.value)}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring bg-layoutColor text-black"
-              >
-                <option value="20">20</option>
-                <option value="30">30</option>
-                <option value="40">40</option>
-                <option value="50">50</option>
-                <option value="Custom">Custom</option>
-              </select>
-              {length === "Custom" && (
-                <input
-                  type="number"
-                  value={customLength}
-                  onChange={(e) => setCustomLength(e.target.value)}
-                  placeholder="Custom Length"
-                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring bg-layoutColor text-black"
-                />
-              )}
-              <select
-                value={breadth}
-                onChange={(e) => setBreadth(e.target.value)}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring bg-layoutColor text-black"
-              >
-                <option value="20">20</option>
-                <option value="30">30</option>
-                <option value="40">40</option>
-                <option value="50">50</option>
-                <option value="Custom">Custom</option>
-              </select>
-              {breadth === "Custom" && (
-                <input
-                  type="number"
-                  value={customBreadth}
-                  onChange={(e) => setCustomBreadth(e.target.value)}
-                  placeholder="Custom Breadth"
-                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring bg-layoutColor text-black"
-                />
-              )}
-            </div>
+        {inputs.landType === "Regular" && (
+          <div className="grid grid-cols-2 gap-4">
+            <SelectInput
+              value={inputs.length}
+              onChange={handleInputChange}
+              options={options.length}
+              name="length"
+              label="Land dimensions"
+            />
+            {inputs.length === "Custom" && (
+              <NumberInput
+                value={inputs.customLength}
+                onChange={handleInputChange}
+                name="customLength"
+                label="Custom length"
+              />
+            )}
+            <SelectInput
+              value={inputs.breadth}
+              onChange={handleInputChange}
+              options={options.breadth}
+              name="breadth"
+            />
+            {inputs.breadth === "Custom" && (
+              <NumberInput
+                value={inputs.customBreadth}
+                onChange={handleInputChange}
+                label="Custom breadth"
+                name="customBreadth"
+              />
+            )}
           </div>
         )}
 
-        {landType === "Triangular" && (
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Triangle Sides (in feet)
-            </label>
-            <div className="grid grid-cols-2 gap-4">
-              <input
-                type="number"
-                value={side1}
-                onChange={(e) => setSide1(e.target.value)}
-                placeholder="Side 1"
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring bg-layoutColor text-black"
-              />
-              <input
-                type="number"
-                value={side2}
-                onChange={(e) => setSide2(e.target.value)}
-                placeholder="Side 2"
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring bg-layoutColor text-black"
-              />
-              <input
-                type="number"
-                value={side3}
-                onChange={(e) => setSide3(e.target.value)}
-                placeholder="Side 3"
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring bg-layoutColor text-black"
-              />
-            </div>
+        {inputs.landType === "Triangular" && (
+          <div className="grid grid-cols-3 gap-4">
+            <NumberInput
+              value={inputs.side1}
+              onChange={handleInputChange}
+              placeholder="Side 1"
+              name="side1"
+            />
+            <NumberInput
+              value={inputs.side2}
+              onChange={handleInputChange}
+              placeholder="Side 2"
+              name="side2"
+            />
+            <NumberInput
+              value={inputs.side3}
+              onChange={handleInputChange}
+              placeholder="Side 3"
+              name="side3"
+            />
           </div>
         )}
 
-        {landType === "Irregular" && (
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Quadrilateral Sides (in feet)
-            </label>
-            <div className="grid grid-cols-2 gap-4">
-              <input
-                type="number"
-                value={side1}
-                onChange={(e) => setSide1(e.target.value)}
-                placeholder="Side 1"
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring bg-layoutColor text-black"
-              />
-              <input
-                type="number"
-                value={side2}
-                onChange={(e) => setSide2(e.target.value)}
-                placeholder="Side 2"
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring bg-layoutColor text-black"
-              />
-              <input
-                type="number"
-                value={side3}
-                onChange={(e) => setSide3(e.target.value)}
-                placeholder="Side 3"
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring bg-layoutColor text-black"
-              />
-              <input
-                type="number"
-                value={side4}
-                onChange={(e) => setSide4(e.target.value)}
-                placeholder="Side 4"
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring bg-layoutColor text-black"
-              />
-            </div>
+        {inputs.landType === "Irregular" && (
+          <div className="grid grid-cols-4 gap-4">
+            <NumberInput
+              value={inputs.side1}
+              onChange={handleInputChange}
+              placeholder="Side 1"
+              name="side1"
+            />
+            <NumberInput
+              value={inputs.side2}
+              onChange={handleInputChange}
+              placeholder="Side 2"
+              name="side2"
+            />
+            <NumberInput
+              value={inputs.side3}
+              onChange={handleInputChange}
+              placeholder="Side 3"
+              name="side3"
+            />
+            <NumberInput
+              value={inputs.side4}
+              onChange={handleInputChange}
+              placeholder="Side 4"
+              name="side4"
+            />
           </div>
         )}
 
-        {/* Number of Floors */}
-        <div className="mb-4">
-          <select
-            value={floors}
-            onChange={(e) => setFloors(e.target.value)}
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring bg-layoutColor text-black"
-          >
-            <option>No. of Floors</option>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-            <option>6</option>
-            <option>7</option>
-            <option>8</option>
-          </select>
-        </div>
-
-        {/* Floor Height */}
-        <div className="mb-4">
-          <select
-            value={floorHeight}
-            onChange={(e) => setFloorHeight(e.target.value)}
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring bg-layoutColor text-black"
-          >
-            <option>Floor Height</option>
-            <option>10</option>
-
-            <option>11</option>
-            <option>12</option>
-            <option>13</option>
-          </select>
-        </div>
-
-        {/* Package Selection */}
-        <div className="mb-4">
-          <select
-            value={packageType}
-            onChange={(e) => setPackageType(e.target.value)}
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring bg-layoutColor text-black"
-          >
-            <option>Package</option>
-            <option>Essential</option>
-            <option>Premium</option>
-            <option>Luxury</option>
-          </select>
-        </div>
-
-        {/* Submit Button */}
+        <SelectInput
+          value={inputs.floors}
+          onChange={handleInputChange}
+          options={options.floors}
+          name="floors"
+          label="No of Floors"
+        />
+        <SelectInput
+          value={inputs.floorHeight}
+          onChange={handleInputChange}
+          options={options.floorHeight}
+          name="floorHeight"
+          label="Floor Height"
+        />
+        <SelectInput
+          value={inputs.packageType}
+          onChange={handleInputChange}
+          options={options.packageType}
+          name="packageType"
+          label="Package"
+        />
       </div>
+
       <div
         className={`items-center w-full bg-layoutColor shadow p-2 h-auto mb-3 ${
           isExpanded ? "md:px-20 lg:px-60" : "md:px-12 lg:px-40"
-        }`}
+        } flex flex-col justify-center items-center`}
       >
-        {" "}
-        <div className="bg-layoutColor text-black p-4 px-6 rounded-lg mt-4">
+        <div className="bg-layoutColor text-black p-4 px-6 rounded-lg mt-4 w-full">
           <div className="flex justify-between">
             <span className="font-semibold text-gray-700">Site Area</span>
-            <span className="text-gray-700">{siteArea} sq ft</span>
+            <span className="text-gray-700">{results.siteArea} sq ft</span>
           </div>
           <div className="flex justify-between mt-2">
             <span className="font-semibold text-gray-700">Built-Up Area</span>
-            <span className="text-gray-700">{builtUpArea} sq ft</span>
+            <span className="text-gray-700">{results.builtUpArea} sq ft</span>
           </div>
           <div className="flex justify-between mt-2">
             <span className="font-semibold text-gray-700">Sump Capacity</span>
-            <span className="text-gray-700">{sump}</span>
+            <span className="text-gray-700">{results.sump} liters</span>
           </div>
+          <hr className="border mx-auto my-2" />
           <div className="flex justify-between mt-2">
             <span className="font-semibold text-gray-700">Estimated Cost</span>
-            <span className="text-gray-700 ">₹{estimatedCost}</span>
+            <span className="text-gray-700">₹{results.estimatedCost}</span>
           </div>
         </div>
         <button
-          className="w-full bg-primary text-white py-2 mt-6 rounded-lg font-bold"
+          className="w-full md:w-[50%] bg-primary text-white py-2 mt-6 rounded-lg font-bold"
           onClick={() => {
             navigate("/dashboard/detailedCost", {
               state: {
-                sump,
-                estimatedCost,
-                floors,
-                floorHeight,
+                sump: results.sump,
+                estimatedCost: results.estimatedCost,
+                floors: inputs.floors,
+                floorHeight: inputs.floorHeight,
                 // Add more variables if needed
               },
             });

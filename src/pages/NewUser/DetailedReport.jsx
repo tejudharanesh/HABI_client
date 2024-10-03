@@ -185,14 +185,14 @@ function DetailedReport({ isExpanded }) {
     <div className="min-h-screen flex flex-col bg-background font-poppins w-full h-full">
       <div
         className={`items-center w-full bg-layoutColor shadow md:p-2 h-auto mb-3 ${
-          isExpanded ? "md:px-20 lg:px-60" : "md:px-12 lg:px-40"
+          isExpanded ? "md:px-20 lg:px-64" : "md:px-12 lg:px-60"
         }`}
       >
         <h2 className="text-black font-bold text-2xl mb-6 text-center">
           Cost Breakdown Details
         </h2>
         <div className="bg-layoutColor rounded-lg mt-4 space-y-1 pr-[10%] md:pr-4 px-2">
-          <div className="flex justify-between relative">
+          <div className="flex relative">
             <span className=" text-gray-700">Design Fees</span>
             <span className="text-gray-700 absolute right-40 md:right-40">
               1%
@@ -424,7 +424,9 @@ function DetailedReport({ isExpanded }) {
           </form>
         </div>
         <br />
-        <PieChart1 costs={costs} />
+        <div className="flex flex-col justify-center items-center">
+          <PieChart1 costs={costs} />
+        </div>
         <PaymentSchedule scheduleData={scheduleData} />;
       </div>
     </div>

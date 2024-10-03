@@ -123,7 +123,7 @@ function Consultation({ isExpanded }) {
           isExpanded ? "md:px-14 lg:px-40" : "md:px-3 lg:px-28"
         }`}
       >
-        <h1 className="text-[21px] lg:text-[24px] my-4 text-black font-medium">
+        <h1 className="text-[20px] lg:text-[24px] text-black font-medium">
           Book Free Consultation
         </h1>
         {isPage1 ? (
