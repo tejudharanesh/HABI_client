@@ -26,11 +26,7 @@ const paymentStages = [
     stage: "Stage 03",
     title: "Completion of Slab",
     cost: "30% of the Total cost",
-    stages: [
-      "Ground Floor",
-      "First Floor",
-      
-    ],
+    stages: ["Ground Floor", "First Floor"],
     week: "9th - 23rd Week",
     date: "",
     dueDate: "22 June",
