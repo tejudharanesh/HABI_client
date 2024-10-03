@@ -10,7 +10,7 @@ import Structure from "../../assets/svg/Structure.svg";
 
 function FeatureItem({ icon, smallText, fullText }) {
   return (
-    <div className="flex flex-col items-center justify-center font-poppins">
+    <div className="flex flex-col items-center justify-center font-poppins z-10">
       <div className="bg-primary rounded-full w-12 h-12 mb-1 flex-center">
         <img className="m-auto" src={icon} alt={fullText} />
       </div>
@@ -49,6 +49,8 @@ function HabiFeatures({ isExpanded }) {
       smallText: ["1 Year", "Warranty"],
       fullText: "1 Year Warranty",
     },
+  ];
+  const features1 = [
     {
       icon: Tracking,
       smallText: ["Project", "Tracking"],
@@ -73,17 +75,31 @@ function HabiFeatures({ isExpanded }) {
 
   return (
     <div
-        className={`flex flex-col items-center w-full bg-layoutColor shadow p-4 h-auto mb-3 ${
-          isExpanded ? "md:px-14 lg:px-40" : "md:px-3 lg:px-28"
-        }`}
-      >
+      className={`flex flex-col items-center w-full bg-layoutColor shadow p-4 h-auto mb-3 ${
+        isExpanded ? "md:px-14 lg:px-40" : "md:px-3 lg:px-28"
+      }`}
+    >
       <div className="rounded-xl py-5 w-full">
         <h2 className="text-[16px] md:text-[18px] mb-4 text-center text-black">
           Constructing Dreams with Precision and Care
         </h2>
 
-        <div className="grid grid-cols-4 gap-4 mb-1">
+        <div className="grid grid-cols-4 gap-4 mb-1 relative">
+          <hr className="absolute bg-secondary w-[80%] left-[10%] top-6 h-0.5" />
+
           {features.map((feature, index) => (
+            <FeatureItem
+              key={index}
+              icon={feature.icon}
+              smallText={feature.smallText}
+              fullText={feature.fullText}
+            />
+          ))}
+        </div>
+        <div className="grid grid-cols-4 gap-4 mb-1 relative">
+          <hr className="absolute bg-secondary w-[80%] left-[10%] top-6 h-0.5" />
+
+          {features1.map((feature, index) => (
             <FeatureItem
               key={index}
               icon={feature.icon}

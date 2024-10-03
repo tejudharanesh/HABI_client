@@ -23,7 +23,7 @@
   }
   100% {
     width: 0;
-  } 
+  }
 }
 
 .notification {
@@ -35,7 +35,7 @@
   border-radius: 10px;
   width: 0;
   overflow: hidden;
-  animation: growShrink 5s ;
+  animation: growShrink 5s;
 }
 
 .bell-icon {
@@ -49,4 +49,9 @@
 .notification span {
   font-size: 14px;
   color: black;
+}
+
+.filter-primary {
+  filter: invert(68%) sepia(25%) saturate(600%) hue-rotate(143deg)
+    brightness(100%) contrast(100%);
 }

@@ -17,6 +17,7 @@ export default {
         layoutColor: "#F8F8FF",
         secondary: "#C0C0C0",
         BlackO: "#111111",
+        secondary: "#FFB400",
       },
       keyframes: {
         "grow-shrink": {

@@ -77,10 +77,11 @@ const Navbar = ({ isExpanded, user }) => {
                   alt={button.alt}
                   className={`w-6 h-6 md:ml-4 ${
                     selected === button.id
-                      ? "text-primary fill-primary"
-                      : "#000000"
+                      ? "text-primary fill-primary filter-primary"
+                      : ""
                   }`}
                 />
+
                 <span
                   className={`hidden md:inline font-[18px] ${
                     selected === button.id ? "text-primary" : "text-black"

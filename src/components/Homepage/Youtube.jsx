@@ -10,7 +10,7 @@ function Youtube({ isExpanded }) {
         isExpanded ? "md:px-14 lg:px-40" : "md:px-3 lg:px-28"
       }`}
     >
-      {" "}
+      
       <div className="w-full">
         <div className="ml-2 relative">
           <div className="relative inline-block">
@@ -18,7 +18,7 @@ function Youtube({ isExpanded }) {
               <img
                 src={thumbnailUrl}
                 alt="Responsive"
-                className="w-[173px] h-[105px] lg:w-[340px] lg:h-[192px] object-cover rounded-xl"
+                className="w-[173px] h-[105px] lg:w-[340px] lg:h-[150px] object-cover rounded-xl"
               />
               <img
                 src={icon}
