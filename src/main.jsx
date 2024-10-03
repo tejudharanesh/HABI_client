@@ -35,25 +35,26 @@ window.addEventListener("beforeinstallprompt", (e) => {
   // Stash the event so it can be triggered later.
   deferredPrompt = e;
 
-  // Optionally, show a custom UI or wait for a specific user interaction
-  showInstallPrompt();
+  // Show the install prompt every 4 seconds
+  const promptInterval = setInterval(() => {
+    showInstallPrompt();
+  }, 20000); // 4 seconds interval
 });
 
 function showInstallPrompt() {
-  // Example: Prompt the user after a delay (e.g., 10 seconds)
-  setTimeout(() => {
-    if (deferredPrompt) {
-      // Show the prompt
-      deferredPrompt.prompt();
-      // Wait for the user to respond to the prompt
-      deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === "accepted") {
-          console.log("User accepted the A2HS prompt");
-        } else {
-          console.log("User dismissed the A2HS prompt");
-        }
-        deferredPrompt = null;
-      });
-    }
-  }, 3000); // Delay of 3 seconds
+  if (deferredPrompt) {
+    // Show the prompt
+    deferredPrompt.prompt();
+    // Wait for the user to respond to the prompt
+    deferredPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === "accepted") {
+        console.log("User accepted the A2HS prompt");
+      } else {
+        console.log("User dismissed the A2HS prompt");
+      }
+      // After the user interacts, clear the interval and reset the prompt
+      clearInterval(promptInterval);
+      deferredPrompt = null;
+    });
+  }
 }
