@@ -5,22 +5,22 @@ import bell from "../../assets/svg/Bell.svg";
 import SemiCircularProgressBar from "./SemiCircularProgressBar";
 import { useNavigate } from "react-router-dom";
 
-function Page1({ showPopup }) {
+function Page1({ showPopup, imageHeight }) {
   const navigate = useNavigate();
 
   return (
     <div className="w-full">
       {/* Background Image with Gradient Overlay */}
       <div
-        className="relative inset-0 bg-cover bg-center w-full h-[350px]  rounded-b-[40px] md:rounded-b-[60px] lg:rounded-b-[80px]"
+        className={`relative inset-0 bg-cover bg-center w-full h-${imageHeight}px rounded-b-[40px] md:rounded-b-[60px] lg:rounded-b-[80px]`}
         style={{
           backgroundImage: `url(${home})`,
+          height: `${imageHeight}px`, // Dynamic height based on passed prop
         }}
       >
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent rounded-b-[40px] md:rounded-b-[60px] lg:rounded-b-[80px]"></div>
 
         {/* Content on top of the image */}
-
         <div className="absolute -bottom-3 left-8 md:bottom-1 md:left-20 text-white">
           <SemiCircularProgressBar />
         </div>

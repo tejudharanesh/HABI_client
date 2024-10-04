@@ -11,6 +11,7 @@ function Page2() {
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
+
   return (
     <div>
       <div className="md:px-[8%] lg:px-[] xl:px-[] bg-layoutColor h-auto">
