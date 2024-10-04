@@ -5,11 +5,11 @@ import bell from "../../assets/svg/Bell.svg";
 import SemiCircularProgressBar from "./SemiCircularProgressBar";
 import { useNavigate } from "react-router-dom";
 
-function Page1({ showPopup, isExpanded }) {
+function Page1({ showPopup }) {
   const navigate = useNavigate();
 
   return (
-    <div className="relative w-full">
+    <div className="w-full">
       {/* Background Image with Gradient Overlay */}
       <div
         className="relative inset-0 bg-cover bg-center w-full h-[350px]  rounded-b-[40px] md:rounded-b-[60px] lg:rounded-b-[80px]"

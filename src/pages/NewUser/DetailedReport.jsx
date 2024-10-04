@@ -185,182 +185,184 @@ function DetailedReport({ isExpanded }) {
     <div className="min-h-screen flex flex-col bg-background font-poppins w-full h-full">
       <div
         className={`items-center w-full bg-layoutColor shadow md:p-2 h-auto mb-3 ${
-          isExpanded ? "md:px-20 lg:px-64" : "md:px-12 lg:px-60"
+          isExpanded
+            ? "md:px-20 lg:px-64 xl:px-[400px] "
+            : "md:px-12 lg:px-60 xl:px-[400px]"
         }`}
       >
         <h2 className="text-black font-bold text-2xl mb-6 text-center">
           Cost Breakdown Details
         </h2>
-        <div className="bg-layoutColor rounded-lg mt-4 space-y-1 pr-[10%] md:pr-4 px-2">
-          <div className="flex relative">
+        <div className="bg-layoutColor rounded-lg mt-4 space-y-1 md:pr-4 px-2">
+          <div className="relative">
             <span className=" text-gray-700">Design Fees</span>
-            <span className="text-gray-700 absolute right-40 md:right-40">
+            <span className="text-gray-700 absolute right-44 md:right-40">
               1%
             </span>
-            <span className="text-gray-700 absolute right-10 md:right-0">
+            <span className="text-gray-700 absolute right-[12%] md:right-0">
               ₹{designFees.toFixed(2)}
             </span>
           </div>
           <div className="flex justify-between relative">
             <span className=" text-gray-700">Excavation</span>
-            <span className="text-gray-700 absolute right-40 md:right-40 ">
+            <span className="text-gray-700 absolute right-44 md:right-40 ">
               3%
             </span>
-            <span className="text-gray-700 absolute right-10 md:right-0">
+            <span className="text-gray-700 absolute right-[12%] md:right-0">
               ₹{excavation.toFixed(2)}
             </span>
           </div>
           <div className="flex justify-between relative">
             <span className=" text-gray-700">Sand</span>
-            <span className="text-gray-700 absolute right-40 md:right-40 ">
+            <span className="text-gray-700 absolute right-44 md:right-40 ">
               4%
             </span>
-            <span className="text-gray-700 absolute right-10 md:right-0">
+            <span className="text-gray-700 absolute right-[12%] md:right-0">
               ₹{sand.toFixed(2)}
             </span>
           </div>
           <div className="flex justify-between relative">
             <span className=" text-gray-700">Steel Reinforcement</span>
-            <span className="text-gray-700 absolute right-40 md:right-40 ">
+            <span className="text-gray-700 absolute right-44 md:right-40 ">
               14%
             </span>
-            <span className="text-gray-700 absolute right-10 md:right-0">
+            <span className="text-gray-700 absolute right-[12%] md:right-0">
               ₹{steelReinforcement.toFixed(2)}
             </span>
           </div>
           <div className="flex justify-between relative">
             <span className=" text-gray-700">Cement</span>
-            <span className="text-gray-700 absolute right-40 md:right-40 ">
+            <span className="text-gray-700 absolute right-44 md:right-40 ">
               8%
             </span>
-            <span className="text-gray-700 absolute right-10 md:right-0">
+            <span className="text-gray-700 absolute right-[12%] md:right-0">
               ₹{cement.toFixed(2)}
             </span>
           </div>
           <div className="flex justify-between relative">
             <span className=" text-gray-700">Solid Blocks</span>
-            <span className="text-gray-700 absolute right-40 md:right-40 ">
+            <span className="text-gray-700 absolute right-44 md:right-40 ">
               9%
             </span>
-            <span className="text-gray-700 absolute right-10 md:right-0">
+            <span className="text-gray-700 absolute right-[12%] md:right-0">
               ₹{solidBlocks.toFixed(2)}
             </span>
           </div>
           <div className="flex justify-between relative">
             <span className=" text-gray-700">Stones</span>
-            <span className="text-gray-700 absolute right-40 md:right-40 ">
+            <span className="text-gray-700 absolute right-44 md:right-40 ">
               5%
             </span>
-            <span className="text-gray-700 absolute right-10 md:right-0">
+            <span className="text-gray-700 absolute right-[12%] md:right-0">
               ₹{stones.toFixed(2)}
             </span>
           </div>
           <div className="flex justify-between relative">
             <span className=" text-gray-700">RMC</span>
-            <span className="text-gray-700 absolute right-40 md:right-40 ">
+            <span className="text-gray-700 absolute right-44 md:right-40 ">
               9%
             </span>
-            <span className="text-gray-700 absolute right-10 md:right-0">
+            <span className="text-gray-700 absolute right-[12%] md:right-0">
               ₹{rmc.toFixed(2)}
             </span>
           </div>
           <div className="flex justify-between relative">
             <span className=" text-gray-700">Formwork</span>
-            <span className="text-gray-700 absolute right-40 md:right-40 ">
+            <span className="text-gray-700 absolute right-44 md:right-40 ">
               3%
             </span>
-            <span className="text-gray-700 absolute right-10 md:right-0">
+            <span className="text-gray-700 absolute right-[12%] md:right-0">
               ₹{formwork.toFixed(2)}
             </span>
           </div>
           <div className="flex justify-between relative">
             <span className=" text-gray-700">Painting</span>
-            <span className="text-gray-700 absolute right-40 md:right-40 ">
+            <span className="text-gray-700 absolute right-44 md:right-40 ">
               6%
             </span>
-            <span className="text-gray-700 absolute right-10 md:right-0">
+            <span className="text-gray-700 absolute right-[12%] md:right-0">
               ₹{painting.toFixed(2)}
             </span>
           </div>
           <div className="flex justify-between relative">
             <span className=" text-gray-700">Plumbing</span>
-            <span className="text-gray-700 absolute right-40 md:right-40 ">
+            <span className="text-gray-700 absolute right-44 md:right-40 ">
               7%
             </span>
-            <span className="text-gray-700 absolute right-10 md:right-0">
+            <span className="text-gray-700 absolute right-[12%] md:right-0">
               ₹{plumbing.toFixed(2)}
             </span>
           </div>
           <div className="flex justify-between relative">
             <span className=" text-gray-700">Electrical Work</span>
-            <span className="text-gray-700 absolute right-40 md:right-40 ">
+            <span className="text-gray-700 absolute right-44 md:right-40 ">
               5%
             </span>
-            <span className="text-gray-700 absolute right-10 md:right-0">
+            <span className="text-gray-700 absolute right-[12%] md:right-0">
               ₹{electricalWork.toFixed(2)}
             </span>
           </div>
           <div className="flex justify-between relative">
             <span className=" text-gray-700">Exterior Flooring</span>
-            <span className="text-gray-700 absolute right-40 md:right-40 ">
+            <span className="text-gray-700 absolute right-44 md:right-40 ">
               5%
             </span>
-            <span className="text-gray-700 absolute right-10 md:right-0">
+            <span className="text-gray-700 absolute right-[12%] md:right-0">
               ₹{exteriorFlooring.toFixed(2)}
             </span>
           </div>
           <div className="flex justify-between relative">
             <span className=" text-gray-700">Compound Wall</span>
-            <span className="text-gray-700 absolute right-40 md:right-40 ">
+            <span className="text-gray-700 absolute right-44 md:right-40 ">
               4%
             </span>
-            <span className="text-gray-700 absolute right-10 md:right-0">
+            <span className="text-gray-700 absolute right-[12%] md:right-0">
               ₹{compoundWall.toFixed(2)}
             </span>
           </div>
           <div className="flex justify-between relative">
             <span className=" text-gray-700">Doors & Windows</span>
-            <span className="text-gray-700 absolute right-40 md:right-40 ">
+            <span className="text-gray-700 absolute right-44 md:right-40 ">
               3%
             </span>
-            <span className="text-gray-700 absolute right-10 md:right-0">
+            <span className="text-gray-700 absolute right-[12%] md:right-0">
               ₹{doorsWindows.toFixed(2)}
             </span>
           </div>
           <div className="flex justify-between relative">
             <span className=" text-gray-700">Miscellaneous</span>
-            <span className="text-gray-700 absolute right-40 md:right-40 ">
+            <span className="text-gray-700 absolute right-44 md:right-40 ">
               7%
             </span>
-            <span className="text-gray-700 absolute right-10 md:right-0">
+            <span className="text-gray-700 absolute right-[12%] md:right-0">
               ₹{miscellaneous.toFixed(2)}
             </span>
           </div>
           <div className="flex justify-between relative">
             <span className=" text-gray-700">Internal Flooring</span>
-            <span className="text-gray-700 absolute right-40 md:right-40 ">
+            <span className="text-gray-700 absolute right-44 md:right-40 ">
               7%
             </span>
-            <span className="text-gray-700 absolute right-10 md:right-0">
+            <span className="text-gray-700 absolute right-[12%] md:right-0">
               ₹{internalFlooring.toFixed(2)}
             </span>
           </div>
           <div className="flex justify-between relative">
             <span className=" text-gray-700">Floor Height Cost</span>
-            <span className="text-gray-700 absolute right-10 md:right-0">
+            <span className="text-gray-700 absolute right-[12%] md:right-0">
               ₹{floorHeightCost.toFixed(2)}
             </span>
           </div>
           <div className="flex justify-between relative">
             <span className=" text-gray-700">Sump Cost</span>
-            <span className="text-gray-700 absolute right-10 md:right-0">
+            <span className="text-gray-700 absolute right-[12%] md:right-0">
               ₹{sumpCost.toFixed(2)}
             </span>
           </div>
           {Object.keys(additionalCosts).map((key) => (
             <div key={key} className="flex relative justify-between py-2">
               <span className="text-gray-700">{key}</span>
-              <span className="text-gray-700 absolute right-10 md:right-0">
+              <span className="text-gray-700 absolute right-[12%] md:right-0">
                 ₹{additionalCosts[key].toFixed(2)}
               </span>
               <div className="flex flex-row absolute right-36">
@@ -379,27 +381,22 @@ function DetailedReport({ isExpanded }) {
               </div>
             </div>
           ))}
-          <div className="flex justify-between relative">
-            <span className="font-bold text-black">Total Estimated Cost</span>
-            <span className="text-black font-bold absolute right-10 md:right-0">
-              ₹{totalEstimatedCost.toFixed(2)}
-            </span>
-          </div>
           <form
             onSubmit={editField ? handleUpdateField : handleAddField}
             className="mt-4 p-2"
           >
-            <div className="flex flex-row justify-between mb-2 px-5 md:px-0">
+            <p className="text-xs">(*additional add-ons)</p>
+            <div className="flex flex-col-1 justify-between mb-2 md:px-0">
               <input
                 type="text"
-                placeholder="Field Name"
+                placeholder="Name"
                 value={editField || newField}
                 onChange={(e) =>
                   editField
                     ? setEditField(e.target.value)
                     : setNewField(e.target.value)
                 }
-                className="p-2 border border-gray-300 rounded-lg w-40 bg-inherit h-10"
+                className="p-2 border border-gray-300 rounded-lg w-32 md:w-40 bg-inherit h-10 text-black"
                 required
               />
               <input
@@ -411,17 +408,25 @@ function DetailedReport({ isExpanded }) {
                     ? setEditAmount(e.target.value)
                     : setNewAmount(e.target.value)
                 }
-                className="p-2 border border-gray-300 rounded-lg w-40 bg-inherit h-10"
+                className="p-2 border border-gray-300 rounded-lg w-32 md:w-40 bg-inherit h-10 text-black"
                 required
               />
               <button
                 type="submit"
                 className="px-3 bg-primary text-white rounded-lg w-auto h-10"
               >
-                {editField ? "Update" : "+"}
+                {editField ? "Update" : "Add"}
               </button>
             </div>
           </form>
+          <hr className="border" />
+          <div className="flex justify-between relative">
+            <span className="font-bold text-black">Total Estimated Cost</span>
+            <span className="text-black font-bold absolute right-[12%] md:right-0">
+              ₹{totalEstimatedCost.toFixed(2)}
+            </span>
+          </div>
+          <hr className="border" />
         </div>
         <br />
         <div className="flex flex-col justify-center items-center">

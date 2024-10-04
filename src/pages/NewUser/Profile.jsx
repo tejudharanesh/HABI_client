@@ -21,7 +21,9 @@ const Profile = ({ isExpanded, user }) => {
   const [editable, setEditable] = useState(false);
   const navigate = useNavigate();
   const containerClass = `flex flex-col items-center w-full bg-layoutColor h-auto mb-3 ${
-    isExpanded ? "md:px-20 lg:px-72" : "md:px-16 lg:px-60"
+    isExpanded
+      ? "md:px-20 lg:px-72 xl:px-[400px]"
+      : "md:px-16 lg:px-60 xl:px-[400px]"
   }`;
 
   const toggleEditMode = () => {
@@ -156,7 +158,7 @@ const Profile = ({ isExpanded, user }) => {
         </ul>
       </div>
       <div className="flex flex-col items-center w-full p-2 mb-14 h-auto lg:px-32">
-        <button className="bg-layoutColor text-secondary rounded-lg w-[360px] h-[44px] border-2">
+        <button className="bg-layoutColor rounded-lg w-[360px] h-[44px] border-2">
           <img src={logout} alt="" className="inline mr-2" />
           Logout
         </button>

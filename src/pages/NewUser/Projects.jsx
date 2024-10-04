@@ -9,7 +9,9 @@ function Projects({ isExpanded }) {
     <div className="min-h-screen flex flex-col font-poppins w-full bg-layoutColor">
       <div
         className={`flex flex-col w-full bg-layoutColor h-auto p-2 ${
-          isExpanded ? "md:px-20 lg:px-72" : "md:px-16 lg:px-60"
+          isExpanded
+            ? "md:px-20 lg:px-60 xl:px-[500px]"
+            : "md:px-16 lg:px-48 xl:px-[500px]"
         }`}
       >
         <div className="text-2xl font-semibold text-center text-black">

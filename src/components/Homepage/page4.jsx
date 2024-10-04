@@ -3,7 +3,7 @@ import React from "react";
 function Page4({ onReschedule, selectedDateTime }) {
   return (
     <div className="border-2 rounded-xl py-5 w-full">
-      <h2 className="text-[16px] lg:text-[18px] font-medium mb-2 text-center text-black">
+      <h2 className="text-[16px] lg:text-[18px] font-semibold mb-2 text-center text-black">
         we're coming to meet you.
       </h2>
       <p className="text-black text-center">

@@ -63,7 +63,7 @@ const PieChart1 = ({ costs }) => {
   };
 
   return (
-    <div className="h-[400px] md:h-[400px]">
+    <div className="h-auto mb-4">
       <Doughnut data={data} />
     </div>
   );

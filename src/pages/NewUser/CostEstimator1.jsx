@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Footer from "../../components/Footer/Footer";
 
 const SelectInput = ({ value, onChange, options, label, name }) => (
   <div className="relative mb-6">
@@ -54,8 +55,8 @@ function CostEstimator1({ isExpanded }) {
     breadth: localStorage.getItem("breadth") || "20",
     customLength: localStorage.getItem("customLength") || "",
     customBreadth: localStorage.getItem("customBreadth") || "",
-    floors: localStorage.getItem("floors") || "",
-    floorHeight: localStorage.getItem("floorHeight") || "Floor Height",
+    floors: localStorage.getItem("floors") || "1",
+    floorHeight: localStorage.getItem("floorHeight") || "10",
     packageType: localStorage.getItem("packageType") || "Package",
   });
 
@@ -154,8 +155,10 @@ function CostEstimator1({ isExpanded }) {
       className={`min-h-screen flex flex-col bg-background font-poppins w-full`}
     >
       <div
-        className={`w-full bg-layoutColor shadow p-2 px-4 h-auto mb-3 ${
-          isExpanded ? "md:px-20 lg:px-60" : "md:px-12 lg:px-40"
+        className={`w-full bg-layoutColor p-2 px-4 h-auto mb-3 ${
+          isExpanded
+            ? "md:px-20 lg:px-60  xl:px-[400px]"
+            : "md:px-12 lg:px-40  xl:px-[400px]"
         }`}
       >
         <h2 className="text-black font-bold text-xl md:text-2xl mb-6 text-center">
@@ -168,20 +171,22 @@ function CostEstimator1({ isExpanded }) {
           name="state"
           label="State"
         />
-        <SelectInput
-          value={inputs.city}
-          onChange={handleInputChange}
-          options={options.city}
-          name="city"
-          label="City"
-        />
-        <SelectInput
-          value={inputs.locality}
-          onChange={handleInputChange}
-          options={options.locality}
-          name="locality"
-          label="Locality"
-        />
+        <div className="grid grid-cols-2 gap-4">
+          <SelectInput
+            value={inputs.city}
+            onChange={handleInputChange}
+            options={options.city}
+            name="city"
+            label="City"
+          />
+          <SelectInput
+            value={inputs.locality}
+            onChange={handleInputChange}
+            options={options.locality}
+            name="locality"
+            label="Locality"
+          />
+        </div>
         <SelectInput
           value={inputs.landType}
           onChange={handleInputChange}
@@ -191,7 +196,7 @@ function CostEstimator1({ isExpanded }) {
         />
 
         {inputs.landType === "Regular" && (
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-4 mb-2">
             <SelectInput
               value={inputs.length}
               onChange={handleInputChange}
@@ -225,71 +230,79 @@ function CostEstimator1({ isExpanded }) {
         )}
 
         {inputs.landType === "Triangular" && (
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-3 gap-4 mb-3">
             <NumberInput
               value={inputs.side1}
               onChange={handleInputChange}
               placeholder="Side 1"
               name="side1"
+              label="Side1"
             />
             <NumberInput
               value={inputs.side2}
               onChange={handleInputChange}
               placeholder="Side 2"
               name="side2"
+              label="Side2"
             />
             <NumberInput
               value={inputs.side3}
               onChange={handleInputChange}
               placeholder="Side 3"
               name="side3"
+              label="Side3"
             />
           </div>
         )}
 
         {inputs.landType === "Irregular" && (
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-4 gap-4 mb-2">
             <NumberInput
               value={inputs.side1}
               onChange={handleInputChange}
               placeholder="Side 1"
               name="side1"
+              label="Side1"
             />
             <NumberInput
               value={inputs.side2}
               onChange={handleInputChange}
               placeholder="Side 2"
               name="side2"
+              label="Side2"
             />
             <NumberInput
               value={inputs.side3}
               onChange={handleInputChange}
               placeholder="Side 3"
               name="side3"
+              label="Side3"
             />
             <NumberInput
               value={inputs.side4}
               onChange={handleInputChange}
               placeholder="Side 4"
               name="side4"
+              label="Side4"
             />
           </div>
         )}
-
-        <SelectInput
-          value={inputs.floors}
-          onChange={handleInputChange}
-          options={options.floors}
-          name="floors"
-          label="No of Floors"
-        />
-        <SelectInput
-          value={inputs.floorHeight}
-          onChange={handleInputChange}
-          options={options.floorHeight}
-          name="floorHeight"
-          label="Floor Height"
-        />
+        <div className="grid grid-cols-2 gap-4">
+          <SelectInput
+            value={inputs.floors}
+            onChange={handleInputChange}
+            options={options.floors}
+            name="floors"
+            label="No of Floors"
+          />
+          <SelectInput
+            value={inputs.floorHeight}
+            onChange={handleInputChange}
+            options={options.floorHeight}
+            name="floorHeight"
+            label="Floor Height"
+          />
+        </div>
         <SelectInput
           value={inputs.packageType}
           onChange={handleInputChange}
@@ -300,8 +313,10 @@ function CostEstimator1({ isExpanded }) {
       </div>
 
       <div
-        className={`items-center w-full bg-layoutColor shadow p-2 h-auto mb-3 ${
-          isExpanded ? "md:px-20 lg:px-60" : "md:px-12 lg:px-40"
+        className={`items-center w-full bg-layoutColor shadow p-2 h-auto ${
+          isExpanded
+            ? "md:px-20 lg:px-60  xl:px-[400px]"
+            : "md:px-12 lg:px-40  xl:px-[400px]"
         } flex flex-col justify-center items-center`}
       >
         <div className="bg-layoutColor text-black p-4 px-6 rounded-lg mt-4 w-full">
@@ -339,9 +354,8 @@ function CostEstimator1({ isExpanded }) {
         >
           Detailed Report
         </button>
-        <br />
-        <br />
-        <br />
+
+        <Footer />
       </div>
     </div>
   );

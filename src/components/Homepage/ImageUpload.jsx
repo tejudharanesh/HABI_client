@@ -5,7 +5,9 @@ function ImageUpload({ isExpanded }) {
   return (
     <div
       className={`flex flex-col w-full bg-layoutColor shadow p-4 h-auto mb-3 ${
-        isExpanded ? "md:px-20 lg:px-40" : "md:px-32 lg:px-28"
+        isExpanded
+          ? "md:px-20 lg:px-40 xl:px-[300px]"
+          : "md:px-32 lg:px-28 xl:px-[300px]"
       }`}
     >
       <p className="text-center font-semibold text-black">Upload Site Images</p>
