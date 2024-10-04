@@ -35,7 +35,6 @@ function Materials({ isExpanded }) {
             <p className="text-sm text-gray-400 ">
               brand TATA, diameter: 32 mm & above
             </p>
-            <p className="text-sm text-gray-400  ">single piece 12 meter...</p>
           </div>
           <hr className="mt-2" />
         </div>

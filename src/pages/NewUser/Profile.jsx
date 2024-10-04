@@ -107,7 +107,7 @@ const Profile = ({ isExpanded, user }) => {
       {user === "client" && (
         <div className={containerClass}>
           <div
-            className="rounded-xl w-full p-3 m-2 py-1 flex justify-between items-center"
+            className="rounded-xl w-full p-3 m-2 py-1 flex justify-between items-center cursor-pointer"
             onClick={() => setPopupVisible(true)}
           >
             <span className="flex items-center">
@@ -123,7 +123,7 @@ const Profile = ({ isExpanded, user }) => {
       <div className={containerClass}>
         <ul className="rounded-xl w-full p-3 py-1">
           {user === "client" && (
-            <li className="flex justify-between items-center py-2 w-full">
+            <li className="flex justify-between items-center py-2 w-full cursor-pointer">
               <span className="flex items-center">
                 <img src={friend} alt="Friend" className="w-6 h-6" />
                 <span className="ml-4 text-black text-[16px]">
@@ -145,7 +145,7 @@ const Profile = ({ isExpanded, user }) => {
           ].map(({ label, icon, onClick = () => {} }, i) => (
             <li
               key={i}
-              className="flex justify-between items-center py-2 w-full"
+              className="flex justify-between items-center py-2 w-full cursor-pointer"
               onClick={onClick}
             >
               <span className="flex items-center">
