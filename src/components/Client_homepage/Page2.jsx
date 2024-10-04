@@ -74,7 +74,7 @@ function Page2() {
                     </div>
                     {isExpanded && (
                       <div>
-                        <div className="">
+                        <div>
                           <img
                             src={site}
                             alt="Site Photo 1"
@@ -97,19 +97,6 @@ function Page2() {
                             class="text-sm text-primary font-medium flex items-center justify-end"
                           >
                             view more
-                            <svg
-                              class="w-4 h-4 ml-1"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M9 5l7 7-7 7"
-                              ></path>
-                            </svg>
                           </a>
                         </div>
                       </div>
@@ -197,7 +184,12 @@ function Page2() {
 
           {/* Payment and Chat for medium and larger screens */}
           <div className="hidden md:block mt-[85px] lg:mr-10">
-            <div className="w-[250px] h-[54px] border-2 flex justify-between items-center rounded-xl p-1 pl-2 mb-4">
+            <div
+              className="w-[250px] h-[54px] border-2 flex justify-between items-center rounded-xl p-1 pl-2 mb-4 cursor-pointer"
+              onClick={() => {
+                navigate("/dashboard/payment");
+              }}
+            >
               <div>
                 <p className="text-sm">payment</p>
                 <p className="text-sm">Due on 05 May 2024</p>
@@ -218,7 +210,7 @@ function Page2() {
             </div>
 
             <div className="w-[250px] h-[250px] border-2 justify-between items-center rounded-xl px-2">
-              <p class="text-lg font-semibold mb-4">Recent Site Photos</p>
+              <p className="text-lg font-semibold mb-4">Recent Site Photos</p>
               <div className="grid grid-cols-2 gap-2">
                 <img
                   src={site}
@@ -247,19 +239,6 @@ function Page2() {
                   class="text-sm text-primary font-medium flex items-center justify-end"
                 >
                   view more
-                  <svg
-                    class="w-4 h-4 ml-1"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M9 5l7 7-7 7"
-                    ></path>
-                  </svg>
                 </a>
               </div>
             </div>
