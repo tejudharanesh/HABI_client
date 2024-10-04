@@ -3,7 +3,6 @@ import { Route, Routes } from "react-router-dom";
 import ToggleButton from "../../components/Navbar/ToggleButton";
 import Navbar from "../../components/Navbar/Navbar";
 import Consultation from "../NewUser/Consultation";
-import CostEstimator from "../NewUser/CostEstimator";
 import Projects from "../NewUser/Projects";
 import Profile from "../NewUser/Profile";
 import HomePage from "../ExistingUser/HomePage";
@@ -29,6 +28,29 @@ function Dashboard() {
   const toggleSidebar = () => {
     setCollapsed(!collapsed);
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        // lg and above
+        setCollapsed(false);
+      } else {
+        // md and below
+        setCollapsed(true);
+      }
+    };
+
+    // Run handleResize on initial load
+    handleResize();
+
+    // Add resize event listener
+    window.addEventListener("resize", handleResize);
+
+    // Clean up event listener on unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div className="flex h-screen overflow-hidden">

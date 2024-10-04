@@ -36,7 +36,7 @@ function Materials({ isExpanded }) {
             </div>
             <div className="inline-block">
               <p className="font-semibold">TATA Steel</p>
-              <p className="text-sm text-gray-400  ">
+              <p className="text-sm text-gray-400 ">
                 brand TATA, diameter: 32 mm & above
               </p>
               <p className="text-sm text-gray-400  ">

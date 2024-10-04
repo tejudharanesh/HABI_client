@@ -25,12 +25,12 @@ function Materials({ isExpanded }) {
           </button>
         </p>
       </header>
-      <div className="grid grid-rows-3 items-center text-black">
-        <div className="p-2">
-          <div className="inline-block mr-4">
+      <div className="items-center text-black">
+        <div className="p-2 grid grid-cols-5">
+          <div className="col-span-1 mr-4">
             <img src={steel} alt="" />
           </div>
-          <div className="inline-block">
+          <div className="col-span-4">
             <p className="">TATA Steel</p>
             <p className="text-sm text-gray-400 ">
               brand TATA, diameter: 32 mm & above
@@ -38,31 +38,6 @@ function Materials({ isExpanded }) {
             <p className="text-sm text-gray-400  ">single piece 12 meter...</p>
           </div>
           <hr className="mt-2" />
-        </div>
-        <div className="p-2">
-          <div className="inline-block mr-4">
-            <img src={steel} alt="" />
-          </div>
-          <div className="inline-block">
-            <p className="">TATA Steel</p>
-            <p className="text-sm text-gray-400  ">
-              brand TATA, diameter: 32 mm & above
-            </p>
-            <p className="text-sm text-gray-400  ">single piece 12 meter...</p>
-          </div>
-          <hr className="mt-2" />
-        </div>
-        <div className="p-2">
-          <div className="inline-block mr-4">
-            <img src={steel} alt="" />
-          </div>
-          <div className="inline-block">
-            <p className="">TATA Steel</p>
-            <p className="text-sm text-gray-400  ">
-              brand TATA, diameter: 32 mm & above
-            </p>
-            <p className="text-sm text-gray-400  ">single piece 12 meter...</p>
-          </div>
         </div>
       </div>
     </div>
