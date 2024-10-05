@@ -68,7 +68,9 @@ const Navbar = ({ isExpanded, user }) => {
               <Link
                 to={button.link}
                 className={`btn border-none flex flex-col md:flex-row md:items-center md:justify-start shadow-none md:space-x-3 hover:bg-primaryO w-full rounded-none ${
-                  selected === button.id ? " bg-primaryO" : "bg-inherit"
+                  selected === button.id
+                    ? " md:bg-primaryO bg-inherit"
+                    : "bg-inherit"
                 }`}
                 onClick={() => setSelected(button.id)}
               >
@@ -91,7 +93,7 @@ const Navbar = ({ isExpanded, user }) => {
                 </span>
               </Link>
               {selected === button.id && (
-                <div className="absolute top-0 left-0 right-0 h-1 bg-teal-500 md:hidden" />
+                <div className="absolute top-0 left-0 right-0 h-1 bg-primary md:hidden rounded-b-lg mx-3"/>
               )}
               <div>{selected === button.id && <SelectionIndicator />}</div>
             </div>

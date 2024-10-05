@@ -24,8 +24,10 @@ function Page1({ showPopup }) {
           <SemiCircularProgressBar />
         </div>
         <div className="absolute bottom-3 left-40 md:bottom-8 md:left-60 text-white">
-          <p className="text-lg font-semibold">PROJECT ID: teju188</p>
-          <p className="text-sm">Kodihalli Hosadurga - 577527</p>
+          <p className="text-lg">ClIENT ID: TEJU188</p>
+          <p className="text-sm">Project Manager - Teju</p>
+
+          <p className="text-sm"></p>
         </div>
         <div className="absolute top-3 left-3 md:top-2 md:left-auto md:right-20 flex items-center space-x-2 p-2 rounded-lg">
           <button
