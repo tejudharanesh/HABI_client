@@ -67,7 +67,7 @@ const Navbar = ({ isExpanded, user }) => {
             <div key={button.id} className="relative w-full">
               <Link
                 to={button.link}
-                className={`btn border-none flex flex-col md:flex-row md:items-center md:justify-start shadow-none md:space-x-3 hover:bg-primaryO w-full rounded-none ${
+                className={`btn border-none flex flex-col md:flex-row md:items-center md:justify-start shadow-none md:space-x-3 md:hover:bg-primaryO hover:bg-inherit w-full rounded-none ${
                   selected === button.id
                     ? " md:bg-primaryO bg-inherit"
                     : "bg-inherit"
@@ -93,7 +93,7 @@ const Navbar = ({ isExpanded, user }) => {
                 </span>
               </Link>
               {selected === button.id && (
-                <div className="absolute top-0 left-0 right-0 h-1 bg-primary md:hidden rounded-b-lg mx-3"/>
+                <div className="absolute top-0 left-0 right-0 h-1 bg-primary md:hidden rounded-b-lg mx-3" />
               )}
               <div>{selected === button.id && <SelectionIndicator />}</div>
             </div>
