@@ -155,7 +155,7 @@ function CostEstimator1({ isExpanded }) {
       className={`min-h-screen flex flex-col bg-background font-poppins w-full`}
     >
       <div
-        className={`w-full bg-layoutColor p-2 px-4 h-auto mb-3 ${
+        className={`w-full bg-layoutColor p-2 px-4 h-auto mb-2 mb:mb-3 ${
           isExpanded
             ? "md:px-20 lg:px-60  xl:px-[400px]"
             : "md:px-12 lg:px-40  xl:px-[400px]"

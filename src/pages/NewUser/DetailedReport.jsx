@@ -193,7 +193,7 @@ function DetailedReport({ isExpanded }) {
         <h2 className="text-black font-bold text-2xl mb-6 text-center">
           Cost Breakdown Details
         </h2>
-        <div className="bg-layoutColor rounded-lg mt-4 space-y-1 md:pr-4 px-2">
+        <div className="bg-layoutColor rounded-lg mt-4 md:pr-4 px-2">
           <div className="relative">
             <span className=" text-gray-700">Design Fees</span>
             <span className="text-gray-700 absolute right-44 md:right-40">
@@ -420,7 +420,7 @@ function DetailedReport({ isExpanded }) {
             </div>
           </form>
           <hr className="border" />
-          <div className="flex justify-between relative">
+          <div className="flex justify-between relative m-1">
             <span className="font-bold text-black">Total Estimated Cost</span>
             <span className="text-black font-bold absolute right-[12%] md:right-0">
               ₹{totalEstimatedCost.toFixed(2)}
