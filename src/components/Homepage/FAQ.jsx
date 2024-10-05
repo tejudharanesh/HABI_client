@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import leftarrow from "../assets/svg/leftArrow.svg";
+import leftarrow from "../../assets/svg/leftArrow.svg";
 
-const FAQ = () => {
+const FAQ = ({ faqOpen }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const faqs = [
@@ -37,7 +37,7 @@ const FAQ = () => {
         FAQ's
       </h2>
       {faqs.map((faq, index) => (
-        <div key={index} className="mb-4">
+        <div key={index} className="mb-1">
           <button
             className={`w-full flex justify-between items-center text-left text-[18px] p-2 border rounded-lg bg-primaryO ${
               activeIndex === index
@@ -64,10 +64,13 @@ const FAQ = () => {
           )}
         </div>
       ))}
-      <div className="text-end mt-4">
-        <a href="#" className="text-primary underline text-sm">
+      <div className="relative py-2">
+        <p
+          className="text-primary underline text-sm cursor-pointer absolute right-0"
+          onClick={faqOpen}
+        >
           Still have a questions ?
-        </a>
+        </p>
       </div>
     </div>
   );

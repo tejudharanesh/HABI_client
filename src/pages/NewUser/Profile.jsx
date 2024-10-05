@@ -157,13 +157,16 @@ const Profile = ({ isExpanded, user }) => {
           ))}
         </ul>
       </div>
-      <div className="flex flex-col items-center w-full p-2 mb-14 h-auto lg:px-32">
+      <div className="flex flex-col items-center w-full p-2 h-auto mb-2 lg:px-32">
         <button className="bg-layoutColor rounded-lg w-[360px] h-[44px] border-2">
           <img src={logout} alt="" className="inline mr-2" />
           Logout
         </button>
         {user === "new" && <Footer />}
       </div>
+      <br />
+      <br />
+
       {isPopupVisible && (
         <AddFamilyMembers onClose={() => setPopupVisible(false)} />
       )}

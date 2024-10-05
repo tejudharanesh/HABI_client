@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Footer from "../../components/Footer/Footer";
-import FAQ from "../../components/FAQ";
+import FAQ from "../../components/Homepage/FAQ";
 import Meeting from "../../components/Homepage/Meeting";
 import Schedule from "../../components/Homepage/Schedule";
 import Page1 from "../../components/Homepage/Page1";
@@ -14,8 +14,11 @@ import OnePercent from "../../components/Homepage/OnePercent";
 import Design from "../../components/Homepage/Design";
 import Youtube from "../../components/Homepage/Youtube";
 import ImageUpload from "../../components/Homepage/ImageUpload";
+import { useNavigate } from "react-router-dom";
 
 function Consultation({ isExpanded }) {
+  const navigate = useNavigate();
+
   const [showPopup, setShowPopup] = useState(false);
   const [DateTime, setDateTime] = useState(false);
   const [isPage1, setIsPage1] = useState(true);
@@ -116,6 +119,10 @@ function Consultation({ isExpanded }) {
     localStorage.removeItem("selectedOption");
   };
 
+  const faqOpen = () => {
+    navigate("/dashboard/faq");
+  };
+
   return (
     <div className="min-h-screen flex flex-col items-center bg-background font-poppins w-full">
       <div
@@ -163,18 +170,16 @@ function Consultation({ isExpanded }) {
             : "md:px-3 lg:px-60 xl:px-[300px]"
         }`}
       >
-        {" "}
         <div className="rounded-xl w-full">
-          <FAQ />
+          <FAQ faqOpen={faqOpen} />
         </div>
       </div>
       <div
-        className={`flex flex-col items-center w-full bg-layoutColor shadow p-4 h-auto mb-3 ${
+        className={`flex flex-col items-center w-full bg-layoutColor p-2 h-auto mb-2 ${
           isExpanded ? "md:px-14 lg:px-72" : "md:px-3 lg:px-60"
         }`}
       >
-        {" "}
-        <div className="rounded-xl py-5 w-full">
+        <div className="rounded-xl w-full">
           <Footer />
         </div>
       </div>
