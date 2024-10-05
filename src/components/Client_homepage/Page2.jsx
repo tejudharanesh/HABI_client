@@ -21,7 +21,17 @@ function Page2() {
           {/* Payment and Chat for small screens */}
           <div className="flex md:hidden">
             <div className="w-[99px] h-[54px] mr-[16px] border-2 rounded-xl rounded-l-none p-3 pl-8">
-              <button>
+              <button
+                onClick={() => {
+                  const phoneNumber = "916366306244";
+                  const message =
+                    "Hello, I would like to chat with you about the project.";
+                  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+                    message
+                  )}`;
+                  window.open(whatsappUrl, "_blank");
+                }}
+              >
                 <img src={whatsapp} alt="whatsapp" />
               </button>
             </div>
