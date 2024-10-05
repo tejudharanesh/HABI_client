@@ -11,8 +11,8 @@ function Gallery({ isExpanded }) {
 
   const containerClasses = `flex flex-col w-full bg-layoutColor shadow h-auto p-2 pb-4 ${
     isExpanded
-      ? "md:px-32 lg:px-52 xl:px-[400px]"
-      : "md:px-20 lg:px-48 xl:px-[400px]"
+      ? "md:px-32 lg:px-52 xl:px-[20%]"
+      : "md:px-20 lg:px-48 xl:px-[20%]"
   }`;
 
   const imageClasses = "w-[78px] md:w-[100px] h-[75px] object-cover rounded-lg";

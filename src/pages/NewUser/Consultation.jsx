@@ -128,8 +128,8 @@ function Consultation({ isExpanded, user }) {
       <div
         className={`flex flex-col items-center w-full bg-layoutColor shadow p-4 h-auto mb-3 ${
           isExpanded
-            ? "md:px-14 lg:px-40 xl:px-[300px]"
-            : "md:px-3 lg:px-28 xl:px-[300px]"
+            ? "md:px-14 lg:px-40 xl:px-[20%]"
+            : "md:px-3 lg:px-28 xl:px-[20%]"
         }`}
       >
         <h1 className="text-[20px] lg:text-[24px] text-black font-medium">
@@ -167,8 +167,8 @@ function Consultation({ isExpanded, user }) {
       <div
         className={`flex flex-col items-center w-full bg-layoutColor shadow p-4 h-auto mb-3 ${
           isExpanded
-            ? "md:px-14 lg:px-72 xl:px-[300px]"
-            : "md:px-3 lg:px-60 xl:px-[300px]"
+            ? "md:px-14 lg:px-72 xl:px-[20%]"
+            : "md:px-3 lg:px-60 xl:px-[20%]"
         }`}
       >
         <div className="rounded-xl w-full">

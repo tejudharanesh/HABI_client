@@ -157,8 +157,8 @@ function CostEstimator1({ isExpanded }) {
       <div
         className={`w-full bg-layoutColor p-2 px-4 h-auto mb-2 mb:mb-3 ${
           isExpanded
-            ? "md:px-20 lg:px-60  xl:px-[400px]"
-            : "md:px-12 lg:px-40  xl:px-[400px]"
+            ? "md:px-20 lg:px-60  xl:px-[300px]"
+            : "md:px-12 lg:px-40  xl:px-[300px]"
         }`}
       >
         <h2 className="text-black font-bold text-xl md:text-2xl mb-6 text-center">
@@ -315,8 +315,8 @@ function CostEstimator1({ isExpanded }) {
       <div
         className={`items-center w-full bg-layoutColor shadow p-2 h-auto ${
           isExpanded
-            ? "md:px-20 lg:px-60  xl:px-[400px]"
-            : "md:px-12 lg:px-40  xl:px-[400px]"
+            ? "md:px-20 lg:px-60  xl:px-[300px]"
+            : "md:px-12 lg:px-40  xl:px-[300px]"
         } flex flex-col justify-center items-center`}
       >
         <div className="bg-layoutColor text-black p-4 px-6 rounded-lg mt-4 w-full">

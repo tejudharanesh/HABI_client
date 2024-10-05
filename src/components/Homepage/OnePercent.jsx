@@ -7,8 +7,8 @@ function OnePercent({ isExpanded }) {
     <div
       className={`flex flex-col items-center w-full bg-layoutColor shadow p-2 h-auto mb-3 ${
         isExpanded
-          ? "md:px-14 lg:px-40 xl:px-[300px]"
-          : "md:px-3 lg:px-28 xl:px-[300px]"
+          ? "md:px-14 lg:px-40 xl:px-[20%]"
+          : "md:px-3 lg:px-28 xl:px-[20%]"
       }`}
     >
       <div className="rounded-xl w-full px- py-1">

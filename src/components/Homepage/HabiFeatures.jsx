@@ -77,8 +77,8 @@ function HabiFeatures({ isExpanded }) {
     <div
       className={`flex flex-col items-center w-full bg-layoutColor p-2 h-auto ${
         isExpanded
-          ? "md:px-14 lg:px-40 xl:px-[300px]"
-          : "md:px-3 lg:px-28 xl:px-[300px]"
+          ? "md:px-14 lg:px-40 xl:px-[20%]"
+          : "md:px-3 lg:px-28 xl:px-[20%]"
       }`}
     >
       <div className="rounded-xl py-5 w-full">

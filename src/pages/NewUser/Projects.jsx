@@ -10,8 +10,8 @@ function Projects({ isExpanded }) {
       <div
         className={`flex flex-col w-full bg-layoutColor h-auto p-2 ${
           isExpanded
-            ? "md:px-20 lg:px-60 xl:px-[500px]"
-            : "md:px-16 lg:px-48 xl:px-[500px]"
+            ? "md:px-20 lg:px-60 xl:px-[20%]"
+            : "md:px-16 lg:px-48 xl:px-[20%]"
         }`}
       >
         <div className="text-2xl font-semibold text-center text-black">
@@ -39,23 +39,23 @@ function Projects({ isExpanded }) {
             <div className="flex flex-col w-full">
               <div className="text-[16px] text-black">Arvind Kumar</div>
               <div className="text-gray-500 text-[14px]">Bengaluru</div>
-              <div className="shrink-0 border border-solid bg-stone-300 border-stone-300 my-2" />
+              <div className="shrink-0 border border-solid bg-stone-300 border-stone-300 my-2 w-1/2" />
               <div className="text-sm text-black">1200 Sq. Feet</div>
               <div className="text-sm text-black">3BHK Duplex villa</div>
               <div className="text-sm text-black">Orientation: West</div>
             </div>
           </div>
         </div>
-        <div className="mt-3 w-full">
-          <div className="flex flex-wrap justify-between">
+        <div className="mt-3">
+          <div className="">
             {[...Array(4)].map((_, index) => (
-              <div className="w-1/5 md:w-1/4" key={index}>
-                <img src={home} className="" />
+              <div className="inline mr-3" key={index}>
+                <img src={home} className="inline w-[78px]" />
               </div>
             ))}
           </div>
         </div>
-        <div className="shrink-0 mt-3 h-px border border-solid bg-stone-300 border-stone-300 w-full" />
+        <div className="shrink-0 mt-3 h-px border border-solid bg-stone-300 border-stone-300 w-2/3" />
         <div className="mt-3 text-black w-full text-left text-xs md:text-sm">
           habi has satisfied all my requirements and has done a very beautiful
           and quality construction. Their architects visited the site and made a
@@ -92,11 +92,11 @@ function Projects({ isExpanded }) {
             </div>
           </div>
         </div>
-        <div className="mt-3 w-full">
-          <div className="flex flex-wrap justify-between">
+        <div className="mt-3">
+          <div className="">
             {[...Array(4)].map((_, index) => (
-              <div className="w-1/5 md:w-1/4" key={index}>
-                <img src={home} className="" />
+              <div className="inline mr-3" key={index}>
+                <img src={home} className="w-[78px] inline" />
               </div>
             ))}
           </div>

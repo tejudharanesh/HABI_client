@@ -22,8 +22,8 @@ const Profile = ({ isExpanded, user }) => {
   const navigate = useNavigate();
   const containerClass = `flex flex-col items-center w-full bg-layoutColor h-auto mb-3 ${
     isExpanded
-      ? "md:px-20 lg:px-72 xl:px-[400px]"
-      : "md:px-16 lg:px-60 xl:px-[400px]"
+      ? "md:px-20 lg:px-72 xl:px-[30%]"
+      : "md:px-16 lg:px-60 xl:px-[30%]"
   }`;
 
   const toggleEditMode = () => {
