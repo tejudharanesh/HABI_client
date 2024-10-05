@@ -172,17 +172,10 @@ function Consultation({ isExpanded }) {
       >
         <div className="rounded-xl w-full">
           <FAQ faqOpen={faqOpen} />
-        </div>
-      </div>
-      <div
-        className={`flex flex-col items-center w-full bg-layoutColor p-2 h-auto mb-2 ${
-          isExpanded ? "md:px-14 lg:px-72" : "md:px-3 lg:px-60"
-        }`}
-      >
-        <div className="rounded-xl w-full">
           <Footer />
         </div>
       </div>
+
       <Meeting
         show={showPopup}
         onClose={() => setShowPopup(false)}

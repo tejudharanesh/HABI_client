@@ -3,7 +3,7 @@ import React from "react";
 function Page1({ handleDateTime, handlePhysicallyClick }) {
   return (
     <div className="border-2 rounded-xl py-5 w-full">
-      <h2 className="text-[16px] lg:text-[18px] font-medium mb-3 text-center text-black">
+      <h2 className="text-[16px] lg:text-[18px] font-medium mb-1 md:mb-3 text-center text-black">
         Connect with Us!
       </h2>
       <div className="flex flex-col justify-center items-center md:flex-row md:space-x-4 lg:space-x-1">
