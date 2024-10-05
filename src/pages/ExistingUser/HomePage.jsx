@@ -47,7 +47,7 @@ const HomePage = ({ isExpanded }) => {
         <Page1 showPopup={showPopup} imageHeight={page1Height} />{" "}
         {/* Pass dynamic height to Page1 */}
       </div>
-      <div className="flex flex-col w-full bg-layoutColor h-auto">
+      <div className="flex flex-col w-full bg-layoutColor h-auto xl:px-60">
         <Page2 />
       </div>
       {isPopupVisible && <Notifications onClose={hidePopup} />}

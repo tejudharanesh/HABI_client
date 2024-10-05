@@ -66,7 +66,7 @@ function Page2() {
                 <div>
                   <div
                     onClick={toggleExpand}
-                    className="relative bg-layoutColor p-4 rounded-3xl rounded-tl-none border-2 md:w-[100%] lg:w-[80%]"
+                    className="relative bg-layoutColor p-4 rounded-3xl rounded-tl-none border-2 md:w-[100%] lg:w-[90%]"
                   >
                     <h3 className="font-bold text-gray-800">Soil Testing</h3>
                     <p className="text-sm text-gray-500">initial stage</p>
@@ -101,7 +101,7 @@ function Page2() {
                             className="w-[90px] h-[69px] object-cover rounded-lg inline-block"
                           />
                         </div>
-                        <div class="mt-4 text-right">
+                        <div class="text-right">
                           <a
                             href="#"
                             class="text-sm text-primary font-medium flex items-center justify-end"
@@ -116,62 +116,8 @@ function Page2() {
               </div>
               <div className="mb-10">
                 <p className="m-2 text-black">Upcoming</p>
-                <div className="relative bg-layoutColor p-4 rounded-3xl rounded-tl-none border-2 md:w-[100%] lg:w-[80%]">
+                <div className="relative bg-layoutColor p-4 rounded-3xl rounded-tl-none border-2 md:w-[100%] lg:w-[90%]">
                   <h3 className="font-bold text-gray-800">Slabs</h3>
-                  <p className="text-sm text-gray-500">initial stage</p>
-                  <p className="text-sm text-gray-500">
-                    25 May 2024 - 26 May 2024
-                  </p>
-                  <div className="h-2 bg-gray-200 rounded-full mt-2 w-[60%]">
-                    <div
-                      className="h-2 bg-primary rounded-full"
-                      style={{ width: "0%" }}
-                    ></div>
-                  </div>
-                  <div className="flex items-center absolute -top-2 -left-2">
-                    <div className="w-5 h-5 bg-primary rounded-full"></div>
-                  </div>
-                </div>
-              </div>
-              <div className="mb-10">
-                <div className="relative bg-layoutColor p-4 rounded-3xl rounded-tl-none border-2 md:w-[100%] lg:w-[80%]">
-                  <h3 className="font-bold text-gray-800">Foundations</h3>
-                  <p className="text-sm text-gray-500">initial stage</p>
-                  <p className="text-sm text-gray-500">
-                    25 May 2024 - 26 May 2024
-                  </p>
-                  <div className="h-2 bg-gray-200 rounded-full mt-2 w-[60%]">
-                    <div
-                      className="h-2 bg-primary rounded-full"
-                      style={{ width: "0%" }}
-                    ></div>
-                  </div>
-                  <div className="flex items-center absolute -top-2 -left-2">
-                    <div className="w-5 h-5 bg-primary rounded-full"></div>
-                  </div>
-                </div>
-              </div>
-              <div className="mb-10">
-                <div className="relative bg-layoutColor p-4 rounded-3xl rounded-tl-none border-2 md:w-[100%] lg:w-[80%]">
-                  <h3 className="font-bold text-gray-800">Soil Testing</h3>
-                  <p className="text-sm text-gray-500">initial stage</p>
-                  <p className="text-sm text-gray-500">
-                    25 May 2024 - 26 May 2024
-                  </p>
-                  <div className="h-2 bg-gray-200 rounded-full mt-2 w-[60%]">
-                    <div
-                      className="h-2 bg-primary rounded-full"
-                      style={{ width: "0%" }}
-                    ></div>
-                  </div>
-                  <div className="flex items-center absolute -top-2 -left-2">
-                    <div className="w-5 h-5 bg-primary rounded-full"></div>
-                  </div>
-                </div>
-              </div>
-              <div className="mb-10">
-                <div className="relative bg-layoutColor p-4 rounded-3xl rounded-tl-none border-2 md:w-[100%] lg:w-[80%]">
-                  <h3 className="font-bold text-gray-800">Soil Testing</h3>
                   <p className="text-sm text-gray-500">initial stage</p>
                   <p className="text-sm text-gray-500">
                     25 May 2024 - 26 May 2024
@@ -214,13 +160,24 @@ function Page2() {
                 <p className="text-sm">Chat with our Executive</p>
                 <p className="text-sm">Quick Reply</p>
               </div>
-              <div>
+              <div
+                className="cursor-pointer"
+                onClick={() => {
+                  const phoneNumber = "916366306244";
+                  const message =
+                    "Hello, I would like to chat with you about the project.";
+                  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+                    message
+                  )}`;
+                  window.open(whatsappUrl, "_blank");
+                }}
+              >
                 <img src={whatsapp} alt="" className="mr-4" />
               </div>
             </div>
 
-            <div className="w-[250px] h-[250px] border-2 justify-between items-center rounded-xl px-2">
-              <p className="text-lg font-semibold mb-4">Recent Site Photos</p>
+            <div className="w-[250px] h-[250px] border-2 justify-between items-center rounded-xl p-2">
+              <p className="font-semibold mb-4">Recent Site Photos</p>
               <div className="grid grid-cols-2 gap-2">
                 <img
                   src={site}
@@ -243,7 +200,7 @@ function Page2() {
                   className="w-[99px] h-[69px] object-cover rounded-lg"
                 />
               </div>
-              <div class="mt-4 text-right">
+              <div class="mt-2 text-right">
                 <a
                   href="#"
                   class="text-sm text-primary font-medium flex items-center justify-end"

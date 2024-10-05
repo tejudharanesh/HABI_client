@@ -16,7 +16,7 @@ import Youtube from "../../components/Homepage/Youtube";
 import ImageUpload from "../../components/Homepage/ImageUpload";
 import { useNavigate } from "react-router-dom";
 
-function Consultation({ isExpanded }) {
+function Consultation({ isExpanded, user }) {
   const navigate = useNavigate();
 
   const [showPopup, setShowPopup] = useState(false);
@@ -157,9 +157,10 @@ function Consultation({ isExpanded }) {
           />
         )}
       </div>
-      <ImageUpload />
-      <OnePercent isExpanded={isExpanded} />
-      <Design isExpanded={isExpanded} />
+      {user == "new" && <ImageUpload />}
+      {user == "new" && <OnePercent isExpanded={isExpanded} />}
+      {user == "new" && <Design isExpanded={isExpanded} />}
+
       <HabiFeatures isExpanded={isExpanded} />
       <Youtube isExpanded={isExpanded} />
 

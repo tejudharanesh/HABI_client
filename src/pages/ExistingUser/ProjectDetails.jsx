@@ -6,13 +6,13 @@ import Materials from "../../components/ProjectDetails/Materials";
 import Gallery from "../../components/ProjectDetails/Gallery";
 function ProjectDetails({ isExpanded }) {
   return (
-    <div className="min-h-screen flex flex-col font-poppins w-full bg-background h-auto">
+    <div className="min-h-screen flex flex-col font-poppins w-full bg-background h-auto ">
       <Details isExpanded={isExpanded} />
       <div
         className={`flex flex-col w-full bg-layoutColor shadow h-auto p-2 mb-2 ${
           isExpanded
-            ? "md:px-32 lg:px-52 xl:px-[300px]"
-            : "md:px-20 lg:px-48 xl:px-[300px]"
+            ? "md:px-32 lg:px-52 xl:px-[400px]"
+            : "md:px-20 lg:px-48 xl:px-[400px]"
         }`}
       >
         <header className="text-center m-2 ">

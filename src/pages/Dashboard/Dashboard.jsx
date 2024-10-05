@@ -69,7 +69,7 @@ function Dashboard() {
               path="/"
               element={
                 user === "new" ? (
-                  <Consultation isExpanded={collapsed} />
+                  <Consultation isExpanded={collapsed} user={user} />
                 ) : (
                   <HomePage isExpanded={collapsed} />
                 )
@@ -97,7 +97,7 @@ function Dashboard() {
                 user === "new" ? (
                   <Profile isExpanded={collapsed} user={user} />
                 ) : (
-                  <Consultation isExpanded={collapsed} />
+                  <Consultation isExpanded={collapsed} user={user} />
                 )
               }
             />
