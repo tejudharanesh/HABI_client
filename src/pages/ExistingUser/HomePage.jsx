@@ -6,6 +6,7 @@ import Notifications from "../../components/Client_homepage/Notifications";
 const HomePage = ({ isExpanded }) => {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [page1Height, setPage1Height] = useState(350); // Default height for Page1
+
   const showPopup = () => {
     setPopupVisible(true);
   };
@@ -14,32 +15,24 @@ const HomePage = ({ isExpanded }) => {
     setPopupVisible(false);
   };
 
-  // Function to handle scroll and dynamically adjust Page1's height
+  // Function to handle scroll and log a message
   const handleScroll = () => {
-    console.log("Scrolling..."); // Debugging log to check if the scroll event is firing
-    const scrollPosition = window.scrollY; // Get the scroll position
-    console.log("Scroll position:", scrollPosition); // Check the scroll position
-
-    const maxHeight = 350; // Starting height of Page1
-    const minHeight = 262; // Minimum height to prevent shrinking too much
-
-    // Reduce the height as the user scrolls down, capped at minHeight
-    const newHeight = Math.max(maxHeight - scrollPosition * 0.25, minHeight);
-    console.log("New Height:", newHeight); // Log the calculated height
-    setPage1Height(newHeight); // Update the height dynamically
+    console.log("Hi from scroll event!"); // Log message when scroll happens
   };
 
   useEffect(() => {
-    console.log("Attaching scroll listener...");
-    // Attach scroll event listener
-    window.addEventListener("scroll", handleScroll);
+    // Attach the scroll event listener to the document or window
+    const scrollTarget = document; // You can also try document here for some cases
 
+    console.log("Attaching scroll listener...");
+    scrollTarget.addEventListener("scroll", handleScroll);
+
+    // Clean up the event listener on component unmount
     return () => {
-      // Clean up the event listener on unmount
       console.log("Removing scroll listener...");
-      window.removeEventListener("scroll", handleScroll);
+      scrollTarget.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, []); // The empty dependency array ensures this effect runs once when the component mounts
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-background font-poppins w-full h-auto">
@@ -50,6 +43,7 @@ const HomePage = ({ isExpanded }) => {
       <div className="flex flex-col w-full bg-layoutColor h-auto xl:px-[10%]">
         <Page2 />
       </div>
+
       {isPopupVisible && <Notifications onClose={hidePopup} />}
     </div>
   );

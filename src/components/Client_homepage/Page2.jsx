@@ -101,10 +101,10 @@ function Page2() {
                             className="w-[90px] h-[69px] object-cover rounded-lg inline-block"
                           />
                         </div>
-                        <div class="text-right">
+                        <div className="text-right">
                           <a
                             href="#"
-                            class="text-sm text-primary font-medium flex items-center justify-end"
+                            className="text-sm text-primary font-medium flex items-center justify-end"
                           >
                             view more
                           </a>
@@ -200,10 +200,10 @@ function Page2() {
                   className="w-[99px] h-[69px] object-cover rounded-lg"
                 />
               </div>
-              <div class="mt-2 text-right">
+              <div className="mt-2 text-right">
                 <a
                   href="#"
-                  class="text-sm text-primary font-medium flex items-center justify-end"
+                  className="text-sm text-primary font-medium flex items-center justify-end"
                 >
                   view more
                 </a>
