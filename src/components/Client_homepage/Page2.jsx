@@ -177,7 +177,7 @@ function Page2() {
             </div>
 
             <div className="w-[250px] h-[250px] border-2 justify-between items-center rounded-xl p-2">
-              <p className="font-semibold mb-4">Recent Site Photos</p>
+              <p className="mb-4">Recent Site Photos</p>
               <div className="grid grid-cols-2 gap-2">
                 <img
                   src={site}

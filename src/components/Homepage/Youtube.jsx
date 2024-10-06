@@ -18,7 +18,7 @@ function Youtube({ isExpanded }) {
             <a href={videoUrl} target="_blank" rel="noopener noreferrer">
               <img
                 src={thumbnailUrl}
-                alt="Responsive"
+                alt="YouTube Video"
                 className="w-[173px] h-[105px] lg:w-[340px] lg:h-[150px] object-cover rounded-xl"
               />
               <img
