@@ -5,8 +5,10 @@ import more from "../../assets/images/option.png";
 function Design({ isExpanded }) {
   return (
     <div
-      className={`flex flex-col w-full bg-layoutColor shadow p-4 h-auto mb-3 ${
-        isExpanded ? "md:px-14 lg:px-40 xl:px-[20%]" : "md:px-3 lg:px-28 xl:px-[20%]"
+      className={`flex flex-col w-full bg-layoutColor shadow p-4 h-auto mb-2 md:mb-3 ${
+        isExpanded
+          ? "md:px-14 lg:px-40 xl:px-[20%]"
+          : "md:px-3 lg:px-28 xl:px-[20%]"
       }`}
     >
       <p className="text-center font-semibold mb-2 text-black">Design</p>

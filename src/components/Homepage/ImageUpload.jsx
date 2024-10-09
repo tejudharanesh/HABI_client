@@ -4,7 +4,7 @@ import upload from "../../assets/svg/upload.svg";
 function ImageUpload({ isExpanded }) {
   return (
     <div
-      className={`flex flex-col w-full bg-layoutColor shadow p-4 h-auto mb-3 ${
+      className={`flex flex-col w-full bg-layoutColor shadow p-4 h-auto mb-2 md:mb-3 ${
         isExpanded
           ? "md:px-20 lg:px-40 xl:px-[300px]"
           : "md:px-32 lg:px-28 xl:px-[300px]"

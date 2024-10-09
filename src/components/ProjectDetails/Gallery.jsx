@@ -9,7 +9,7 @@ function Gallery({ isExpanded }) {
     navigate("/dashboard/gallery");
   };
 
-  const containerClasses = `flex flex-col w-full bg-layoutColor shadow h-auto p-2 pb-4 ${
+  const containerClasses = `flex flex-col w-full bg-layoutColor shadow flex-grow p-2 pb-4 ${
     isExpanded
       ? "md:px-32 lg:px-52 xl:px-[20%]"
       : "md:px-20 lg:px-48 xl:px-[20%]"

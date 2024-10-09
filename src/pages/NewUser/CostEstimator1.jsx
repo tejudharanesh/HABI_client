@@ -5,7 +5,7 @@ import Footer from "../../components/Footer/Footer";
 const SelectInput = ({ value, onChange, options, label, name }) => (
   <div className="relative mb-6">
     {label && (
-      <label className="absolute -top-2.5 left-3 bg-layoutColor px-1 text-sm text-gray-400 capitalize">
+      <label className="absolute -top-2.5 left-3 bg-layoutColor px-1 py-0 text-sm text-gray-400 capitalize">
         {label}*
       </label>
     )}
@@ -13,7 +13,7 @@ const SelectInput = ({ value, onChange, options, label, name }) => (
       value={value}
       onChange={onChange}
       name={name}
-      className="text-black block w-full px-3 py-2 border border-gray-300 rounded-xl bg-layoutColor focus:outline-none"
+      className="text-black block w-full px-3 py-2 md:py-2.5 border border-gray-300 rounded-xl bg-layoutColor focus:outline-none"
     >
       {options.map((option) => (
         <option key={option} value={option}>
@@ -27,7 +27,7 @@ const SelectInput = ({ value, onChange, options, label, name }) => (
 const NumberInput = ({ value, onChange, name, label }) => (
   <div className="relative mb-3">
     {label && (
-      <label className="absolute -top-2.5 left-3 bg-layoutColor px-1 text-sm text-gray-400 capitalize">
+      <label className="absolute -top-2.5 left-3 bg-layoutColor px-1 py-0 text-sm text-gray-400 capitalize">
         {label}*
       </label>
     )}
@@ -36,7 +36,7 @@ const NumberInput = ({ value, onChange, name, label }) => (
       value={value}
       onChange={onChange}
       name={name}
-      className="text-black block w-full px-3 py-2 border border-gray-300 rounded-xl bg-layoutColor focus:outline-none"
+      className="text-black block w-full px-3 py-2 md:py-2.5 border border-gray-300 rounded-xl bg-layoutColor focus:outline-none"
     />
   </div>
 );
@@ -313,11 +313,11 @@ function CostEstimator1({ isExpanded }) {
       </div>
 
       <div
-        className={`items-center w-full bg-layoutColor shadow p-2 h-auto ${
+        className={`items-center w-full bg-layoutColor shadow p-2 flex-grow ${
           isExpanded
             ? "md:px-20 lg:px-60  xl:px-[300px]"
             : "md:px-12 lg:px-40  xl:px-[300px]"
-        } flex flex-col justify-center items-center`}
+        } flex flex-col`}
       >
         <div className="bg-layoutColor text-black p-4 px-6 rounded-lg mt-4 w-full">
           <div className="flex justify-between">
