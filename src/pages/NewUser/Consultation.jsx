@@ -124,7 +124,7 @@ function Consultation({ isExpanded, user }) {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-background font-poppins w-full h-auto">
+    <div className="min-h-screen flex flex-col bg-background font-poppins w-full h-auto">
       <div
         className={`flex flex-col items-center w-full bg-layoutColor shadow p-4 h-auto mb-2 md:mb-3 ${
           isExpanded
