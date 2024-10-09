@@ -36,14 +36,14 @@ function Page2() {
               </button>
             </div>
             <div
-              className="w-[253px] h-[54px] border-2 flex justify-between items-center rounded-xl p-1 pl-2"
+              className="w-[253px] h-[54px] border-2 flex justify-between items-center rounded-xl pb-1 px-2 pl-3"
               onClick={() => {
                 navigate("/dashboard/payment");
               }}
             >
               <div>
-                <p className="text-sm text-black font-semibold">payment</p>
-                <p className="text-sm text-red-400">Due on 05 May 2024</p>
+                <p className="text-lg text-black">payment</p>
+                <p className="text-sm text-red-400">Due on 05 May</p>
               </div>
               <div>
                 <PaymentBar completed={3} />
@@ -85,10 +85,10 @@ function Page2() {
                           style={{ width: "100%" }}
                         ></div>
                       </div>
-                      <p className="inline text-black text-sm">70%</p>
+                      <p className="inline text-black text-sm mt-2">70%</p>
                     </div>
 
-                    <div className="flex items-center absolute -top-3 -left-3 rounded-full bordlg border-primary p-0.5">
+                    <div className="flex items-center absolute -top-3 -left-3 rounded-full border border-primary p-0.5">
                       <div className="w-4 h-4 bg-primary rounded-full"></div>
                     </div>
                     {isExpanded && (
@@ -148,7 +148,7 @@ function Page2() {
           </div>
 
           {/* Payment and Chat for medium and larger screens */}
-          <div className="hidden md:block mt-[85px] lg:mr-10">
+          <div className="hidden md:inline sticky mt-[89px] lg:mr-10">
             <div
               className="w-[250px] h-[54px] border-2 flex justify-between items-center rounded-xl p-1 pl-2 mb-4 cursor-pointer"
               onClick={() => {
