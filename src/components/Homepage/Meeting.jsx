@@ -6,8 +6,8 @@ const Meeting = ({ show, onClose, handleVisitHabi, handleInviteHabi }) => {
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white p-3 rounded-2xl text-center w-[361px] h-[268px] lg:w-[397px] lg:h-[250px] relative md:ml-48 lg:ml-[]">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-20">
+      <div className="bg-white p-3 rounded-2xl text-center w-[361px] h-[268px] lg:w-[397px] lg:h-[250px] relative md:ml-40 lg:ml-60">
         <p className="mt-[27px] mb-[8px] text-gray-600 text-[12px] lg:text-[14px]">
           Meet our habi's executive at office.
         </p>

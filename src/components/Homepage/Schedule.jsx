@@ -37,8 +37,8 @@ const Schedule = ({ show, onClose, onConfirm }) => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-        <div className="w-96 p-4 bg-layoutColor rounded-lg shadow-lg md:ml-64 lg:ml-[18%] mx-auto absolute">
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-20">
+        <div className="w-96 p-4 bg-layoutColor rounded-lg shadow-lg md:ml-40 lg:ml-[18%] mx-auto absolute">
           <h2 className="text-xl font-semibold text-center mb-4 text-black">
             Set your Schedule
           </h2>
