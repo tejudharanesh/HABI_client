@@ -36,14 +36,14 @@ function Page2() {
               </button>
             </div>
             <div
-              className="w-[267px] h-[54px] border-2 flex justify-between items-center rounded-xl p-1 pl-2"
+              className="w-[253px] h-[54px] border-2 flex justify-between items-center rounded-xl p-1 pl-2"
               onClick={() => {
                 navigate("/dashboard/payment");
               }}
             >
               <div>
                 <p className="text-sm text-black font-semibold">payment</p>
-                <p className="text-sm">Due on 05 May 2024</p>
+                <p className="text-sm text-red-400">Due on 05 May 2024</p>
               </div>
               <div>
                 <PaymentBar completed={3} />
@@ -52,7 +52,7 @@ function Page2() {
           </div>
 
           {/* Left Panel */}
-          <div className="flex-1 pr-3 pl-6 md:pl-0">
+          <div className="flex-1 pr-2 pl-4 md:pl-0">
             <div className="relative">
               <div className="absolute top-0 left-0 h-full border-l-2 border-gray-300"></div>
               <div className="text-gray-500 m-3 hidden md:inline-block">
@@ -68,18 +68,27 @@ function Page2() {
                     onClick={toggleExpand}
                     className="relative bg-layoutColor p-4 rounded-3xl rounded-tl-none border-2 md:w-[100%] lg:w-[90%]"
                   >
-                    <h3 className="font-bold text-gray-800">Soil Testing</h3>
-                    <p className="text-sm text-gray-500">initial stage</p>
-                    <p className="text-sm text-gray-500">
+                    <div className="flex justify-between items-center">
+                      <h3 className="font-bold text-gray-800">Soil Testing</h3>
+                      <p>Started</p>
+                    </div>
+                    <p className="text-sm text-black">initial stage</p>
+                    <p className="text-sm text-gray-500 inline mr-2">
                       25 May 2024 - 26 May 2024
                     </p>
-                    <div className="h-2 bg-gray-200 rounded-full mt-2 w-[60%]">
-                      <div
-                        className="h-2 bg-primary rounded-full"
-                        style={{ width: "10%" }}
-                      ></div>
+                    <p className="text-red-400 inline text-sm">2 days delay</p>
+                    <div className="bg-red-400 w-1 h-1 rounded inline-block mb-0.5 ml-0.5"></div>
+                    <div className="flex justify-between items-center">
+                      <div className="h-3 bg-gray-200 rounded-full mt-2 w-[80%] inline-block">
+                        <div
+                          className="h-3 bg-primary rounded-full"
+                          style={{ width: "100%" }}
+                        ></div>
+                      </div>
+                      <p className="inline text-black text-sm">70%</p>
                     </div>
-                    <div className="flex items-center absolute -top-3 -left-3 rounded-full border-2 border-primary p-0.5">
+
+                    <div className="flex items-center absolute -top-3 -left-3 rounded-full bordlg border-primary p-0.5">
                       <div className="w-4 h-4 bg-primary rounded-full"></div>
                     </div>
                     {isExpanded && (
@@ -101,13 +110,13 @@ function Page2() {
                             className="w-[90px] h-[69px] object-cover rounded-lg inline-block"
                           />
                         </div>
-                        <div className="text-right">
-                          <a
-                            href="#"
-                            className="text-sm text-primary font-medium flex items-center justify-end"
-                          >
-                            view more
-                          </a>
+                        <div className="mt-4">
+                          <button className="px-4 py-2 border-red-400 border rounded-lg text-red-400 bg-red-50 w-[155px]">
+                            Reject
+                          </button>
+                          <button className="px-4 py-2 text-white bg-primary rounded-lg ml-3 w-[155px]">
+                            Approve
+                          </button>
                         </div>
                       </div>
                     )}
@@ -148,7 +157,7 @@ function Page2() {
             >
               <div>
                 <p className="text-sm">payment</p>
-                <p className="text-sm">Due on 05 May 2024</p>
+                <p className="text-sm text-red-400">Due on 05 May</p>
               </div>
               <div>
                 <PaymentBar completed={4} />
