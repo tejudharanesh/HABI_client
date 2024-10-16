@@ -5,12 +5,12 @@
     {
       "src": "habi_logo.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "200x200"
     },
     {
       "src": "habi_logo.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "530x530"
     }
   ],
   "start_url": "/",
