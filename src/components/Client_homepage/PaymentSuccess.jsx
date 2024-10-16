@@ -23,8 +23,8 @@ function PaymentSuccess() {
         </div>
       ) : (
         <div>
-          <img src={tick} alt="" className="mx-auto w-28 mb-5" />
-          <h1 className="font-bold text-2xl text-green-500">
+          <img src={tick} alt="" className="mx-auto w-40 mb-5" />
+          <h1 className="font-bold text-3xl text-green-500">
             Payment Successful
           </h1>
         </div>
