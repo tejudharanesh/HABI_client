@@ -49,7 +49,7 @@ const paymentStages = [
   // Add more stages as needed
 ];
 
-const currentStage = 3;
+const currentStage = 2;
 
 const PaymentsPage = () => {
   const navigate = useNavigate();

@@ -1,8 +1,11 @@
 import React from "react";
 import done from "../../assets/images/done.png";
 import circle from "../../assets/images/circle.png";
+import { useNavigate } from "react-router-dom";
 
 function PaymentBlock({ data, currentStage, stageNumber }) {
+  const navigate = useNavigate();
+
   const renderStatus = () => {
     if (currentStage > stageNumber) {
       return (
@@ -23,7 +26,12 @@ function PaymentBlock({ data, currentStage, stageNumber }) {
           <div className="absolute top-6 right-14 h-full border-l-2 border-dashed"></div>
 
           <div className="absolute top-5 right-4 rounded-full">
-            <button className="bg-primary text-white p-2 rounded">
+            <button
+              className="bg-primary text-white p-2 rounded"
+              onClick={() => {
+                navigate("/dashboard/paymentSuccess");
+              }}
+            >
               Pay Now
             </button>
           </div>

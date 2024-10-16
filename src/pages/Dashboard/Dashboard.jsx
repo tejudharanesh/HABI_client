@@ -13,6 +13,7 @@ import Gallery from "../ExistingUser/Gallery";
 import Faqs from "../FAQ's/Faqs";
 import CostEstimator1 from "../NewUser/CostEstimator1";
 import DetailedReport from "../NewUser/DetailedReport";
+import PaymentSuccess from "../../components/Client_homepage/PaymentSuccess";
 
 function Dashboard() {
   const [collapsed, setCollapsed] = useState(false);
@@ -126,6 +127,8 @@ function Dashboard() {
               element={<DetailedReport isExpanded={collapsed} />}
             />
             <Route path="/faq" element={<Faqs isExpanded={collapsed} />} />
+
+            <Route path="paymentSuccess" element={<PaymentSuccess />} />
           </Routes>
         </div>
       </div>
