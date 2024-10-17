@@ -17,7 +17,7 @@ function Design({ isExpanded }) {
           <p className="text-black text-lg mr-2">1. </p>
           <img src={pdf} alt="pdf icon" className="mr-4" />
           <div>
-            <p className="text-black text-lg">Initial Layout</p>
+            <p className="text-black">Initial Layout</p>
             <p className="text-gray-400 text-sm">18 July 2024</p>
           </div>
         </div>

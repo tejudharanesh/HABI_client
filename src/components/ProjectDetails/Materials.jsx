@@ -26,17 +26,16 @@ function Materials({ isExpanded }) {
         </p>
       </header>
       <div className="items-center text-black">
-        <div className="p-2 grid grid-cols-5">
-          <div className="col-span-1 mr-4">
-            <img src={steel} alt="" />
+        <div className="p-2">
+          <div className="inline mr-3">
+            <img src={steel} alt="" className="inline" />
           </div>
-          <div className="col-span-4">
+          <div className="inline-block">
             <p className="">TATA Steel</p>
             <p className="text-sm text-gray-400 ">
               brand TATA, diameter: 32 mm & above
             </p>
           </div>
-          <hr className="mt-2" />
         </div>
       </div>
     </div>

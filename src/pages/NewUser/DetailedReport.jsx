@@ -385,7 +385,7 @@ function DetailedReport({ isExpanded }) {
             onSubmit={editField ? handleUpdateField : handleAddField}
             className="mt-4 p-2"
           >
-            <p className="text-xs">(*additional add-ons)</p>
+            <p className="text-xs">(*add-ons like lift, garden etc...)</p>
             <div className="flex flex-col-1 justify-between mb-2 md:px-0">
               <input
                 type="text"
