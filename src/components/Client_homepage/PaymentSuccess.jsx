@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import PuffLoader from "react-spinners/PuffLoader";
 import tick from "../../assets/images/rightTick.png";
+import Loading from "../Loading/Loading";
 
 function PaymentSuccess() {
   const [loading, setLoading] = useState(true);
@@ -18,9 +18,7 @@ function PaymentSuccess() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-background font-poppins w-full">
       {loading ? (
-        <div className="spinner">
-          <PuffLoader color={"#36D7B7"} loading={loading} size={120} />
-        </div>
+        <Loading loading={loading} /> // Render the loading component
       ) : (
         <div>
           <img src={tick} alt="" className="mx-auto w-40 mb-5" />

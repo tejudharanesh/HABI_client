@@ -423,7 +423,7 @@ function DetailedReport({ isExpanded }) {
           <div className="flex justify-between relative m-1">
             <span className="font-bold text-black">Total Estimated Cost</span>
             <span className="text-black font-bold absolute right-[12%] md:right-0">
-              ₹{totalEstimatedCost.toFixed(2)}
+              ₹{totalEstimatedCost.toFixed(2)}                     
             </span>
           </div>
           <hr className="border" />
