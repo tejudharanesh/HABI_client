@@ -11,12 +11,15 @@ import Otp from "./pages/Authentication/Otp";
 import CompleteProfile from "./pages/Authentication/CompleteProfile";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
-import Testing from "./pages/Testing";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
     <AuthProvider>
       <Router>
+        <ToastContainer pauseOnFocusLoss={false} autoClose={900} />
+
         <Routes>
           <Route path="/" element={<Dashboard />} />
           {/* <Route path="/" element={<Dashboard />} /> */}
