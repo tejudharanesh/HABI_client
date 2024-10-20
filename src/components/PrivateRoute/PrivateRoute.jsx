@@ -1,10 +1,18 @@
-import React from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import React, { useContext } from "react";
+import { Navigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext";
+const PrivateRoute = ({ children }) => {
+  const { user, loading } = useContext(AuthContext);
 
-const PrivateRoute = () => {
-  const token = localStorage.getItem("authToken");
+  if (loading) {
+    return <div>Loading...</div>; // You can replace this with a loading spinner
+  }
 
-  return token ? <Outlet /> : <Navigate to="/login" />;
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
+
+  return children;
 };
 
 export default PrivateRoute;

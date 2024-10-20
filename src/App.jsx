@@ -1,5 +1,5 @@
 import React from "react";
-import { AuthProvider } from "./contexts/AuthContext";
+import { AuthProvider, useAuth } from "./contexts/AuthContext"; // Ensure useAuth is imported correctly
 import {
   BrowserRouter as Router,
   Routes,
@@ -21,22 +21,44 @@ function App() {
         <ToastContainer pauseOnFocusLoss={false} autoClose={900} />
 
         <Routes>
-          <Route path="/" element={<Dashboard />} />
-          {/* <Route path="/" element={<Dashboard />} /> */}
-          <Route path="/dashboard/*" element={<Dashboard />} />
-
+          {/* Public Routes */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/otp" element={<Otp />} />
           <Route path="/home" element={<CompleteProfile />} />
-          {/* <Route path="/" element={<PrivateRoute />}>
-            <Route path="/" element={<Navigate to="/dashboard" />} />
-            <Route path="/dashboard/*" element={<Dashboard />} />
-          </Route> */}
-          <Route path="*" element={<Navigate to="/" />} />
+
+          {/* Protected Routes */}
+          <Route
+            path="/dashboard/*"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+
+          {/* Default Route */}
+          <Route path="/" element={<Navigate to="/login" />} />
+
+          {/* Catch-all route: Redirect to dashboard or login based on auth status */}
+          <Route path="*" element={<RedirectBasedOnAuth />} />
         </Routes>
       </Router>
     </AuthProvider>
   );
+}
+
+function RedirectBasedOnAuth() {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return <div>Loading...</div>; // Loading state while session is being validated
+  }
+
+  if (user) {
+    return <Navigate to="/dashboard" />;
+  } else {
+    return <Navigate to="/login" />;
+  }
 }
 
 export default App;
