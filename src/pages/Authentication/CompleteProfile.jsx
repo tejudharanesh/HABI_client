@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "../../axiosConfig";
 import Gallery from "../../assets/svg/Gallery.svg";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 const CompleteProfile = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const inputFileRef = useRef(null); // Reference for file input
 
   const phoneNumber = location.state?.phoneNumber || "";
 
@@ -15,6 +16,7 @@ const CompleteProfile = () => {
     email: "",
     pinCode: "",
     address: "",
+    profileImage: null, // New state for storing the uploaded image
   });
 
   const handleChange = (e) => {
@@ -25,19 +27,41 @@ const CompleteProfile = () => {
     });
   };
 
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormData({ ...formData, profileImage: file });
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Prepare FormData for submission
+    const data = new FormData();
+    data.append("name", formData.name);
+    data.append("phoneNumber", formData.phoneNumber);
+    data.append("email", formData.email);
+    data.append("pinCode", formData.pinCode);
+    data.append("address", formData.address);
+
+    if (formData.profileImage) {
+      data.append("profileImage", formData.profileImage); // Append image if selected
+    }
+
     try {
-      const response = await axios.post("/api/user/push", formData);
+      const response = await axios.post("/api/user/push", data, {
+        headers: {
+          "Content-Type": "multipart/form-data", // For file uploads
+        },
+      });
       if (response) {
         console.log(response.data);
         localStorage.setItem("authToken", response.data.authToken);
         navigate("/");
       }
-      // handle success (e.g., show a success message, redirect, etc.)
     } catch (error) {
       console.error("There was an error submitting the form!", error);
-      // handle error (e.g., show an error message)
     }
   };
 
@@ -48,11 +72,29 @@ const CompleteProfile = () => {
           Complete Your Profile
         </h2>
         <div className="flex justify-center mb-6">
-          <div className="h-24 w-24 bg-gray-200 rounded-full flex items-center justify-center border border-primary">
+          <div
+            className="h-24 w-24 bg-gray-200 rounded-full flex items-center justify-center border border-primary cursor-pointer"
+            onClick={() => inputFileRef.current.click()} // Trigger file input on image click
+          >
             <span className="text-gray-400 text-5xl">
-              <img src={Gallery} alt="Pic" />
+              {formData.profileImage ? (
+                <img
+                  src={URL.createObjectURL(formData.profileImage)}
+                  alt="Profile Preview"
+                  className="h-full w-full rounded-full object-cover"
+                />
+              ) : (
+                <img src={Gallery} alt="Pic" />
+              )}
             </span>
           </div>
+          <input
+            type="file"
+            ref={inputFileRef}
+            style={{ display: "none" }}
+            accept="image/*"
+            onChange={handleImageUpload}
+          />
         </div>
         <form onSubmit={handleSubmit}>
           <div className="relative mb-5">
