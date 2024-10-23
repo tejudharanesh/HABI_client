@@ -1,7 +1,6 @@
 import { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../contexts/AuthContext";
 import logo from "../../assets/habi_logo.png";
 import googleLogo from "../../assets/svg/Google.svg";
 import facebookLogo from "../../assets/svg/facebook.svg";
@@ -10,7 +9,6 @@ import { parsePhoneNumberFromString } from "libphonenumber-js";
 const LoginPage = () => {
   const [phone, setPhone] = useState("");
   const [isPhoneValid, setIsPhoneValid] = useState(false);
-  const { setUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   //updating the phone number based on user input
@@ -37,9 +35,6 @@ const LoginPage = () => {
             phoneNumber: formatPhoneNumber(phone),
           }
         );
-        const { token } = response.data;
-        localStorage.setItem("token", token); // Store token in local storage
-        setUser({ phoneNumber: formatPhoneNumber(phone) });
         navigate("/otp", { state: { phoneNumber: formatPhoneNumber(phone) } });
       } catch (error) {
         console.error("Error logging in:", error);
@@ -56,7 +51,7 @@ const LoginPage = () => {
           <img
             src={logo}
             alt="Habi"
-            className="h-40 md:h-40 lg:h-40 xl:h-40 md:mx-auto mt-14  inline"
+            className="h-40 md:h-40 lg:h-40 xl:h-40 md:mx-auto mt-14 inline"
           />
           {/* Show the text only on large screens and center it below the image */}
           <p className="hidden md:block mt-4 text-center font-DuneRise text-black">
@@ -76,7 +71,7 @@ const LoginPage = () => {
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="phone"
             >
-              Enter phone number
+              Enter Phone Number
             </label>
             <div className="flex">
               <div className="flex items-center px-4 border border-grey-300 border-r-0 bg-white-200 rounded-l-2xl">
