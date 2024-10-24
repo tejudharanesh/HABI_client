@@ -1,10 +1,11 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/habi_logo.png";
 import googleLogo from "../../assets/svg/Google.svg";
 import facebookLogo from "../../assets/svg/facebook.svg";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
+import { toast } from "react-toastify";
 
 const LoginPage = () => {
   const [phone, setPhone] = useState("");
@@ -33,14 +34,15 @@ const LoginPage = () => {
           "http://localhost:5000/api/otp/send",
           {
             phoneNumber: formatPhoneNumber(phone),
-          }
+          },
+          { withCredentials: true } // Ensures the cookie is sent to the server
         );
         navigate("/otp", { state: { phoneNumber: formatPhoneNumber(phone) } });
       } catch (error) {
-        console.error("Error logging in:", error);
+        toast.error("Error logging in:", error);
       }
     } else {
-      console.log("Invalid phone number");
+      toast.error("Invalid phone number");
     }
   };
 

@@ -24,17 +24,10 @@ function App() {
           {/* Public Routes */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/otp" element={<Otp />} />
-          <Route path="/home" element={<CompleteProfile />} />
+          <Route path="/completeProfile" element={<CompleteProfile />} />
 
-          {/* Handle /home route: Redirect if user is logged in */}
-          <Route
-            path="/"
-            element={
-              <RedirectIfAuthenticated>
-                <Dashboard />
-              </RedirectIfAuthenticated>
-            }
-          />
+          {/* Handle / route: Redirect if user is logged in */}
+          <Route path="/" element={<RedirectBasedOnAuth />} />
 
           {/* Protected Routes */}
           <Route
@@ -54,20 +47,6 @@ function App() {
   );
 }
 
-function RedirectIfAuthenticated({ children }) {
-  const { user, loading } = useAuth();
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (user) {
-    return <Navigate to="/dashboard/*" />;
-  }
-
-  return children;
-}
-
 function RedirectBasedOnAuth() {
   const { user, loading } = useAuth();
 
@@ -76,9 +55,11 @@ function RedirectBasedOnAuth() {
   }
 
   if (user) {
-    return <Navigate to="/dashboard/*" />;
+    // If user is authenticated, redirect to dashboard
+    return <Navigate to="/dashboard" />;
   } else {
-    return <Navigate to="/login" />;
+    // If not authenticated, redirect to login
+    return <Navigate to="/dashboard" />;
   }
 }
 

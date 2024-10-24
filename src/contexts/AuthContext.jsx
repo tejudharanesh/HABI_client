@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     } catch (err) {
       setUser(null);
-      setLoading(false);
+      setLoading(true);
       setError(
         err.response ? err.response.data.message : "Failed to authenticate"
       );
@@ -38,15 +38,8 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   // Login function
-  const login = async (credentials) => {
-    try {
-      const response = await axios.post("/api/auth/login", credentials, {
-        withCredentials: true, // To store the HTTP-only cookie
-      });
-      setUser(response.data.user); // Store the user info after successful login
-    } catch (err) {
-      setError(err.response ? err.response.data.message : "Login failed");
-    }
+  const login = (userData) => {
+    setUser(userData); // Directly set the user data
   };
 
   // Logout function

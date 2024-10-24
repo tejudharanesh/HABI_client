@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import Back from "../../components/Buttons/Back";
+import { toast } from "react-toastify";
 
 const Otp = () => {
   const [otp, setOtp] = useState(["", "", "", ""]);
@@ -53,17 +54,17 @@ const Otp = () => {
         {
           phoneNumber: phoneNumber,
           otp: otpString,
-        }
+        },
+        { withCredentials: true } // Allows sending cookies to the server
       );
       console.log(response);
-      if (response) {
-        navigate("/home", { state: { phoneNumber: phoneNumber } });
+      if (response.data.success) {
+        navigate("/completeProfile", { state: { phoneNumber: phoneNumber } });
       } else {
-        navigate("/error");
+        toast.error("wrong OTP");
       }
     } catch (error) {
-      console.error("Error validating OTP:", error);
-      navigate("/error");
+      toast.error("Error validating OTP:", error);
     }
   };
 
@@ -87,7 +88,7 @@ const Otp = () => {
         <h2 className="mb-4 text-xl md:text-lg lg:text-xl font-semibold text-center text-black">
           Verify your details
         </h2>
-        <Back/>
+        <Back />
         <p className="mb-4 text-center text-sm md:text-xl lg:text-xl">
           Enter OTP sent to <span className="text-black">{phoneNumber}</span>
           via SMS

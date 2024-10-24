@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import axios from "../../axiosConfig";
 import Gallery from "../../assets/svg/Gallery.svg";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const CompleteProfile = () => {
   const location = useLocation();
@@ -54,14 +55,24 @@ const CompleteProfile = () => {
         headers: {
           "Content-Type": "multipart/form-data", // For file uploads
         },
+        withCredentials: true, // Ensures the cookie is stored
       });
-      if (response) {
-        console.log(response.data);
-        localStorage.setItem("authToken", response.data.authToken);
+      if (response.data.success) {
+        const user = {
+          phoneNumber: formData.phoneNumber,
+          name: formData.name,
+          email: formData.email,
+        };
+
+        // Call the login function to set the user in the AuthContext
+        login(user);
+
         navigate("/");
       }
     } catch (error) {
       console.error("There was an error submitting the form!", error);
+      toast.error("Server error");
+      toast("Please try again");
     }
   };
 
