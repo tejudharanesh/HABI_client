@@ -26,6 +26,16 @@ function App() {
           <Route path="/otp" element={<Otp />} />
           <Route path="/home" element={<CompleteProfile />} />
 
+          {/* Handle /home route: Redirect if user is logged in */}
+          <Route
+            path="/"
+            element={
+              <RedirectIfAuthenticated>
+                <Dashboard />
+              </RedirectIfAuthenticated>
+            }
+          />
+
           {/* Protected Routes */}
           <Route
             path="/dashboard/*"
@@ -36,15 +46,26 @@ function App() {
             }
           />
 
-          {/* Default Route */}
-          <Route path="/" element={<Navigate to="/login" />} />
-
           {/* Catch-all route: Redirect to dashboard or login based on auth status */}
           <Route path="*" element={<RedirectBasedOnAuth />} />
         </Routes>
       </Router>
     </AuthProvider>
   );
+}
+
+function RedirectIfAuthenticated({ children }) {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (user) {
+    return <Navigate to="/dashboard/*" />;
+  }
+
+  return children;
 }
 
 function RedirectBasedOnAuth() {
@@ -55,7 +76,7 @@ function RedirectBasedOnAuth() {
   }
 
   if (user) {
-    return <Navigate to="/dashboard" />;
+    return <Navigate to="/dashboard/*" />;
   } else {
     return <Navigate to="/login" />;
   }
