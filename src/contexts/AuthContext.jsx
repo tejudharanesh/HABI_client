@@ -4,11 +4,6 @@ import axios from "axios";
 // Create a context object
 export const AuthContext = createContext();
 
-// Custom hook to use the AuthContext
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
-
 // AuthProvider component
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -18,9 +13,12 @@ export const AuthProvider = ({ children }) => {
   // Function to check if the user is authenticated via API (on initial load or page refresh)
   const validateSession = async () => {
     try {
-      const response = await axios.get("/api/auth/verify", {
-        withCredentials: true, // Important to send HTTP-only cookies
-      });
+      const response = await axios.get(
+        "http://localhost:5000/api/auth/verify",
+        {
+          withCredentials: true, // Important to send HTTP-only cookies
+        }
+      );
       setUser(response.data.user); // Assuming the user data is returned in response.data.user
       setLoading(false);
       console.log("");

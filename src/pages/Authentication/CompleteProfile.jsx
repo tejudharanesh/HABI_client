@@ -1,10 +1,12 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import axios from "../../axiosConfig";
 import Gallery from "../../assets/svg/Gallery.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const CompleteProfile = () => {
+  const { login } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
   const inputFileRef = useRef(null); // Reference for file input
@@ -54,11 +56,12 @@ const CompleteProfile = () => {
       );
 
       if (response) {
-        console.log(response.data.user);
+        toast.success("success");
+        console.log(response);
 
         // Call the login function to set the user in the AuthContext
         login(response.data.user);
-        navigate("/"); // Redirect on success
+        navigate("/dashboard"); // Redirect on success
       }
     } catch (error) {
       console.error("There was an error submitting the form!", error);

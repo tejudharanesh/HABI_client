@@ -1,5 +1,5 @@
-import React from "react";
-import { AuthProvider, useAuth } from "./contexts/AuthContext"; // Ensure useAuth is imported correctly
+import React, { useContext } from "react";
+import { AuthProvider, AuthContext } from "./contexts/AuthContext"; // Ensure useAuth is imported correctly
 import {
   BrowserRouter as Router,
   Routes,
@@ -48,7 +48,7 @@ function App() {
 }
 
 function RedirectBasedOnAuth() {
-  const { user, loading } = useAuth();
+  const { user, loading } = useContext(AuthContext);
 
   if (loading) {
     return <div>Loading...</div>; // Loading state while session is being validated
@@ -59,7 +59,7 @@ function RedirectBasedOnAuth() {
     return <Navigate to="/dashboard" />;
   } else {
     // If not authenticated, redirect to login
-    return <Navigate to="/dashboard" />;
+    return <Navigate to="/login" />;
   }
 }
 
