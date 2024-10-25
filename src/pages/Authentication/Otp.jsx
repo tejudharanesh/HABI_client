@@ -57,20 +57,33 @@ const Otp = () => {
         },
         { withCredentials: true } // Allows sending cookies to the server
       );
-      console.log(response);
       if (response.data.success) {
         navigate("/completeProfile", { state: { phoneNumber: phoneNumber } });
       } else {
-        toast.error("wrong OTP");
+        toast.error("Wrong OTP");
       }
     } catch (error) {
       toast.error("Error validating OTP:", error);
     }
   };
 
-  const resendOtp = () => {
-    setTimer(30);
-    // Logic to resend OTP
+  const resendOtp = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/otp/send",
+        { phoneNumber: phoneNumber },
+        { withCredentials: true } // Allows sending cookies to the server
+      );
+
+      if (response.data.success) {
+        toast.success("OTP resent successfully.");
+        setTimer(30); // Restart the timer after resending
+      } else {
+        toast.error("Failed to resend OTP. Please try again.");
+      }
+    } catch (error) {
+      toast.error("Error resending OTP:", error);
+    }
   };
 
   useEffect(() => {

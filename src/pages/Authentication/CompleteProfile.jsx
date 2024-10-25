@@ -38,26 +38,21 @@ const CompleteProfile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Prepare FormData for submission
-    const data = new FormData();
-    data.append("name", formData.name);
-    data.append("phoneNumber", formData.phoneNumber);
-    data.append("email", formData.email);
-    data.append("pinCode", formData.pinCode);
-    data.append("address", formData.address);
-
-    if (formData.profileImage) {
-      data.append("profileImage", formData.profileImage); // Append image if selected
-    }
-
     try {
-      const response = await axios.post("/api/user/push", data, {
-        headers: {
-          "Content-Type": "multipart/form-data", // For file uploads
+      const response = await axios.post(
+        "/api/user/push",
+        {
+          name: formData.name,
+          phoneNumber: formData.phoneNumber,
+          email: formData.email,
+          pinCode: formData.pinCode,
         },
-        withCredentials: true, // Ensures the cookie is stored
-      });
-      if (response.data.success) {
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (response) {
         const user = {
           phoneNumber: formData.phoneNumber,
           name: formData.name,
@@ -66,13 +61,10 @@ const CompleteProfile = () => {
 
         // Call the login function to set the user in the AuthContext
         login(user);
-
-        navigate("/");
+        navigate("/"); // Redirect on success
       }
     } catch (error) {
       console.error("There was an error submitting the form!", error);
-      toast.error("Server error");
-      toast("Please try again");
     }
   };
 
@@ -115,7 +107,6 @@ const CompleteProfile = () => {
             <input
               type="text"
               name="name"
-              placeholder="Teju"
               value={formData.name}
               onChange={handleChange}
               className="text-black block w-full px-3 py-2 border border-gray-300 rounded-xl bg-layoutColor focus:outline-none"
@@ -128,7 +119,6 @@ const CompleteProfile = () => {
             <input
               type="text"
               name="phoneNumber"
-              placeholder=""
               value={formData.phoneNumber}
               onChange={handleChange}
               disabled
@@ -142,7 +132,6 @@ const CompleteProfile = () => {
             <input
               type="text"
               name="email"
-              placeholder="Teju@gmail.com"
               value={formData.email}
               onChange={handleChange}
               className="text-black block w-full px-3 py-2 border border-gray-300 rounded-xl bg-layoutColor focus:outline-none"
@@ -155,7 +144,6 @@ const CompleteProfile = () => {
             <input
               type="text"
               name="pinCode"
-              placeholder="560103"
               value={formData.pinCode}
               onChange={handleChange}
               className="text-black block w-full px-3 py-2 border border-gray-300 rounded-xl bg-layoutColor focus:outline-none"
@@ -168,7 +156,6 @@ const CompleteProfile = () => {
             <textarea
               type="text"
               name="address"
-              placeholder="kodihalli Aralihalli Hosadurga Chittradurga"
               rows={3}
               value={formData.address}
               onChange={handleChange}

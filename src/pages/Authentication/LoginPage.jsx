@@ -37,9 +37,11 @@ const LoginPage = () => {
           },
           { withCredentials: true } // Ensures the cookie is sent to the server
         );
+
         navigate("/otp", { state: { phoneNumber: formatPhoneNumber(phone) } });
       } catch (error) {
-        toast.error("Error logging in:", error);
+        toast.error("Error logging In");
+        toast.error("Please try again");
       }
     } else {
       toast.error("Invalid phone number");
