@@ -43,9 +43,10 @@ const CompleteProfile = () => {
         "/api/user/push",
         {
           name: formData.name,
-          phoneNumber: formData.phoneNumber,
           email: formData.email,
           pinCode: formData.pinCode,
+          address: formData.address,
+          phoneNumber: formData.phoneNumber,
         },
         {
           withCredentials: true,
@@ -53,14 +54,10 @@ const CompleteProfile = () => {
       );
 
       if (response) {
-        const user = {
-          phoneNumber: formData.phoneNumber,
-          name: formData.name,
-          email: formData.email,
-        };
+        console.log(response);
 
         // Call the login function to set the user in the AuthContext
-        login(user);
+        login(response.data.user);
         navigate("/"); // Redirect on success
       }
     } catch (error) {
