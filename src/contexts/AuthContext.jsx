@@ -18,11 +18,12 @@ export const AuthProvider = ({ children }) => {
   // Function to check if the user is authenticated via API (on initial load or page refresh)
   const validateSession = async () => {
     try {
-      const response = await axios.get("/api/auth/validate-session", {
+      const response = await axios.get("/api/auth/verify", {
         withCredentials: true, // Important to send HTTP-only cookies
       });
       setUser(response.data.user); // Assuming the user data is returned in response.data.user
       setLoading(false);
+      console.log("");
     } catch (err) {
       setUser(null);
       setLoading(true);

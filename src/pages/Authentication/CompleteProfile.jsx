@@ -54,7 +54,7 @@ const CompleteProfile = () => {
       );
 
       if (response) {
-        console.log(response);
+        console.log(response.data.user);
 
         // Call the login function to set the user in the AuthContext
         login(response.data.user);

@@ -50,7 +50,7 @@ const Otp = () => {
     try {
       const otpString = otp.join("");
       const response = await axios.post(
-        "http://localhost:5000/api/otp/validate",
+        "http://localhost:5000/api/auth/validate",
         {
           phoneNumber: phoneNumber,
           otp: otpString,
@@ -70,7 +70,7 @@ const Otp = () => {
   const resendOtp = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/otp/send",
+        "http://localhost:5000/api/auth/send",
         { phoneNumber: phoneNumber },
         { withCredentials: true } // Allows sending cookies to the server
       );

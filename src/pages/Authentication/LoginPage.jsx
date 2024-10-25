@@ -31,7 +31,7 @@ const LoginPage = () => {
     if (isPhoneValid) {
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/otp/send",
+          "http://localhost:5000/api/auth/send",
           {
             phoneNumber: formatPhoneNumber(phone),
           },
