@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { AuthContext } from "../../contexts/AuthContext";
 
 const CompleteProfile = () => {
-  const { login } = useContext(AuthContext);
+  const { login1 } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
   const inputFileRef = useRef(null); // Reference for file input
@@ -57,11 +57,11 @@ const CompleteProfile = () => {
 
       if (response) {
         toast.success("success");
-        console.log(response);
+        console.log(response.data.user);
 
         // Call the login function to set the user in the AuthContext
-        login(response.data.user);
-        navigate("/dashboard"); // Redirect on success
+        login1(response.data.user);
+        navigate("/"); // Redirect on success
       }
     } catch (error) {
       console.error("There was an error submitting the form!", error);

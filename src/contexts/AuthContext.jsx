@@ -1,58 +1,60 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 
-// Create a context object
 export const AuthContext = createContext();
 
-// AuthProvider component
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    // Try to load the user from local storage on initial load
+    const savedUser = localStorage.getItem("user");
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Function to check if the user is authenticated via API (on initial load or page refresh)
   const validateSession = async () => {
     try {
       const response = await axios.get(
         "http://localhost:5000/api/auth/verify",
         {
-          withCredentials: true, // Important to send HTTP-only cookies
+          withCredentials: true,
         }
       );
-      setUser(response.data.user); // Assuming the user data is returned in response.data.user
+      setUser(response.data.user);
+      localStorage.setItem("user", JSON.stringify(response.data.user)); // Save to local storage
       setLoading(false);
-      console.log("");
     } catch (err) {
       setUser(null);
-      setLoading(true);
+      localStorage.removeItem("user"); // Remove from local storage
+      setLoading(false);
       setError(
         err.response ? err.response.data.message : "Failed to authenticate"
       );
     }
   };
 
-  // On component mount, check if there's an active session
   useEffect(() => {
     validateSession();
   }, []);
 
-  // Login function
-  const login = (userData) => {
-    setUser(userData); // Directly set the user data
+  const login1 = (userData) => {
+    setUser(userData);
+    localStorage.setItem("user", JSON.stringify(userData)); // Save to local storage
+    setLoading(false);
   };
 
-  // Logout function
   const logout = async () => {
     try {
       await axios.post("/api/auth/logout", {}, { withCredentials: true });
-      setUser(null); // Clear the user from state
+      setUser(null);
+      localStorage.removeItem("user"); // Clear from local storage
     } catch (err) {
       setError(err.response ? err.response.data.message : "Logout failed");
     }
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading, error }}>
+    <AuthContext.Provider value={{ user, loading, error, login1, logout }}>
       {children}
     </AuthContext.Provider>
   );
