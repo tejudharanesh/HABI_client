@@ -57,8 +57,24 @@ const Otp = () => {
         },
         { withCredentials: true } // Allows sending cookies to the server
       );
+
       if (response.data.success) {
-        navigate("/completeProfile", { state: { phoneNumber: phoneNumber } });
+        // Check if the user's profile is complete
+        const profileResponse = await axios.get(
+          `http://localhost:5000/api/user/getProfile`,
+          {
+            phoneNumber: phoneNumber,
+          }, // Assume this endpoint checks profile completion
+          { withCredentials: true }
+        );
+
+        if (profileResponse.data.user) {
+          // Navigate to the home page if the profile is complete
+          navigate("/");
+        } else {
+          // Navigate to complete profile page if not complete
+          navigate("/completeProfile", { state: { phoneNumber: phoneNumber } });
+        }
       } else {
         toast.error("Wrong OTP");
       }
