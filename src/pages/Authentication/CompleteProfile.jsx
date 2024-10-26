@@ -4,6 +4,7 @@ import Gallery from "../../assets/svg/Gallery.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../contexts/AuthContext";
+axios.defaults.withCredentials = true;
 
 const CompleteProfile = () => {
   const { login1 } = useContext(AuthContext);

@@ -25,7 +25,6 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     } catch (err) {
       setUser(null);
-      localStorage.removeItem("user"); // Remove from local storage
       setLoading(false);
       setError(
         err.response ? err.response.data.message : "Failed to authenticate"

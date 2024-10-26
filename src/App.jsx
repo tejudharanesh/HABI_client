@@ -41,7 +41,6 @@ function App() {
 
           {/* Catch-all route: Redirect to dashboard or login based on auth status */}
           <Route path="*" element={<RedirectBasedOnAuth />} />
-          <Route path="/dashboard" element={<RedirectBasedOnAuth />} />
         </Routes>
       </Router>
     </AuthProvider>
