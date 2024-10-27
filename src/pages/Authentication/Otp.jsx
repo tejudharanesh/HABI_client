@@ -60,14 +60,15 @@ const Otp = () => {
         },
         { withCredentials: true } // Allows sending cookies to the server
       );
-      console.log("jhejjej",response);
+      console.log("jhejjej", response);
 
       if (response.data.success) {
+        console.log("comming", phoneNumber);
+
         // Check if the user's profile is complete
         const profileResponse = await axios.get(
-          `http://localhost:5000/api/user/getProfile?phoneNumber=${encodeURIComponent(
-            phoneNumber
-          )}`,
+          `http://localhost:5000/api/user/getUsers?phoneNumber=${phoneNumber}`,
+
           { withCredentials: true }
         );
 

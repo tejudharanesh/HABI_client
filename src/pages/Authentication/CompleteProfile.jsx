@@ -25,7 +25,7 @@ const CompleteProfile = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({   
+    setFormData({
       ...formData,
       [name]: value,
     });
@@ -43,7 +43,7 @@ const CompleteProfile = () => {
 
     try {
       const response = await axios.post(
-        "/api/user/push",
+        "http://localhost:5000/api/user/push",
         {
           name: formData.name,
           email: formData.email,
