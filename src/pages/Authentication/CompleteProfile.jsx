@@ -25,7 +25,7 @@ const CompleteProfile = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
+    setFormData({   
       ...formData,
       [name]: value,
     });
