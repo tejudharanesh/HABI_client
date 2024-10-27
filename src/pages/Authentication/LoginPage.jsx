@@ -38,7 +38,7 @@ const LoginPage = () => {
           { withCredentials: true } // Ensures the cookie is sent to the server
         );
 
-        navigate("/otp", { state: { phoneNumber: formatPhoneNumber(phone) } });
+        navigate("/otp", { state: { phoneNumber: phone } });
       } catch (error) {
         toast.error("Error logging In");
         toast.error("Please try again");

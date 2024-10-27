@@ -1,8 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import Back from "../../components/Buttons/Back";
 import { toast } from "react-toastify";
+import { AuthContext } from "../../contexts/AuthContext";
+axios.defaults.withCredentials = true;
 
 const Otp = () => {
   const [otp, setOtp] = useState(["", "", "", ""]);
@@ -11,6 +13,7 @@ const Otp = () => {
   const firstInputRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
+  const { login1 } = useContext(AuthContext);
 
   const phoneNumber = location.state?.phoneNumber || "";
 
@@ -57,19 +60,21 @@ const Otp = () => {
         },
         { withCredentials: true } // Allows sending cookies to the server
       );
+      console.log("jhejjej",response);
 
       if (response.data.success) {
         // Check if the user's profile is complete
         const profileResponse = await axios.get(
-          `http://localhost:5000/api/user/getProfile`,
-          {
-            phoneNumber: phoneNumber,
-          }, // Assume this endpoint checks profile completion
+          `http://localhost:5000/api/user/getProfile?phoneNumber=${encodeURIComponent(
+            phoneNumber
+          )}`,
           { withCredentials: true }
         );
 
-        if (profileResponse.data.user) {
+        if (profileResponse.data.profile) {
           // Navigate to the home page if the profile is complete
+          login1(response.data.profile);
+
           navigate("/");
         } else {
           // Navigate to complete profile page if not complete
@@ -79,6 +84,7 @@ const Otp = () => {
         toast.error("Wrong OTP");
       }
     } catch (error) {
+      console.error(error);
       toast.error("Error validating OTP:", error);
     }
   };
@@ -119,7 +125,8 @@ const Otp = () => {
         </h2>
         <Back />
         <p className="mb-4 text-center text-sm md:text-xl lg:text-xl">
-          Enter OTP sent to <span className="text-black">{phoneNumber}</span>
+          Enter OTP sent to +91
+          <span className="text-black">{phoneNumber}</span>
           via SMS
         </p>
         <div className="flex mb-2 mt-5 justify-center">
