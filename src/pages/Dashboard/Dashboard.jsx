@@ -20,9 +20,10 @@ function Dashboard() {
   const [user, setUser] = useState("");
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("userType") || "client";
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+
     if (storedUser) {
-      setUser(storedUser);
+      setUser(storedUser.status);
     }
   }, []);
 
@@ -69,7 +70,7 @@ function Dashboard() {
             <Route
               path="/"
               element={
-                user === "new" ? (
+                user === "lead" ? (
                   <Consultation isExpanded={collapsed} user={user} />
                 ) : (
                   <HomePage isExpanded={collapsed} />
@@ -79,7 +80,7 @@ function Dashboard() {
             <Route
               path="/packages"
               element={
-                user === "new" ? (
+                user === "lead" ? (
                   <CostEstimator1 isExpanded={collapsed} />
                 ) : (
                   <ProjectDetails isExpanded={collapsed} />
@@ -89,13 +90,13 @@ function Dashboard() {
             <Route
               path="/projects"
               element={
-                user === "new" ? <Projects isExpanded={collapsed} /> : null
+                user === "lead" ? <Projects isExpanded={collapsed} /> : null
               }
             />
             <Route
               path="/profile"
               element={
-                user === "new" ? (
+                user === "lead" ? (
                   <Profile isExpanded={collapsed} user={user} />
                 ) : (
                   <Consultation isExpanded={collapsed} user={user} />
