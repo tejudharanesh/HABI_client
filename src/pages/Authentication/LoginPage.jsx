@@ -6,6 +6,7 @@ import googleLogo from "../../assets/svg/Google.svg";
 import facebookLogo from "../../assets/svg/facebook.svg";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { toast } from "react-toastify";
+import { sendOtp } from "../../services/api";
 
 const LoginPage = () => {
   const [phone, setPhone] = useState("");
