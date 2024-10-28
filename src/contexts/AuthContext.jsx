@@ -5,10 +5,15 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    // Try to load the user from local storage on initial load
-    const savedUser = localStorage.getItem("user");
-    return savedUser ? JSON.parse(savedUser) : null;
+    try {
+      const savedUser = localStorage.getItem("user");
+      return savedUser ? JSON.parse(savedUser) : null;
+    } catch (error) {
+      console.error("Error parsing user from localStorage:", error);
+      return null;
+    }
   });
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -21,7 +26,6 @@ export const AuthProvider = ({ children }) => {
         }
       );
       setUser(response.data.user);
-      localStorage.setItem("user", JSON.stringify(response.data.user)); // Save to local storage
       setLoading(false);
     } catch (err) {
       setUser(null);
@@ -37,6 +41,8 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login1 = (userData) => {
+    console.log(userData);
+
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData)); // Save to local storage
     setLoading(false);

@@ -72,9 +72,11 @@ const Otp = () => {
           { withCredentials: true }
         );
 
-        if (profileResponse.data.profile) {
+        if (profileResponse.data.success) {
+          console.log("check here", profileResponse);
+
           // Navigate to the home page if the profile is complete
-          login1(response.data.profile);
+          login1(profileResponse.data.profile);
 
           navigate("/");
         } else {

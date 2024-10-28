@@ -13,6 +13,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loading from "./components/Loading/Loading";
 
 function App() {
   return (
@@ -51,7 +52,7 @@ function RedirectBasedOnAuth() {
   const { user, loading } = useContext(AuthContext);
 
   if (loading) {
-    return <div>Loading...</div>; // Loading state while session is being validated
+    return <Loading />; // Loading state while session is being validated
   }
 
   if (user) {
