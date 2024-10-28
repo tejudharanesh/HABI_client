@@ -1,8 +1,7 @@
 // client/src/services/api.js
-
 import axios from "axios";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 // Function for GET requests
 export const getData = async (endpoint, params = {}) => {
@@ -32,16 +31,15 @@ export const postData = async (endpoint, data = {}) => {
 };
 
 // Example functions for specific API calls
-export const sendOtp = (phoneNumber) => {
-  return postData("auth/send", { phoneNumber });
+// client/src/services/api.js
+
+export const sendOtp = async (phoneNumber) => {
+  const response = await postData("auth/send", { phoneNumber });
+  return response; // return the full response to handle success status in the component
 };
 
 export const validateOtp = (phoneNumber, otp) => {
   return postData("auth/validate", { phoneNumber, otp });
-};
-
-export const resendOtp = (phoneNumber) => {
-  return postData("auth/send", { phoneNumber });
 };
 
 export const getUserProfile = (phoneNumber) => {

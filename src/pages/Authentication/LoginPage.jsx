@@ -1,5 +1,4 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/habi_logo.png";
 import googleLogo from "../../assets/svg/Google.svg";
@@ -31,18 +30,22 @@ const LoginPage = () => {
     e.preventDefault();
     if (isPhoneValid) {
       try {
-        const response = await axios.post(
-          "http://localhost:5000/api/auth/send",
-          {
-            phoneNumber: formatPhoneNumber(phone),
-          },
-          { withCredentials: true } // Ensures the cookie is sent to the server
-        );
+        const response = await sendOtp(formatPhoneNumber(phone));
 
-        navigate("/otp", { state: { phoneNumber: phone } });
+        if (response.success) {
+          navigate("/otp", {
+            state: {
+              phoneNumber: phone,
+              formatNumber: formatPhoneNumber(phone),
+            },
+          });
+        } else {
+          toast.error(
+            response.message || "Failed to send OTP. Please try again."
+          );
+        }
       } catch (error) {
-        toast.error("Error logging In");
-        toast.error("Please try again");
+        toast.error("Error logging in. Please try again.");
       }
     } else {
       toast.error("Invalid phone number");

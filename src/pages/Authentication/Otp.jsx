@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Back from "../../components/Buttons/Back";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../contexts/AuthContext";
-axios.defaults.withCredentials = true;
+import { sendOtp, validateOtp, getUserProfile } from "../../services/api";
 
 const Otp = () => {
   const [otp, setOtp] = useState(["", "", "", ""]);
@@ -16,6 +16,7 @@ const Otp = () => {
   const { login1 } = useContext(AuthContext);
 
   const phoneNumber = location.state?.phoneNumber || "";
+  const formatNumber = location.state?.formatNumber || "";
 
   useEffect(() => {
     // Set focus on the first OTP input field when the component mounts
@@ -52,27 +53,15 @@ const Otp = () => {
   const validateOtp = async () => {
     try {
       const otpString = otp.join("");
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/validate",
-        {
-          phoneNumber: phoneNumber,
-          otp: otpString,
-        },
-        { withCredentials: true } // Allows sending cookies to the server
-      );
+      const response = await validateOtp(phoneNumber, otpString);
+
       console.log("jhejjej", response);
 
-      if (response.data.success) {
-        console.log("comming", phoneNumber);
-
+      if (response.success) {
         // Check if the user's profile is complete
-        const profileResponse = await axios.get(
-          `http://localhost:5000/api/user/getUsers?phoneNumber=${phoneNumber}`,
+        const profileResponse = await getUserProfile(phoneNumber);
 
-          { withCredentials: true }
-        );
-
-        if (profileResponse.data.success) {
+        if (profileResponse.success) {
           console.log("check here", profileResponse);
 
           // Navigate to the home page if the profile is complete
@@ -94,15 +83,11 @@ const Otp = () => {
 
   const resendOtp = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/send",
-        { phoneNumber: phoneNumber },
-        { withCredentials: true } // Allows sending cookies to the server
-      );
+      const response = await sendOtp(formatNumber);
 
-      if (response.data.success) {
+      if (response.success) {
         toast.success("OTP resent successfully.");
-        setTimer(30); // Restart the timer after resending
+        setTimer(60); // Restart the timer after resending
       } else {
         toast.error("Failed to resend OTP. Please try again.");
       }
