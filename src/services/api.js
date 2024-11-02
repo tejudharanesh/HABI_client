@@ -38,7 +38,7 @@ export const sendOtp = async (phoneNumber) => {
   return response; // return the full response to handle success status in the component
 };
 
-export const validateOtp = (phoneNumber, otp) => {
+export const validateOtp1 = (phoneNumber, otp) => {
   return postData("auth/validate", { phoneNumber, otp });
 };
 

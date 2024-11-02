@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Back from "../../components/Buttons/Back";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../contexts/AuthContext";
-import { sendOtp, validateOtp, getUserProfile } from "../../services/api";
+import { sendOtp, validateOtp1, getUserProfile } from "../../services/api";
 
 const Otp = () => {
   const [otp, setOtp] = useState(["", "", "", ""]);
@@ -53,7 +53,7 @@ const Otp = () => {
   const validateOtp = async () => {
     try {
       const otpString = otp.join("");
-      const response = await validateOtp(phoneNumber, otpString);
+      const response = await validateOtp1(phoneNumber, otpString);
 
       console.log("jhejjej", response);
 
@@ -65,7 +65,7 @@ const Otp = () => {
           console.log("check here", profileResponse);
 
           // Navigate to the home page if the profile is complete
-          login1(profileResponse.data.profile);
+          login1(profileResponse.profile);
 
           navigate("/");
         } else {

@@ -25,14 +25,18 @@ export const AuthProvider = ({ children }) => {
           withCredentials: true,
         }
       );
-      setUser(response.data.user);
-      setLoading(false);
+
+      if (response.data.success) {
+        setUser(response.data.user);
+      } else {
+        setError("Failed to authenticate");
+      }
     } catch (err) {
-      setUser(null);
-      setLoading(false);
       setError(
         err.response ? err.response.data.message : "Failed to authenticate"
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -41,8 +45,6 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login1 = (userData) => {
-    console.log(userData);
-
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData)); // Save to local storage
     setLoading(false);
