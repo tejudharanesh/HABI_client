@@ -5,22 +5,18 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    try {
-      const savedUser = localStorage.getItem("user");
-      return savedUser ? JSON.parse(savedUser) : null;
-    } catch (error) {
-      console.error("Error parsing user from localStorage:", error);
-      return null;
-    }
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
   });
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const validateSession = async () => {
+    setLoading(true);
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/auth/verify",
+        "http://localhost:5000/api/auth/authenticate",
         {
           withCredentials: true,
         }
@@ -28,6 +24,7 @@ export const AuthProvider = ({ children }) => {
 
       if (response.data.success) {
         setUser(response.data.user);
+        localStorage.setItem("user", JSON.stringify(response.data.user)); // Save to local storage
       } else {
         setError("Failed to authenticate");
       }
