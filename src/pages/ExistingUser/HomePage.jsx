@@ -21,16 +21,14 @@ const HomePage = ({ isExpanded }) => {
   };
 
   useEffect(() => {
-    // Attach the scroll event listener to the document or window
-    const scrollTarget = document; // You can also try document here for some cases
-
+    // Attach the scroll event listener to the window
     console.log("Attaching scroll listener...");
-    scrollTarget.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     // Clean up the event listener on component unmount
     return () => {
       console.log("Removing scroll listener...");
-      scrollTarget.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []); // The empty dependency array ensures this effect runs once when the component mounts
 

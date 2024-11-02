@@ -121,6 +121,120 @@ function Page2() {
                       </div>
                     )}
                   </div>
+                  <div
+                    onClick={toggleExpand}
+                    className="relative bg-layoutColor p-4 rounded-3xl rounded-tl-none border-2 md:w-[100%] lg:w-[90%]"
+                  >
+                    <div className="flex justify-between items-center">
+                      <h3 className="font-bold text-gray-800">Soil Testing</h3>
+                      <p>Started</p>
+                    </div>
+                    <p className="text-sm text-black">initial stage</p>
+                    <p className="text-sm text-gray-500 inline mr-2">
+                      25 May 2024 - 26 May 2024
+                    </p>
+                    <p className="text-red-400 inline text-sm">2 days delay</p>
+                    <div className="bg-red-400 w-1 h-1 rounded inline-block mb-0.5 ml-0.5"></div>
+                    <div className="flex justify-between items-center">
+                      <div className="h-3 bg-gray-200 rounded-full mt-2 w-[80%] inline-block">
+                        <div
+                          className="h-3 bg-primary rounded-full"
+                          style={{ width: "100%" }}
+                        ></div>
+                      </div>
+                      <p className="inline text-black text-sm mt-2">70%</p>
+                    </div>
+
+                    <div className="flex items-center absolute -top-3 -left-3 rounded-full border border-primary p-0.5">
+                      <div className="w-4 h-4 bg-primary rounded-full"></div>
+                    </div>
+                    {isExpanded && (
+                      <div>
+                        <div>
+                          <img
+                            src={site}
+                            alt="Site Photo 1"
+                            className="w-[90px] h-[69px] object-cover rounded-lg inline-block"
+                          />
+                          <img
+                            src={site}
+                            alt="Site Photo 1"
+                            className="w-[90px] h-[69px] object-cover rounded-lg inline-block m-2"
+                          />
+                          <img
+                            src={site}
+                            alt="Site Photo 1"
+                            className="w-[90px] h-[69px] object-cover rounded-lg inline-block"
+                          />
+                        </div>
+                        <div className="mt-4">
+                          <button className="px-4 py-2 border-red-400 border rounded-lg text-red-400 bg-red-50 w-[155px]">
+                            Reject
+                          </button>
+                          <button className="px-4 py-2 text-white bg-primary rounded-lg ml-3 w-[155px]">
+                            Approve
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>{" "}
+                  <div
+                    onClick={toggleExpand}
+                    className="relative bg-layoutColor p-4 rounded-3xl rounded-tl-none border-2 md:w-[100%] lg:w-[90%]"
+                  >
+                    <div className="flex justify-between items-center">
+                      <h3 className="font-bold text-gray-800">Soil Testing</h3>
+                      <p>Started</p>
+                    </div>
+                    <p className="text-sm text-black">initial stage</p>
+                    <p className="text-sm text-gray-500 inline mr-2">
+                      25 May 2024 - 26 May 2024
+                    </p>
+                    <p className="text-red-400 inline text-sm">2 days delay</p>
+                    <div className="bg-red-400 w-1 h-1 rounded inline-block mb-0.5 ml-0.5"></div>
+                    <div className="flex justify-between items-center">
+                      <div className="h-3 bg-gray-200 rounded-full mt-2 w-[80%] inline-block">
+                        <div
+                          className="h-3 bg-primary rounded-full"
+                          style={{ width: "100%" }}
+                        ></div>
+                      </div>
+                      <p className="inline text-black text-sm mt-2">70%</p>
+                    </div>
+
+                    <div className="flex items-center absolute -top-3 -left-3 rounded-full border border-primary p-0.5">
+                      <div className="w-4 h-4 bg-primary rounded-full"></div>
+                    </div>
+                    {isExpanded && (
+                      <div>
+                        <div>
+                          <img
+                            src={site}
+                            alt="Site Photo 1"
+                            className="w-[90px] h-[69px] object-cover rounded-lg inline-block"
+                          />
+                          <img
+                            src={site}
+                            alt="Site Photo 1"
+                            className="w-[90px] h-[69px] object-cover rounded-lg inline-block m-2"
+                          />
+                          <img
+                            src={site}
+                            alt="Site Photo 1"
+                            className="w-[90px] h-[69px] object-cover rounded-lg inline-block"
+                          />
+                        </div>
+                        <div className="mt-4">
+                          <button className="px-4 py-2 border-red-400 border rounded-lg text-red-400 bg-red-50 w-[155px]">
+                            Reject
+                          </button>
+                          <button className="px-4 py-2 text-white bg-primary rounded-lg ml-3 w-[155px]">
+                            Approve
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
               <div className="mb-10">
