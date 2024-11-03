@@ -12,7 +12,9 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
 
   const validateSessionHandler = async () => {
+    console.log("hsksllllllllllllllllllllllllllllllllllllllll");
     setLoading(true);
+    setUser(null);
     try {
       const response = await validateSession();
 
@@ -20,9 +22,12 @@ export const AuthProvider = ({ children }) => {
         setUser(response.user);
         localStorage.setItem("user", JSON.stringify(response.user)); // Save to local storage
       } else {
+        setUser(null);
+        localStorage.removeItem("user");
         setError("Failed to authenticate");
       }
     } catch (err) {
+      setUser(null);
       setError(err.message || "Failed to authenticate");
     } finally {
       setLoading(false);
