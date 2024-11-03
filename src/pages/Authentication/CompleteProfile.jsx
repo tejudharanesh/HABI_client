@@ -1,10 +1,9 @@
 import React, { useState, useRef, useContext } from "react";
-import axios from "../../axiosConfig";
 import Gallery from "../../assets/svg/Gallery.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../contexts/AuthContext";
-axios.defaults.withCredentials = true;
+import { submitUserData } from "../../services/api";
 
 const CompleteProfile = () => {
   const { login1 } = useContext(AuthContext);
@@ -42,30 +41,24 @@ const CompleteProfile = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/user/push",
-        {
-          name: formData.name,
-          email: formData.email,
-          pinCode: formData.pinCode,
-          address: formData.address,
-          phoneNumber: formData.phoneNumber,
-        },
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await submitUserData({
+        name: formData.name,
+        email: formData.email,
+        pinCode: formData.pinCode,
+        address: formData.address,
+        phoneNumber: formData.phoneNumber,
+      });
 
       if (response) {
-        toast.success("success");
-        console.log(response.data.user);
+        toast.success("Success");
+        console.log(response.user);
 
         // Call the login function to set the user in the AuthContext
-        login1(response.data.user);
+        login1(response.user);
         navigate("/"); // Redirect on success
       }
     } catch (error) {
-      console.error("There was an error submitting the form!", error);
+      toast.error("There was an error submitting the form!", error);
     }
   };
 

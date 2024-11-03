@@ -1,6 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-import axios from "axios";
-
+import { validateSession } from "../services/api";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -12,33 +11,26 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const validateSession = async () => {
+  const validateSessionHandler = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(
-        "http://localhost:5000/api/auth/authenticate",
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await validateSession();
 
-      if (response.data.success) {
-        setUser(response.data.user);
-        localStorage.setItem("user", JSON.stringify(response.data.user)); // Save to local storage
+      if (response.success) {
+        setUser(response.user);
+        localStorage.setItem("user", JSON.stringify(response.user)); // Save to local storage
       } else {
         setError("Failed to authenticate");
       }
     } catch (err) {
-      setError(
-        err.response ? err.response.data.message : "Failed to authenticate"
-      );
+      setError(err.message || "Failed to authenticate");
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    validateSession();
+    validateSessionHandler();
   }, []);
 
   const login1 = (userData) => {

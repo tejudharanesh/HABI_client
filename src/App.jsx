@@ -48,6 +48,7 @@ function App() {
   );
 }
 
+// function for  redirecting based on auth status
 function RedirectBasedOnAuth() {
   const { user, loading } = useContext(AuthContext);
 

@@ -55,15 +55,11 @@ const Otp = () => {
       const otpString = otp.join("");
       const response = await validateOtp1(phoneNumber, otpString);
 
-      console.log("jhejjej", response);
-
       if (response.success) {
         // Check if the user's profile is complete
         const profileResponse = await getUserProfile(phoneNumber);
 
         if (profileResponse.success) {
-          console.log("check here", profileResponse);
-
           // Navigate to the home page if the profile is complete
           login1(profileResponse.profile);
 

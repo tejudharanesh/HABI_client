@@ -126,7 +126,7 @@ const LoginPage = () => {
             </button>
           </div>
           <p className="text-center text-gray-500 text-xs mt-4">
-            By Clicking, I accept the{" "}
+            By Clicking, I accept the
             <a href="#" className="text-primary">
               Terms & Conditions
             </a>

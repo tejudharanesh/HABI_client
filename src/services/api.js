@@ -45,3 +45,13 @@ export const validateOtp1 = (phoneNumber, otp) => {
 export const getUserProfile = (phoneNumber) => {
   return getData("user/getUsers", { phoneNumber });
 };
+
+// Function to submit user data (similar to handleSubmit)
+export const submitUserData = async (userData) => {
+  return postData("user/push", userData);
+};
+
+// Function to validate session
+export const validateSession = () => {
+  return getData("auth/authenticate");
+};
