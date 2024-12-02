@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Footer from "../../components/Footer/Footer";
 
 const SelectInput = ({ value, onChange, options, label, name }) => (
   <div className="relative mb-6">

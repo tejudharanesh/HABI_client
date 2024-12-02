@@ -12,15 +12,14 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
 
   const validateSessionHandler = async () => {
-    console.log("hsksllllllllllllllllllllllllllllllllllllllll");
     setLoading(true);
-    setUser(null);
     try {
       const response = await validateSession();
 
       if (response.success) {
         setUser(response.user);
         localStorage.setItem("user", JSON.stringify(response.user)); // Save to local storage
+        setError(null);
       } else {
         setUser(null);
         localStorage.removeItem("user");

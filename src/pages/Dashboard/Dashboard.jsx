@@ -17,7 +17,7 @@ import PaymentSuccess from "../../components/Client_homepage/PaymentSuccess";
 
 function Dashboard() {
   const [collapsed, setCollapsed] = useState(false);
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState("lead");
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
