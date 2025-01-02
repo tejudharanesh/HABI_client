@@ -157,9 +157,9 @@ function Consultation({ isExpanded, user }) {
           />
         )}
       </div>
-      {user == "new" && <ImageUpload />}
-      {user == "new" && <OnePercent isExpanded={isExpanded} />}
-      {user == "new" && <Design isExpanded={isExpanded} />}
+      <ImageUpload />
+      <OnePercent isExpanded={isExpanded} />
+      <Design isExpanded={isExpanded} />
 
       <HabiFeatures isExpanded={isExpanded} />
       <Youtube isExpanded={isExpanded} />

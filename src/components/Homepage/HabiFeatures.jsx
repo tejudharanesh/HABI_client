@@ -86,7 +86,7 @@ function HabiFeatures({ isExpanded }) {
           Constructing Dreams with Precision and Care
         </h2>
 
-        <div className="grid grid-cols-4 gap-4 mb-1 relative">
+        <div className="grid grid-cols-4 gap-4 mb-6 relative">
           <hr className="absolute bg-secondary w-[80%] left-[10%] top-6 h-0.5" />
 
           {features.map((feature, index) => (

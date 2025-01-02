@@ -1,6 +1,8 @@
 import React from "react";
 
 function Page2({ onReschedule, selectedDateTime }) {
+  console.log(selectedDateTime);
+
   return (
     <div className="border-2 rounded-xl py-5 w-full">
       <h2 className="text-[16px] lg:text-[18px] font-semibold mb-2 text-center text-black">

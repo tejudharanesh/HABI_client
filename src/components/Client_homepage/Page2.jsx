@@ -66,7 +66,7 @@ function Page2() {
                 <div>
                   <div
                     onClick={toggleExpand}
-                    className="relative bg-layoutColor p-4 rounded-3xl rounded-tl-none border-2 md:w-[100%] lg:w-[90%]"
+                    className="relative bg-layoutColor p-4 rounded-3xl rounded-tl-none border-2 md:w-[100%] lg:w-[90%] mb-2"
                   >
                     <div className="flex justify-between items-center">
                       <h3 className="font-bold text-gray-800">Soil Testing</h3>
@@ -123,7 +123,7 @@ function Page2() {
                   </div>
                   <div
                     onClick={toggleExpand}
-                    className="relative bg-layoutColor p-4 rounded-3xl rounded-tl-none border-2 md:w-[100%] lg:w-[90%]"
+                    className="relative bg-layoutColor p-4 rounded-3xl rounded-tl-none border-2 md:w-[100%] lg:w-[90%] mb-3"
                   >
                     <div className="flex justify-between items-center">
                       <h3 className="font-bold text-gray-800">Soil Testing</h3>

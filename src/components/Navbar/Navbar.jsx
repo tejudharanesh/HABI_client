@@ -79,8 +79,8 @@ const Navbar = ({ isExpanded, user }) => {
                   alt={button.alt}
                   className={`w-6 h-6 md:ml-4 ${
                     selected === button.id
-                      ? "text-primary fill-primary filter-primary"
-                      : ""
+                      ? "text-primary filter-primary fill-primary"
+                      : "fill-default"
                   }`}
                 />
 
