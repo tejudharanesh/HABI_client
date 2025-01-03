@@ -15,10 +15,15 @@ import CostEstimator1 from "../NewUser/CostEstimator1";
 import DetailedReport from "../NewUser/DetailedReport";
 import PaymentSuccess from "../../components/Client_homepage/PaymentSuccess";
 
-function Dashboard() {
+function Dashboard({ authUser }) {
   const [collapsed, setCollapsed] = useState(false);
-  const [user, setUser] = useState("lead");
+  const [user, setUser] = useState(authUser?.status || "");
 
+  useEffect(() => {
+    if (authUser?.status) {
+      setUser(authUser.status);
+    }
+  }, [authUser]);
   const toggleSidebar = () => {
     setCollapsed(!collapsed);
   };
@@ -89,7 +94,11 @@ function Dashboard() {
               path="/profile"
               element={
                 user === "lead" ? (
-                  <Profile isExpanded={collapsed} user={user} />
+                  <Profile
+                    isExpanded={collapsed}
+                    user={user}
+                    authUser={authUser}
+                  />
                 ) : (
                   <Consultation isExpanded={collapsed} user={user} />
                 )
@@ -105,7 +114,13 @@ function Dashboard() {
             />
             <Route
               path="/profile1"
-              element={<Profile isExpanded={collapsed} user={user} />}
+              element={
+                <Profile
+                  isExpanded={collapsed}
+                  user={user}
+                  authUser={authUser}
+                />
+              }
             />
             <Route
               path="/gallery"

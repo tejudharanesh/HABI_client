@@ -22,6 +22,7 @@ function App() {
       console.log("Fetching authUser...");
       return await apiRequest("/auth/me", "GET");
     },
+    retry: false,
   });
 
   if (isLoading)
@@ -40,8 +41,8 @@ function App() {
           path="/"
           element={
             authUser ? (
-              authUser.user?.isCompletedProfile ? (
-                <Dashboard />
+              authUser.isCompletedProfile ? (
+                <Navigate to="/dashboard" />
               ) : (
                 <Navigate to="/completeProfile" />
               )
@@ -68,10 +69,26 @@ function App() {
           path="/completeProfile"
           element={
             authUser ? (
-              authUser.user?.isCompletedProfile ? (
-                <Navigate to="/" />
+              authUser.isCompletedProfile ? (
+                <Navigate to="/dashboard" />
               ) : (
                 <CompleteProfile />
+              )
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        {/* Dashboard Route */}
+        <Route
+          path="/dashboard/*"
+          element={
+            authUser ? (
+              authUser.isCompletedProfile ? (
+                <Dashboard authUser={authUser} />
+              ) : (
+                <Navigate to="/completeProfile" />
               )
             ) : (
               <Navigate to="/login" />

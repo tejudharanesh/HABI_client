@@ -23,7 +23,7 @@ export const apiRequest = async (path, method, body, headers = {}) => {
         ...headers,
       },
       data: body, // Axios handles null/undefined data automatically
-      withCredentials: true, // Ensures cookies are sent with the request
+      withCredentials: true,
     });
     console.log("API Response:", response.data);
 

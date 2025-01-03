@@ -3,13 +3,8 @@ const CACHE_NAME = `your-app-cache-v1`; // Update this with every new deployment
 
 // Files to cache (update the list of important assets like JS, CSS, and images)
 const FILES_TO_CACHE = [
-  "/",
-  "index.html",
-  "/manifest.json",
-  "offline.html", // Offline fallback page
+  // Offline fallback page
   "/css/style.css",
-  "/js/app.js",
-  "/images/logo.png",
 ];
 
 // Offline fallback page (optional but highly recommended for PWAs)

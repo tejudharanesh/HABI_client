@@ -40,7 +40,7 @@ const Otp = () => {
     },
 
     onSuccess: (data) => {
-      toast.success("Otp sent successfully");
+      toast.success("Otp validation successfully");
       queryClient.invalidateQueries({ queryKey: ["authUser"] });
       navigate("/");
     },
@@ -55,8 +55,7 @@ const Otp = () => {
       return await apiRequest("/auth/sendOtp", "POST", data);
     },
     onSuccess: () => {
-      toast.success("Otp validation successfully");
-      queryClient.invalidateQueries({ queryKey: ["authUser"] });
+      toast.success("Otp sent successfully");
     },
     onError: (error) => {
       toast.error(error.message);

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiRequest } from "../../services/api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Back from "../../components/Buttons/Back";
 import AddFamilyMembers from "../../components/Client_profile/AddFamilyMembers";
 import Footer from "../../components/Footer/Footer";
@@ -16,18 +18,68 @@ import logout from "../../assets/svg/Logout.svg";
 import friend from "../../assets/images/friend.png";
 import family from "../../assets/images/family.png";
 
-const Profile = ({ isExpanded, user }) => {
+const Profile = ({ isExpanded, user, authUser }) => {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [editable, setEditable] = useState(false);
+
+  const [formData, setFormData] = useState({
+    name: authUser.name,
+    phoneNumber: authUser.phoneNumber,
+    email: authUser.email,
+    sitePinCode: authUser.sitePinCode,
+    currentLocation: authUser.currentLocation,
+  });
+
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const containerClass = `flex flex-col items-center w-full bg-layoutColor h-auto mb-3 ${
     isExpanded
       ? "md:px-20 lg:px-72 xl:px-[30%]"
       : "md:px-16 lg:px-60 xl:px-[30%]"
   }`;
 
+  const { mutate: updateProfile, isLoading: isUpdating } = useMutation({
+    mutationFn: async () => {
+      return await apiRequest("/auth/completeProfile", "POST", formData);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  const { mutate: logOut, isLoading: isLoggingOut } = useMutation({
+    mutationFn: async () => {
+      return await apiRequest("/auth/logout", "POST");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
+      queryClient.setQueryData(["authUser"], null); // Clear authUser data
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
   const toggleEditMode = () => {
-    setEditable((prev) => !prev); // Toggle editable state
+    if (editable) {
+      updateProfile(); // Call updateProfile when switching to "Done"
+    }
+    setEditable((prev) => !prev); // Toggle the editable state
+  };
+
+  const handleChange = (key, value) => {
+    setFormData((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const formFieldConfig = {
+    name: { label: "Name", type: "text" },
+    phoneNumber: { label: "Phone Number", type: "text" },
+    email: { label: "Email ID", type: "email" },
+    sitePinCode: { label: "Site Location Pin code", type: "text" },
+    currentLocation: { label: "Current Address", type: "textarea" },
   };
 
   return (
@@ -68,39 +120,44 @@ const Profile = ({ isExpanded, user }) => {
             </button>
           </div>
           <form className="mt-[77px] space-y-7 w-full px-4 md:px-0 mb-3">
-            {[
-              { label: "Name", placeholder: "Teju" },
-              { label: "Phone Number", placeholder: "+91 8431497190" },
-              { label: "Email ID", placeholder: "teju@gmail.com" },
-              { label: "Site Location Pin code", placeholder: "506103" },
-              {
-                label: "Current Address",
-                placeholder:
-                  "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
-                type: "textarea",
-              },
-            ].map(({ label, placeholder, type = "text" }, i) => (
-              <div key={i} className="relative mb-5">
-                <label className="absolute -top-2.5 left-3 bg-layoutColor px-1 text-sm text-grey">
-                  {label}
-                </label>
-                {type === "text" ? (
-                  <input
-                    type={type}
-                    placeholder={placeholder}
-                    className="text-black block w-full px-3 py-2 border border-gray-300 rounded-xl bg-layoutColor focus:outline-none"
-                    disabled={!editable} // Disable input if not editable
-                  />
-                ) : (
-                  <textarea
-                    rows={3}
-                    placeholder={placeholder}
-                    className="text-black block w-full px-3 py-2 border border-gray-300 rounded-xl bg-layoutColor focus:outline-none"
-                    disabled={!editable} // Disable input if not editable
-                  />
-                )}
-              </div>
-            ))}
+            {Object.keys(formData).map((key) => {
+              const { label, type } = formFieldConfig[key];
+              return (
+                <div key={key} className="relative mb-5">
+                  <label className="absolute -top-2.5 left-3 bg-layoutColor px-1 text-sm text-grey">
+                    {label}
+                  </label>
+                  {key === "phoneNumber" ? (
+                    <input
+                      type={type}
+                      value={formData[key]}
+                      className="text-gray-500 block w-full px-3 py-2 border border-gray-300 rounded-xl bg-layoutColor focus:outline-none"
+                      disabled={true} // Disable phone number field
+                    />
+                  ) : type === "textarea" ? (
+                    <textarea
+                      rows={3}
+                      value={formData[key]}
+                      onChange={(e) => handleChange(key, e.target.value)}
+                      className={`block w-full px-3 py-2 border border-gray-300 rounded-xl bg-layoutColor focus:outline-none ${
+                        editable ? "text-black" : "text-gray-500"
+                      }`}
+                      disabled={!editable} // Make it editable based on the `editable` state
+                    />
+                  ) : (
+                    <input
+                      type={type}
+                      value={formData[key]}
+                      onChange={(e) => handleChange(key, e.target.value)}
+                      className={`block w-full px-3 py-2 border border-gray-300 rounded-xl bg-layoutColor focus:outline-none ${
+                        editable ? "text-black" : "text-gray-500"
+                      }`}
+                      disabled={!editable} // Make other fields editable based on the `editable` state
+                    />
+                  )}
+                </div>
+              );
+            })}
           </form>
         </div>
       </div>
@@ -158,11 +215,17 @@ const Profile = ({ isExpanded, user }) => {
         </ul>
       </div>
       <div className="flex flex-col items-center w-full p-2 h-auto mb-2 lg:px-32">
-        <button className="bg-layoutColor rounded-lg w-[360px] h-[44px] border-2">
+        <button
+          className="bg-layoutColor rounded-lg w-[360px] h-[44px] border-2"
+          onClick={(e) => {
+            e.preventDefault();
+            logOut();
+          }}
+        >
           <img src={logout} alt="" className="inline mr-2" />
-          Logout
+          {isLoggingOut ? "Logging out..." : " Logout"}
         </button>
-        {user === "new" && <Footer />}
+        {user === "lead" && <Footer />}
       </div>
       <br />
       <br />

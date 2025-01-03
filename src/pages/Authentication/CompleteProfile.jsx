@@ -2,11 +2,12 @@ import React, { useState, useRef, useContext } from "react";
 import Gallery from "../../assets/svg/Gallery.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { apiRequest } from "../../services/api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const CompleteProfile = () => {
-  const { login1 } = useContext(AuthContext);
   const location = useLocation();
-  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const inputFileRef = useRef(null); // Reference for file input
 
   const phoneNumber = location.state?.phoneNumber || "";
@@ -35,30 +36,23 @@ const CompleteProfile = () => {
     }
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
+  const { mutate: submitUserData, isLoading: isSubmitting } = useMutation({
+    mutationFn: async () => {
+      return await apiRequest("/auth/completeProfile", "POST", formData);
+    },
+    onSuccess: () => {
+      toast.success("Profile updated successfully");
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
-  //   try {
-  //     const response = await submitUserData({
-  //       name: formData.name,
-  //       email: formData.email,
-  //       pinCode: formData.pinCode,
-  //       address: formData.address,
-  //       phoneNumber: formData.phoneNumber,
-  //     });
-
-  //     if (response) {
-  //       toast.success("Success");
-  //       console.log(response.user);
-
-  //       // Call the login function to set the user in the AuthContext
-  //       login1(response.user);
-  //       navigate("/"); // Redirect on success
-  //     }
-  //   } catch (error) {
-  //     toast.error("There was an error submitting the form!", error);
-  //   }
-  // };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    submitUserData();
+  };
 
   return (
     <div className="min-h-screen flex md:items-center justify-center w-screen font-poppins">
