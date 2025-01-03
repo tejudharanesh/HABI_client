@@ -2,8 +2,6 @@ import React, { useState, useRef, useContext } from "react";
 import Gallery from "../../assets/svg/Gallery.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { AuthContext } from "../../contexts/AuthContext";
-import { submitUserData } from "../../services/api";
 
 const CompleteProfile = () => {
   const { login1 } = useContext(AuthContext);
@@ -37,30 +35,30 @@ const CompleteProfile = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
 
-    try {
-      const response = await submitUserData({
-        name: formData.name,
-        email: formData.email,
-        pinCode: formData.pinCode,
-        address: formData.address,
-        phoneNumber: formData.phoneNumber,
-      });
+  //   try {
+  //     const response = await submitUserData({
+  //       name: formData.name,
+  //       email: formData.email,
+  //       pinCode: formData.pinCode,
+  //       address: formData.address,
+  //       phoneNumber: formData.phoneNumber,
+  //     });
 
-      if (response) {
-        toast.success("Success");
-        console.log(response.user);
+  //     if (response) {
+  //       toast.success("Success");
+  //       console.log(response.user);
 
-        // Call the login function to set the user in the AuthContext
-        login1(response.user);
-        navigate("/"); // Redirect on success
-      }
-    } catch (error) {
-      toast.error("There was an error submitting the form!", error);
-    }
-  };
+  //       // Call the login function to set the user in the AuthContext
+  //       login1(response.user);
+  //       navigate("/"); // Redirect on success
+  //     }
+  //   } catch (error) {
+  //     toast.error("There was an error submitting the form!", error);
+  //   }
+  // };
 
   return (
     <div className="min-h-screen flex md:items-center justify-center w-screen font-poppins">

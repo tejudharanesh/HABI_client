@@ -5,12 +5,32 @@ import googleLogo from "../../assets/svg/Google.svg";
 import facebookLogo from "../../assets/svg/facebook.svg";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { toast } from "react-toastify";
-import { sendOtp } from "../../services/api";
-
+import { apiRequest } from "../../services/api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 const LoginPage = () => {
   const [phone, setPhone] = useState("");
   const [isPhoneValid, setIsPhoneValid] = useState(false);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const { mutate, isError, isLoading, error } = useMutation({
+    mutationFn: async (data) => {
+      console.log(data);
+
+      return await apiRequest("/auth/sendOtp", "POST", data);
+    },
+
+    onSuccess: (data) => {
+      toast.success("Otp sent successfully");
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
+      navigate("/otp", {
+        state: { phoneNumber: phone, formatNumber: formatPhoneNumber(phone) },
+      });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
   //updating the phone number based on user input
   const handlePhoneChange = (event) => {
@@ -28,27 +48,18 @@ const LoginPage = () => {
   //sending the data to backend through axios
   const handleContinueClick = async (e) => {
     e.preventDefault();
-    if (isPhoneValid) {
-      try {
-        const response = await sendOtp(formatPhoneNumber(phone));
 
-        if (response.success) {
-          navigate("/otp", {
-            state: {
-              phoneNumber: phone,
-              formatNumber: formatPhoneNumber(phone),
-            },
-          });
-        } else {
-          toast.error(
-            response.message || "Failed to send OTP. Please try again."
-          );
-        }
-      } catch (error) {
-        toast.error("Error logging in. Please try again.");
+    if (isPhoneValid) {
+      const formattedPhoneNumber = formatPhoneNumber(phone);
+
+      if (formattedPhoneNumber) {
+        const phoneNumber = formattedPhoneNumber;
+        mutate({ phoneNumber });
       }
-    } else {
-      toast.error("Invalid phone number");
+    }
+
+    if (!isPhoneValid) {
+      toast.error("Please enter a valid phone number.");
     }
   };
 

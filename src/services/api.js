@@ -1,57 +1,38 @@
 // client/src/services/api.js
 import axios from "axios";
 
-const API_BASE_URL = import.meta.env.VITE_BASE_URL;
+const API_ENDPOINT = import.meta.env.VITE_BASE_URL;
 
-// Function for GET requests
-export const getData = async (endpoint, params = {}) => {
+console.log("API Endpoint:", API_ENDPOINT);
+
+/**
+ * Wrapper for API calls with axios.
+ * @param {string} path - The API endpoint path (relative to API base URL).
+ * @param {string} method - The HTTP method (e.g., GET, POST, etc.).
+ * @param {Object} body - The request payload (optional).
+ * @param {Object} headers - Additional request headers (optional).
+ * @returns {Promise<Object>} - Resolves with JSON response or rejects with error.
+ */
+export const apiRequest = async (path, method, body, headers = {}) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/${endpoint}`, {
-      params,
-      withCredentials: true,
+    const response = await axios({
+      url: `${API_ENDPOINT}${path}`,
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        ...headers,
+      },
+      data: body, // Axios handles null/undefined data automatically
+      withCredentials: true, // Ensures cookies are sent with the request
     });
+    console.log("API Response:", response.data);
+
     return response.data;
+    // Axios responses include the data in a 'data' field
   } catch (error) {
-    console.error("GET request failed:", error);
-    throw error;
+    // Extract meaningful error messages
+    const errorMessage =
+      error.response?.data?.error || error.message || "Something went wrong";
+    throw new Error(errorMessage);
   }
-};
-
-// Function for POST requests
-export const postData = async (endpoint, data = {}) => {
-  try {
-    const response = await axios.post(`${API_BASE_URL}/${endpoint}`, data, {
-      withCredentials: true,
-    });
-    return response.data;
-  } catch (error) {
-    console.error("POST request failed:", error);
-    throw error;
-  }
-};
-
-// Example functions for specific API calls
-// client/src/services/api.js
-
-export const sendOtp = async (phoneNumber) => {
-  const response = await postData("auth/send", { phoneNumber });
-  return response; // return the full response to handle success status in the component
-};
-
-export const validateOtp1 = (phoneNumber, otp) => {
-  return postData("auth/validate", { phoneNumber, otp });
-};
-
-export const getUserProfile = (phoneNumber) => {
-  return getData("user/getUsers", { phoneNumber });
-};
-
-// Function to submit user data (similar to handleSubmit)
-export const submitUserData = async (userData) => {
-  return postData("user/push", userData);
-};
-
-// Function to validate session
-export const validateSession = () => {
-  return getData("auth/authenticate");
 };

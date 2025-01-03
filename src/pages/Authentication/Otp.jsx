@@ -1,10 +1,9 @@
 import { useState, useEffect, useRef, useContext } from "react";
-import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import Back from "../../components/Buttons/Back";
 import { toast } from "react-toastify";
-import { AuthContext } from "../../contexts/AuthContext";
-import { sendOtp, validateOtp1, getUserProfile } from "../../services/api";
+import { apiRequest } from "../../services/api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const Otp = () => {
   const [otp, setOtp] = useState(["", "", "", ""]);
@@ -13,7 +12,7 @@ const Otp = () => {
   const firstInputRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
-  const { login1 } = useContext(AuthContext);
+  const queryClient = useQueryClient();
 
   const phoneNumber = location.state?.phoneNumber || "";
   const formatNumber = location.state?.formatNumber || "";
@@ -29,6 +28,40 @@ const Otp = () => {
     // Check if OTP is valid (all fields are filled)
     setIsOtpValid(otp.every((digit) => digit !== ""));
   }, [otp]);
+
+  const {
+    mutate: sendOtp,
+    isError,
+    isLoading,
+    error,
+  } = useMutation({
+    mutationFn: async (data) => {
+      return await apiRequest("/auth/validateOtp", "POST", data);
+    },
+
+    onSuccess: (data) => {
+      toast.success("Otp sent successfully");
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
+      navigate("/");
+    },
+
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const { mutate: resend, isLoading: isResendLoading } = useMutation({
+    mutationFn: async (data) => {
+      return await apiRequest("/auth/sendOtp", "POST", data);
+    },
+    onSuccess: () => {
+      toast.success("Otp validation successfully");
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
   const handleChange = (e, index) => {
     const value = e.target.value;
@@ -51,45 +84,44 @@ const Otp = () => {
   };
 
   const validateOtp = async () => {
-    try {
-      const otpString = otp.join("");
-      const response = await validateOtp1(phoneNumber, otpString);
+    const otpString = otp.join("");
+    sendOtp({ phoneNumber, otp: otpString });
 
-      if (response.success) {
-        // Check if the user's profile is complete
-        const profileResponse = await getUserProfile(phoneNumber);
-
-        if (profileResponse.success) {
-          // Navigate to the home page if the profile is complete
-          login1(profileResponse.profile);
-
-          navigate("/");
-        } else {
-          // Navigate to complete profile page if not complete
-          navigate("/completeProfile", { state: { phoneNumber: phoneNumber } });
-        }
-      } else {
-        toast.error("Wrong OTP");
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("Error validating OTP:", error);
-    }
+    //     const response = await validateOtp1(phoneNumber, otpString);
+    //     if (response.success) {
+    //       // Check if the user's profile is complete
+    //       const profileResponse = await getUserProfile(phoneNumber);
+    //       if (profileResponse.success) {
+    //         // Navigate to the home page if the profile is complete
+    //         login1(profileResponse.profile);
+    //         navigate("/");
+    //       } else {
+    //         // Navigate to complete profile page if not complete
+    //         navigate("/completeProfile", { state: { phoneNumber: phoneNumber } });
+    //       }
+    //     } else {
+    //       toast.error("Wrong OTP");
+    //     }
+    //   } catch (error) {
+    //     console.error(error);
+    //     toast.error("Error validating OTP:", error);
+    //   }
   };
 
   const resendOtp = async () => {
-    try {
-      const response = await sendOtp(formatNumber);
-
-      if (response.success) {
-        toast.success("OTP resent successfully.");
-        setTimer(60); // Restart the timer after resending
-      } else {
-        toast.error("Failed to resend OTP. Please try again.");
-      }
-    } catch (error) {
-      toast.error("Error resending OTP:", error);
-    }
+    //   // Send OTP again
+    resend({ phoneNumber: formatNumber });
+    //   try {
+    //     const response = await sendOtp(formatNumber);
+    //     if (response.success) {
+    //       toast.success("OTP resent successfully.");
+    //       setTimer(60); // Restart the timer after resending
+    //     } else {
+    //       toast.error("Failed to resend OTP. Please try again.");
+    //     }
+    //   } catch (error) {
+    //     toast.error("Error resending OTP:", error);
+    //   }
   };
 
   useEffect(() => {
