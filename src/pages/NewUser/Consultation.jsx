@@ -15,41 +15,57 @@ import Design from "../../components/Homepage/Design";
 import Youtube from "../../components/Homepage/Youtube";
 import ImageUpload from "../../components/Homepage/ImageUpload";
 import { useNavigate } from "react-router-dom";
+import { apiRequest } from "../../services/api";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 
 function Consultation({ isExpanded, user }) {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const [showPopup, setShowPopup] = useState(false);
   const [DateTime, setDateTime] = useState(false);
-  const [isPage1, setIsPage1] = useState(true);
-  const [isPage3, setIsPage3] = useState(false);
-  const [isPage4, setIsPage4] = useState(false);
+  const [currentPage, setCurrentPage] = useState("page1"); // Tracks the current page to render
   const [selectedDateTime, setSelectedDateTime] = useState({
     date: "",
     time: "",
   });
+  const [meetingLink, setMeetingLink] = useState("");
   const [showScheduleBooked, setShowScheduleBooked] = useState(false);
 
-  useEffect(() => {
-    const storedDate = localStorage.getItem("selectedDate");
-    const storedTime = localStorage.getItem("selectedTime");
-    const storedOption = localStorage.getItem("selectedOption");
+  const { data: meetingData, isLoading: isMeetingLoading } = useQuery({
+    queryKey: ["meetings"],
+    queryFn: async () => {
+      console.log("Fetching meetings...");
+      return await apiRequest("/meeting/getClientMeeting", "GET");
+    },
+    retry: false,
+  });
 
-    if (storedDate && storedTime) {
-      setSelectedDateTime({
-        date: storedDate,
-        time: storedTime,
-      });
-      setIsPage1(false);
-      if (storedOption === "visitHabi") {
-        setIsPage3(true);
-      } else if (storedOption === "inviteHabi") {
-        setIsPage4(true);
+  useEffect(() => {
+    if (!isMeetingLoading && meetingData.meetings) {
+      console.log("Received meetings:", meetingData.meetings);
+      if (meetingData.meetings.length === 0) {
+        console.log("No meetings found.");
+        // No meetings, show Page1
+        setCurrentPage("page1");
       } else {
-        setIsPage1(false);
+        console.log("First meeting:", meetingData.meetings);
+        const meeting = meetingData.meetings[0]; // Handle the first meeting
+        setSelectedDateTime({ date: meeting?.date, time: meeting?.time });
+
+        if (meeting?.mode === "online") {
+          // Online meeting, show Page2
+          setMeetingLink(meeting.meetingLink);
+          setCurrentPage("page2");
+        } else if (meeting?.type === "home") {
+          // Home meeting, show Page4
+          setCurrentPage("page4");
+        } else {
+          setCurrentPage("page3");
+        }
       }
     }
-  }, []);
+  }, [meetingData, isMeetingLoading]);
 
   const handlePhysicallyClick = () => {
     setShowPopup(true);
@@ -63,60 +79,31 @@ function Consultation({ isExpanded, user }) {
   const handleVisitHabi = () => {
     setShowPopup(false);
     setDateTime(true);
-    setIsPage3(true);
-    localStorage.setItem("selectedOption", "visitHabi");
   };
 
   const handleInviteHabi = () => {
     setShowPopup(false);
     setDateTime(true);
-    setIsPage4(true);
-    localStorage.setItem("selectedOption", "inviteHabi");
   };
 
   const handleBookingConfirmed = (date, time) => {
     const formattedDate = dayjs(date).format("MMMM D, YYYY");
     const formattedTime = dayjs(time).format("hh:mm A");
     setDateTime(false);
-    setIsPage1(false);
-
-    setSelectedDateTime({ date: formattedDate, time: formattedTime });
-    localStorage.setItem("selectedDate", formattedDate);
-    localStorage.setItem("selectedTime", formattedTime);
 
     // Show ScheduleBooked popup for 3 seconds
     setShowScheduleBooked(true);
     setTimeout(() => {
       setShowScheduleBooked(false);
-
-      // Render the appropriate page after the popup closes
-      const storedOption = localStorage.getItem("selectedOption");
-      if (storedOption === "visitHabi") {
-        setIsPage3(true);
-      } else if (storedOption === "inviteHabi") {
-        setIsPage4(true);
-      }
     }, 3000);
   };
 
   const handleScheduleClose = () => {
     setDateTime(false);
-    setIsPage1(true);
-    setIsPage3(false);
-    setIsPage4(false);
-    localStorage.removeItem("selectedDate");
-    localStorage.removeItem("selectedTime");
-    localStorage.removeItem("selectedOption");
   };
 
   const handleReschedule = () => {
-    setIsPage1(true);
-    setIsPage3(false);
-    setIsPage4(false);
     setSelectedDateTime({ date: "", time: "" });
-    localStorage.removeItem("selectedDate");
-    localStorage.removeItem("selectedTime");
-    localStorage.removeItem("selectedOption");
   };
 
   const faqOpen = () => {
@@ -135,23 +122,24 @@ function Consultation({ isExpanded, user }) {
         <h1 className="text-[20px] lg:text-[24px] text-black font-medium">
           Book Free Consultation
         </h1>
-        {isPage1 ? (
+        {currentPage === "page1" ? (
           <Page1
             handleDateTime={handleDateTime}
             handlePhysicallyClick={handlePhysicallyClick}
           />
-        ) : isPage3 ? (
+        ) : currentPage === "page2" ? (
+          <Page2
+            selectedDateTime={selectedDateTime}
+            meetingLink={meetingLink}
+            onReschedule={handleReschedule}
+          />
+        ) : currentPage === "page3" ? (
           <Page3
             selectedDateTime={selectedDateTime}
             onReschedule={handleReschedule}
           />
-        ) : isPage4 ? (
-          <Page4
-            selectedDateTime={selectedDateTime}
-            onReschedule={handleReschedule}
-          />
         ) : (
-          <Page2
+          <Page4
             selectedDateTime={selectedDateTime}
             onReschedule={handleReschedule}
           />

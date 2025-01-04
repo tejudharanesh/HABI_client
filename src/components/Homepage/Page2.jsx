@@ -1,6 +1,6 @@
 import React from "react";
 
-function Page2({ onReschedule, selectedDateTime }) {
+function Page2({ onReschedule, selectedDateTime, meetingLink }) {
   console.log(selectedDateTime);
 
   return (
@@ -12,10 +12,7 @@ function Page2({ onReschedule, selectedDateTime }) {
         {selectedDateTime.date} @ {selectedDateTime.time}
       </p>
       <div className="flex flex-col justify-center items-center md:flex-row md:space-x-4 lg:space-x-1">
-        <a
-          href="https://meet.google.com/jyp-xqya-szy?authuser=0"
-          target="_blank"
-        >
+        <a href={meetingLink} target="_blank">
           <button className="bg-primary text-white py-3 px-4 rounded-lg mb-2 md:mb-0 w-[275px] md:w-[240px] h-[58px] md:mr-[16px] lg:mr-[74px]">
             Join the meeting
           </button>

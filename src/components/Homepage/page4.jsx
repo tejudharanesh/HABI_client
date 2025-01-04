@@ -12,7 +12,7 @@ function Page4({ onReschedule, selectedDateTime }) {
       <div className="flex flex-col justify-center items-center md:flex-row md:space-x-4 lg:space-x-1">
         <a href="" target="_blank">
           <button className="bg-primary1 text-white py-3 px-4 rounded-lg mb-2 md:mb-0 w-[275px] md:w-[240px] h-[58px] md:mr-[16px] lg:mr-[74px]">
-            We're coming 
+            We're coming
           </button>
         </a>
         <button

@@ -28,7 +28,7 @@ const Navbar = ({ isExpanded, user }) => {
       id: "packages",
       icon: user == "client" ? project : packagesIcon,
       alt: "Packages",
-      label: user == "client" ? "project" : "Packages",
+      label: user == "client" ? "Project" : "Cost Estimator",
       link: "/dashboard/packages",
     },
     {
