@@ -17,6 +17,7 @@ import ImageUpload from "../../components/Homepage/ImageUpload";
 import { useNavigate } from "react-router-dom";
 import { apiRequest } from "../../services/api";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
+import { set } from "date-fns";
 
 function Consultation({ isExpanded, user }) {
   const navigate = useNavigate();
@@ -24,6 +25,8 @@ function Consultation({ isExpanded, user }) {
 
   const [showPopup, setShowPopup] = useState(false);
   const [DateTime, setDateTime] = useState(false);
+  const [mode, setMode] = useState("online");
+  const [type, setType] = useState("home");
   const [currentPage, setCurrentPage] = useState("page1"); // Tracks the current page to render
   const [selectedDateTime, setSelectedDateTime] = useState({
     date: "",
@@ -39,6 +42,30 @@ function Consultation({ isExpanded, user }) {
       return await apiRequest("/meeting/getClientMeeting", "GET");
     },
     retry: false,
+  });
+
+  const deleteMeetingMutation = useMutation({
+    mutationFn: async (meetingId) => {
+      return await apiRequest(`/meeting/deleteMeeting/${meetingId}`, "DELETE");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["meetings"]); // Refresh meetings after deletion
+    },
+    onError: (error) => {
+      console.error("Error rescheduling meeting:", error);
+    },
+  });
+
+  const createMeetingMutation = useMutation({
+    mutationFn: async (meetingData) => {
+      return await apiRequest("/meeting/createMeeting", "POST", meetingData);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["meetings"]); // Refresh meetings after creation
+    },
+    onError: (error) => {
+      console.error("Error creating meeting:", error);
+    },
   });
 
   useEffect(() => {
@@ -77,11 +104,15 @@ function Consultation({ isExpanded, user }) {
   };
 
   const handleVisitHabi = () => {
+    setMode("offline");
+    setType("office");
     setShowPopup(false);
     setDateTime(true);
   };
 
   const handleInviteHabi = () => {
+    setMode("offline");
+    setType("home");
     setShowPopup(false);
     setDateTime(true);
   };
@@ -89,6 +120,16 @@ function Consultation({ isExpanded, user }) {
   const handleBookingConfirmed = (date, time) => {
     const formattedDate = dayjs(date).format("MMMM D, YYYY");
     const formattedTime = dayjs(time).format("hh:mm A");
+    const meetingData = {
+      date: formattedDate,
+      time: formattedTime,
+      mode, // "online" or "offline"
+      type, // "home" or "office"
+    };
+
+    // Trigger the mutation to create a meeting
+    createMeetingMutation.mutate(meetingData);
+
     setDateTime(false);
 
     // Show ScheduleBooked popup for 3 seconds
@@ -103,7 +144,15 @@ function Consultation({ isExpanded, user }) {
   };
 
   const handleReschedule = () => {
+    if (meetingData?.meetings?.length > 0) {
+      const meetingId = meetingData.meetings[0]._id; // Get the ID of the meeting to delete
+      deleteMeetingMutation.mutate(meetingId); // Trigger delete mutation
+    }
+
     setSelectedDateTime({ date: "", time: "" });
+    setType("home");
+    setMode("online");
+    setCurrentPage("page1");
   };
 
   const faqOpen = () => {
