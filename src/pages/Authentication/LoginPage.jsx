@@ -138,6 +138,7 @@ const LoginPage = () => {
           </div>
           <p className="text-center text-gray-500 text-xs mt-4">
             By Clicking, I accept the
+            <span> </span>
             <a href="#" className="text-primary">
               Terms & Conditions
             </a>
