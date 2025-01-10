@@ -169,7 +169,7 @@ function Consultation({ isExpanded, user }) {
         }`}
       >
         <h1 className="text-[20px] lg:text-[24px] text-black font-medium">
-          Book Free Consultation
+          {user.type === "lead" ? "Book free Consultation" : "Meet with us  "}
         </h1>
         {currentPage === "page1" ? (
           <Page1

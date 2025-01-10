@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 import ToggleButton from "../../components/Navbar/ToggleButton";
 import Navbar from "../../components/Navbar/Navbar";
 import Consultation from "../NewUser/Consultation";
@@ -15,9 +17,100 @@ import CostEstimator1 from "../NewUser/CostEstimator1";
 import DetailedReport from "../NewUser/DetailedReport";
 import PaymentSuccess from "../../components/Client_homepage/PaymentSuccess";
 
+import { useSubscribe } from "react-pwa-push-notifications";
+
 function Dashboard({ authUser }) {
   const [collapsed, setCollapsed] = useState(false);
   const [user, setUser] = useState(authUser?.status || "");
+  const [vapidPublicKey, setVapidPublicKey] = useState(""); // State for VAPID public key
+  const [pushId, setPushId] = useState(""); // State for Push ID
+  const subscribeToPushNotifications = async (publicKey) => {
+    try {
+      const registration = await navigator.serviceWorker.ready;
+      const subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: publicKey,
+      });
+
+      const endpoint = subscription?.endpoint;
+      setPushId(endpoint);
+
+      // Send the subscription to the server
+      await axios.post(
+        "http://localhost:5000/api/notifications/subscribe",
+        { subscription, id: endpoint },
+        { withCredentials: true }
+      );
+
+      toast.success("Notifications enabled!");
+    } catch (error) {
+      console.error("Failed to subscribe for notifications:", error);
+      toast.error("Failed to subscribe for notifications.");
+    }
+  };
+
+  useEffect(() => {
+    const fetchVapidKeyAndSubscribe = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/notifications/vapidKeys",
+          { withCredentials: true }
+        );
+        const publicKey = response.data.publicKey;
+
+        setVapidPublicKey(publicKey);
+
+        // Request Notification Permission
+        const permission = await Notification.requestPermission();
+        if (permission === "granted") {
+          await subscribeToPushNotifications(publicKey);
+        } else {
+          toast.error("Notification permission denied.");
+        }
+      } catch (error) {
+        console.error("Error fetching VAPID key or subscribing:", error);
+        toast.error("Failed to retrieve VAPID key or subscribe.");
+      }
+    };
+
+    fetchVapidKeyAndSubscribe();
+  }, []);
+
+  useEffect(() => {
+    const requestNotificationPermission = async () => {
+      if (!vapidPublicKey) return; // Ensure the public key is fetched
+      const permission = await Notification.requestPermission();
+      if (permission === "granted") {
+        try {
+          const subscription = await getSubscription({
+            publicKey: vapidPublicKey,
+          });
+          const endpoint = subscription?.endpoint; // Use endpoint as pushId
+          setPushId(endpoint);
+
+          // Send the subscription to the server
+          await axios.post(
+            "http://localhost:5000/api/notifications/subscribe",
+            {
+              subscription,
+              id: pushId,
+            },
+            {
+              withCredentials: true,
+            }
+          );
+          toast.success("Notifications enabled!");
+        } catch (error) {
+          console.error("Subscription failed:", error);
+          toast.error("Failed to subscribe for notifications.");
+        }
+      } else {
+        toast.error("Notification permission denied.");
+      }
+    };
+
+    requestNotificationPermission();
+  }, [vapidPublicKey]); // Ensure dependencies are included
 
   useEffect(() => {
     if (authUser?.status) {
@@ -70,7 +163,11 @@ function Dashboard({ authUser }) {
                 user === "lead" ? (
                   <Consultation isExpanded={collapsed} user={user} />
                 ) : (
-                  <HomePage isExpanded={collapsed} />
+                  <HomePage
+                    isExpanded={collapsed}
+                    authUser={authUser}
+                    pushId={pushId}
+                  />
                 )
               }
             />

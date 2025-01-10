@@ -5,7 +5,7 @@ import bell from "../../assets/svg/Bell.svg";
 import SemiCircularProgressBar from "./SemiCircularProgressBar";
 import { useNavigate } from "react-router-dom";
 
-function Page1({ showPopup }) {
+function Page1({ showPopup, user }) {
   const navigate = useNavigate();
 
   return (
@@ -24,7 +24,7 @@ function Page1({ showPopup }) {
           <SemiCircularProgressBar />
         </div>
         <div className="absolute bottom-3 left-40 md:bottom-8 md:left-60 text-white">
-          <p className="text-lg">CLIENT ID: TEJU188</p>
+          <p className="text-lg">CLIENT ID: {user.clientId}</p>
           <p className="text-sm">Project Manager - Teju</p>
 
           <p className="text-sm"></p>

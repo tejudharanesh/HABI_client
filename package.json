@@ -17,6 +17,7 @@
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@mui/material": "^5.16.5",
     "@mui/x-date-pickers": "^7.11.1",
+    "@tanstack/react-query": "^5.62.7",
     "axios": "^1.7.4",
     "bootstrap-icons": "^1.11.3",
     "chart.js": "^4.4.4",
@@ -30,11 +31,12 @@
     "react-datepicker": "^7.3.0",
     "react-dom": "^18.3.1",
     "react-icons": "^5.2.1",
-    "@tanstack/react-query": "^5.62.7",
+    "react-pwa-push-notifications": "^1.0.0",
     "react-router-dom": "^6.25.0",
     "react-spinners": "^0.14.1",
     "react-time-picker": "^7.0.0",
-    "react-toastify": "^10.0.6"
+    "react-toastify": "^10.0.6",
+    "web-push": "^3.6.7"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

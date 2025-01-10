@@ -42,3 +42,4 @@ const PaymentSchedule = ({ scheduleData }) => {
 };
 
 export default PaymentSchedule;
+//exported payment schedule component
