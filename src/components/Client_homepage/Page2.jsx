@@ -3,13 +3,25 @@ import { useNavigate } from "react-router-dom";
 import whatsapp from "../../assets/images/Whatsapp.png";
 import site from "../../assets/images/site.png";
 import PaymentBar from "./PaymentBar";
+import { apiRequest } from "../../services/api";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 
 function Page2() {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [expandedIndex, setExpandedIndex] = useState(null);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-  const toggleExpand = () => {
-    setIsExpanded(!isExpanded);
+  const { data: projectData, isLoading: isProjectLoading } = useQuery({
+    queryKey: ["projects"],
+    queryFn: async () => {
+      console.log("Fetching projects...");
+      return await apiRequest("/projects/project", "GET");
+    },
+    retry: false,
+  });
+
+  const toggleExpand = (index) => {
+    setExpandedIndex(expandedIndex === index ? null : index);
   };
 
   return (
@@ -20,23 +32,24 @@ function Page2() {
         <div className="flex flex-col md:flex-row">
           {/* Payment and Chat for small screens */}
           <div className="flex md:hidden">
-            <div className="w-[99px] h-[54px] mr-[16px] border-2 rounded-xl rounded-l-none p-3 pl-8">
-              <button
-                onClick={() => {
-                  const phoneNumber = "916366306244";
-                  const message =
-                    "Hello, I would like to chat with you about the project.";
-                  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
-                    message
-                  )}`;
-                  window.open(whatsappUrl, "_blank");
-                }}
-              >
+            <div
+              className="w-[99px] h-[54px] mr-[16px] border-2 rounded-xl rounded-l-none p-3 pl-8 cursor-pointer"
+              onClick={() => {
+                const phoneNumber = "916366306244";
+                const message =
+                  "Hello, I would like to chat with you about the project.";
+                const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+                  message
+                )}`;
+                window.open(whatsappUrl, "_blank");
+              }}
+            >
+              <button>
                 <img src={whatsapp} alt="whatsapp" />
               </button>
             </div>
             <div
-              className="w-[253px] h-[54px] border-2 flex justify-between items-center rounded-xl pb-1 px-2 pl-3"
+              className="w-[253px] h-[54px] border-2 flex justify-between items-center rounded-xl pb-1 px-2 pl-3 cursor-pointer"
               onClick={() => {
                 navigate("/dashboard/payment");
               }}
@@ -64,200 +77,90 @@ function Page2() {
                 <p className="p-2 text-black ">Ongoing</p>
 
                 <div>
-                  <div
-                    onClick={toggleExpand}
-                    className="relative bg-layoutColor p-4 rounded-3xl rounded-tl-none border-2 md:w-[100%] lg:w-[90%] mb-2"
-                  >
-                    <div className="flex justify-between items-center">
-                      <h3 className="font-bold text-gray-800">Soil Testing</h3>
-                      <p>Started</p>
-                    </div>
-                    <p className="text-sm text-black">initial stage</p>
-                    <p className="text-sm text-gray-500 inline mr-2">
-                      25 May 2024 - 26 May 2024
-                    </p>
-                    <p className="text-red-400 inline text-sm">2 days delay</p>
-                    <div className="bg-red-400 w-1 h-1 rounded inline-block mb-0.5 ml-0.5"></div>
-                    <div className="flex justify-between items-center">
-                      <div className="h-3 bg-gray-200 rounded-full mt-2 w-[80%] inline-block">
-                        <div
-                          className="h-3 bg-primary rounded-full"
-                          style={{ width: "100%" }}
-                        ></div>
-                      </div>
-                      <p className="inline text-black text-sm mt-2">70%</p>
-                    </div>
+                  {isProjectLoading && <p>Loading...</p>}
+                  {projectData && projectData.length === 0 && (
+                    <p>No ongoing projects</p>
+                  )}
+                  {projectData &&
+                    projectData.length > 0 &&
+                    projectData[0].stages?.map((stage, index) => (
+                      <div
+                        key={index}
+                        onClick={() => toggleExpand(index)}
+                        className="relative bg-layoutColor p-4 rounded-3xl rounded-tl-none border-2 md:w-[100%] lg:w-[90%] mb-2"
+                      >
+                        <div className="flex justify-between items-center">
+                          <h3 className="font-bold text-gray-800">
+                            {stage.name}
+                          </h3>
+                          <p>
+                            {stage?.substages?.some(
+                              (substage) => substage.status === "ongoing"
+                            )
+                              ? "Ongoing"
+                              : "Pending"}
+                          </p>{" "}
+                        </div>
+                        {stage?.substages?.map((substage) => (
+                          <p className="text-sm text-black">{substage.name}</p>
+                        ))}
+                        <p className="text-sm text-gray-500 inline mr-2">
+                          25 May 2024 - 26 May 2024
+                        </p>
+                        <p className="text-red-400 inline text-sm">
+                          2 days delay
+                        </p>
+                        <div className="bg-red-400 w-1 h-1 rounded inline-block mb-0.5 ml-0.5"></div>
+                        <div className="flex justify-between items-center">
+                          <div className="h-3 bg-gray-200 rounded-full mt-2 w-[80%] inline-block">
+                            <div
+                              className="h-3 bg-primary rounded-full"
+                              style={{
+                                width: `${
+                                  (stage?.substages?.filter(
+                                    (substage) => substage.status === "ongoing"
+                                  ).length / stage?.substages?.length || 0) *
+                                  100
+                                }%`,
+                              }}
+                            ></div>
+                          </div>
+                          <p className="inline text-black text-sm mt-2">
+                            {Math.round(
+                              (stage?.substages?.filter(
+                                (substage) => substage.status === "ongoing"
+                              ).length / stage?.substages?.length || 0) * 100
+                            )}
+                            %
+                          </p>
+                        </div>
 
-                    <div className="flex items-center absolute -top-3 -left-3 rounded-full border border-primary p-0.5">
-                      <div className="w-4 h-4 bg-primary rounded-full"></div>
-                    </div>
-                    {isExpanded && (
-                      <div>
-                        <div>
-                          <img
-                            src={site}
-                            alt="Site Photo 1"
-                            className="w-[90px] h-[69px] object-cover rounded-lg inline-block"
-                          />
-                          <img
-                            src={site}
-                            alt="Site Photo 1"
-                            className="w-[90px] h-[69px] object-cover rounded-lg inline-block m-2"
-                          />
-                          <img
-                            src={site}
-                            alt="Site Photo 1"
-                            className="w-[90px] h-[69px] object-cover rounded-lg inline-block"
-                          />
+                        <div className="flex items-center absolute -top-3 -left-3 rounded-full border border-primary p-0.5">
+                          <div className="w-4 h-4 bg-primary rounded-full"></div>
                         </div>
-                        <div className="mt-4">
-                          <button className="px-4 py-2 border-red-400 border rounded-lg text-red-400 bg-red-50 w-[155px]">
-                            Reject
-                          </button>
-                          <button className="px-4 py-2 text-white bg-primary rounded-lg ml-3 w-[155px]">
-                            Approve
-                          </button>
-                        </div>
+                        {expandedIndex === index && (
+                          <div>
+                            <div>
+                              <img
+                                src={site}
+                                alt="Site Photo 1"
+                                className="w-[90px] h-[69px] object-cover rounded-lg inline-block"
+                              />
+                            </div>
+                            <div className="mt-4">
+                              <button className="px-4 py-2 border-red-400 border rounded-lg text-red-400 bg-red-50 w-[155px]">
+                                Query
+                              </button>
+                              <button className="px-4 py-2 text-white bg-primary rounded-lg ml-3 w-[155px]">
+                                Approve
+                              </button>
+                            </div>
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                  <div
-                    onClick={toggleExpand}
-                    className="relative bg-layoutColor p-4 rounded-3xl rounded-tl-none border-2 md:w-[100%] lg:w-[90%] mb-3"
-                  >
-                    <div className="flex justify-between items-center">
-                      <h3 className="font-bold text-gray-800">Soil Testing</h3>
-                      <p>Started</p>
-                    </div>
-                    <p className="text-sm text-black">initial stage</p>
-                    <p className="text-sm text-gray-500 inline mr-2">
-                      25 May 2024 - 26 May 2024
-                    </p>
-                    <p className="text-red-400 inline text-sm">2 days delay</p>
-                    <div className="bg-red-400 w-1 h-1 rounded inline-block mb-0.5 ml-0.5"></div>
-                    <div className="flex justify-between items-center">
-                      <div className="h-3 bg-gray-200 rounded-full mt-2 w-[80%] inline-block">
-                        <div
-                          className="h-3 bg-primary rounded-full"
-                          style={{ width: "100%" }}
-                        ></div>
-                      </div>
-                      <p className="inline text-black text-sm mt-2">70%</p>
-                    </div>
-
-                    <div className="flex items-center absolute -top-3 -left-3 rounded-full border border-primary p-0.5">
-                      <div className="w-4 h-4 bg-primary rounded-full"></div>
-                    </div>
-                    {isExpanded && (
-                      <div>
-                        <div>
-                          <img
-                            src={site}
-                            alt="Site Photo 1"
-                            className="w-[90px] h-[69px] object-cover rounded-lg inline-block"
-                          />
-                          <img
-                            src={site}
-                            alt="Site Photo 1"
-                            className="w-[90px] h-[69px] object-cover rounded-lg inline-block m-2"
-                          />
-                          <img
-                            src={site}
-                            alt="Site Photo 1"
-                            className="w-[90px] h-[69px] object-cover rounded-lg inline-block"
-                          />
-                        </div>
-                        <div className="mt-4">
-                          <button className="px-4 py-2 border-red-400 border rounded-lg text-red-400 bg-red-50 w-[155px]">
-                            Reject
-                          </button>
-                          <button className="px-4 py-2 text-white bg-primary rounded-lg ml-3 w-[155px]">
-                            Approve
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>{" "}
-                  <div
-                    onClick={toggleExpand}
-                    className="relative bg-layoutColor p-4 rounded-3xl rounded-tl-none border-2 md:w-[100%] lg:w-[90%]"
-                  >
-                    <div className="flex justify-between items-center">
-                      <h3 className="font-bold text-gray-800">Soil Testing</h3>
-                      <p>Started</p>
-                    </div>
-                    <p className="text-sm text-black">initial stage</p>
-                    <p className="text-sm text-gray-500 inline mr-2">
-                      25 May 2024 - 26 May 2024
-                    </p>
-                    <p className="text-red-400 inline text-sm">2 days delay</p>
-                    <div className="bg-red-400 w-1 h-1 rounded inline-block mb-0.5 ml-0.5"></div>
-                    <div className="flex justify-between items-center">
-                      <div className="h-3 bg-gray-200 rounded-full mt-2 w-[80%] inline-block">
-                        <div
-                          className="h-3 bg-primary rounded-full"
-                          style={{ width: "100%" }}
-                        ></div>
-                      </div>
-                      <p className="inline text-black text-sm mt-2">70%</p>
-                    </div>
-
-                    <div className="flex items-center absolute -top-3 -left-3 rounded-full border border-primary p-0.5">
-                      <div className="w-4 h-4 bg-primary rounded-full"></div>
-                    </div>
-                    {isExpanded && (
-                      <div>
-                        <div>
-                          <img
-                            src={site}
-                            alt="Site Photo 1"
-                            className="w-[90px] h-[69px] object-cover rounded-lg inline-block"
-                          />
-                          <img
-                            src={site}
-                            alt="Site Photo 1"
-                            className="w-[90px] h-[69px] object-cover rounded-lg inline-block m-2"
-                          />
-                          <img
-                            src={site}
-                            alt="Site Photo 1"
-                            className="w-[90px] h-[69px] object-cover rounded-lg inline-block"
-                          />
-                        </div>
-                        <div className="mt-4">
-                          <button className="px-4 py-2 border-red-400 border rounded-lg text-red-400 bg-red-50 w-[155px]">
-                            Reject
-                          </button>
-                          <button className="px-4 py-2 text-white bg-primary rounded-lg ml-3 w-[155px]">
-                            Approve
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                    ))}
                 </div>
               </div>
-              <div className="mb-10">
-                <p className="m-2 text-black">Upcoming</p>
-                <div className="relative bg-layoutColor p-4 rounded-3xl rounded-tl-none border-2 md:w-[100%] lg:w-[90%]">
-                  <h3 className="font-bold text-gray-800">Slabs</h3>
-                  <p className="text-sm text-gray-500">initial stage</p>
-                  <p className="text-sm text-gray-500">
-                    25 May 2024 - 26 May 2024
-                  </p>
-                  <div className="h-2 bg-gray-200 rounded-full mt-2 w-[60%]">
-                    <div
-                      className="h-2 bg-primary rounded-full"
-                      style={{ width: "0%" }}
-                    ></div>
-                  </div>
-                  <div className="flex items-center absolute -top-2 -left-2">
-                    <div className="w-5 h-5 bg-primary rounded-full"></div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Upcoming Section */}
             </div>
           </div>
 
@@ -278,23 +181,23 @@ function Page2() {
               </div>
             </div>
 
-            <div className="w-[250px] h-[54px] border-2 flex justify-between items-center rounded-xl p-1 pl-2 mb-4">
+            <div
+              className="w-[250px] h-[54px] border-2 flex justify-between items-center rounded-xl p-1 pl-2 mb-4 cursor-pointer"
+              onClick={() => {
+                const phoneNumber = "916366306244";
+                const message =
+                  "Hello, I would like to chat with you about the project.";
+                const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+                  message
+                )}`;
+                window.open(whatsappUrl, "_blank");
+              }}
+            >
               <div>
                 <p className="text-sm">Chat with our Executive</p>
                 <p className="text-sm">Quick Reply</p>
               </div>
-              <div
-                className="cursor-pointer"
-                onClick={() => {
-                  const phoneNumber = "916366306244";
-                  const message =
-                    "Hello, I would like to chat with you about the project.";
-                  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
-                    message
-                  )}`;
-                  window.open(whatsappUrl, "_blank");
-                }}
-              >
+              <div className="cursor-pointer">
                 <img src={whatsapp} alt="" className="mr-4" />
               </div>
             </div>

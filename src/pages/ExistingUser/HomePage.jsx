@@ -9,10 +9,11 @@ const HomePage = ({ authUser, pushId }) => {
 
   const showPopup = () => {
     setPopupVisible(true);
-    axios.post("http://localhost:5000/api/notifications/send", {
+    axios.post("http://localhost:5000/api/projects/createProject", {
       message: "ikjwefojfgj",
       title: "wekfwefweoifjoi",
       id: pushId, // Use pushId derived from subscription
+      userId: authUser._id,
     });
   };
 

@@ -45,7 +45,6 @@ function Dashboard({ authUser }) {
       toast.success("Notifications enabled!");
     } catch (error) {
       console.error("Failed to subscribe for notifications:", error);
-      toast.error("Failed to subscribe for notifications.");
     }
   };
 
@@ -65,7 +64,7 @@ function Dashboard({ authUser }) {
         if (permission === "granted") {
           await subscribeToPushNotifications(publicKey);
         } else {
-          toast.error("Notification permission denied.");
+          console.log("Notification permission denied.");
         }
       } catch (error) {
         console.error("Error fetching VAPID key or subscribing:", error);
@@ -102,7 +101,6 @@ function Dashboard({ authUser }) {
           toast.success("Notifications enabled!");
         } catch (error) {
           console.error("Subscription failed:", error);
-          toast.error("Failed to subscribe for notifications.");
         }
       } else {
         toast.error("Notification permission denied.");

@@ -17,7 +17,6 @@ import ImageUpload from "../../components/Homepage/ImageUpload";
 import { useNavigate } from "react-router-dom";
 import { apiRequest } from "../../services/api";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
-import { set } from "date-fns";
 
 function Consultation({ isExpanded, user }) {
   const navigate = useNavigate();
