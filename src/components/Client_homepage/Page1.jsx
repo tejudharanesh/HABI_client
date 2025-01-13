@@ -9,10 +9,10 @@ function Page1({ showPopup, user }) {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full">
+    <div className="w-full h-full">
       {/* Background Image with Gradient Overlay */}
       <div
-        className={`relative inset-0 bg-cover bg-center w-full h-[300px] md:h-[360px] rounded-b-[40px] md:rounded-b-[60px] lg:rounded-b-[80px]`}
+        className="relative inset-0 bg-cover bg-center w-full h-full rounded-b-[40px] md:rounded-b-[60px] lg:rounded-b-[80px]"
         style={{
           backgroundImage: `url(${home})`,
         }}
@@ -26,8 +26,6 @@ function Page1({ showPopup, user }) {
         <div className="absolute bottom-3 left-40 md:bottom-8 md:left-60 text-white">
           <p className="text-lg">CLIENT ID: {user.clientId}</p>
           <p className="text-sm">Project Manager - Teju</p>
-
-          <p className="text-sm"></p>
         </div>
         <div className="absolute top-3 left-3 md:top-2 md:left-auto md:right-20 flex items-center space-x-2 p-2 rounded-lg">
           <button

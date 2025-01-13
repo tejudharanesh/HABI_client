@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import whatsapp from "../../assets/images/Whatsapp.png";
 import site from "../../assets/images/site.png";
@@ -9,7 +9,7 @@ import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 function Page2() {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
+  const date = new Date();
 
   const { data: projectData, isLoading: isProjectLoading } = useQuery({
     queryKey: ["projects"],
@@ -25,9 +25,11 @@ function Page2() {
   };
 
   return (
-    <div>
-      <div className="md:px-[8%] lg:px-[] xl:px-[] bg-layoutColor h-auto">
-        <div className="text-gray-500 m-5 md:hidden ">25 May 2024</div>
+    <div className="h-auto">
+      <div className="md:px-[8%] lg:px-[] xl:px-[] bg-layoutColor h-auto ">
+        <div className="text-gray-500 m-5 md:hidden ">
+          {date.toDateString()}
+        </div>
 
         <div className="flex flex-col md:flex-row">
           {/* Payment and Chat for small screens */}
@@ -69,7 +71,7 @@ function Page2() {
             <div className="relative">
               <div className="absolute top-0 left-0 h-full border-l-2 border-gray-300"></div>
               <div className="text-gray-500 m-3 hidden md:inline-block">
-                25 May 2024
+                {date.toDateString()}
               </div>
 
               {/* Ongoing Section */}
@@ -94,14 +96,14 @@ function Page2() {
                             {stage.name}
                           </h3>
                           <p>
-                            {stage?.substages?.some(
+                            {stage?.subStages?.some(
                               (substage) => substage.status === "ongoing"
                             )
                               ? "Ongoing"
                               : "Pending"}
-                          </p>{" "}
+                          </p>
                         </div>
-                        {stage?.substages?.map((substage) => (
+                        {stage?.subStages?.map((substage) => (
                           <p className="text-sm text-black">{substage.name}</p>
                         ))}
                         <p className="text-sm text-gray-500 inline mr-2">
@@ -117,9 +119,10 @@ function Page2() {
                               className="h-3 bg-primary rounded-full"
                               style={{
                                 width: `${
-                                  (stage?.substages?.filter(
-                                    (substage) => substage.status === "ongoing"
-                                  ).length / stage?.substages?.length || 0) *
+                                  (stage?.subStages?.filter(
+                                    (substage) =>
+                                      substage.status === "completed"
+                                  ).length / stage?.subStages?.length || 0) *
                                   100
                                 }%`,
                               }}
@@ -127,15 +130,23 @@ function Page2() {
                           </div>
                           <p className="inline text-black text-sm mt-2">
                             {Math.round(
-                              (stage?.substages?.filter(
-                                (substage) => substage.status === "ongoing"
-                              ).length / stage?.substages?.length || 0) * 100
+                              (stage?.subStages?.filter(
+                                (substage) => substage.status === "completed"
+                              ).length / stage?.subStages?.length || 0) * 100
                             )}
                             %
                           </p>
                         </div>
 
-                        <div className="flex items-center absolute -top-3 -left-3 rounded-full border border-primary p-0.5">
+                        <div
+                          className={`items-center absolute -top-3 -left-3 rounded-full border border-primary p-0.5 ${
+                            stage.subStages?.some(
+                              (substage) => substage.status === "ongoing"
+                            )
+                              ? "block"
+                              : "hidden"
+                          }`}
+                        >
                           <div className="w-4 h-4 bg-primary rounded-full"></div>
                         </div>
                         {expandedIndex === index && (
@@ -205,21 +216,6 @@ function Page2() {
             <div className="w-[250px] h-[250px] border-2 justify-between items-center rounded-xl p-2">
               <p className="mb-4">Recent Site Photos</p>
               <div className="grid grid-cols-2 gap-2">
-                <img
-                  src={site}
-                  alt="Site Photo 1"
-                  className="w-[99px] h-[69px] object-cover rounded-lg"
-                />
-                <img
-                  src={site}
-                  alt="Site Photo 1"
-                  className="w-[99px] h-[69px] object-cover rounded-lg"
-                />
-                <img
-                  src={site}
-                  alt="Site Photo 1"
-                  className="w-[99px] h-[69px] object-cover rounded-lg"
-                />
                 <img
                   src={site}
                   alt="Site Photo 1"
