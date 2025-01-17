@@ -1,8 +1,11 @@
 import { useState, useRef, useEffect } from "react";
-import Page1 from "../../components/Client_homepage/Page1";
-import Page2 from "../../components/Client_homepage/Page2";
+import TopLayer from "../../components/Client_homepage/TopLayer";
+import ProjectCards from "../../components/Client_homepage/ProjectCards";
 import Notifications from "../../components/Client_homepage/Notifications";
+import GetDate from "../../components/Client_homepage/GetDate";
+import TabMiddleLayer from "../../components/Client_homepage/TabMiddleLayer";
 import axios from "axios";
+import MobileMiddleLayer from "../../components/Client_homepage/MobileMiddleLayer";
 
 const HomePage = ({ authUser, pushId }) => {
   const [isPopupVisible, setPopupVisible] = useState(false);
@@ -12,10 +15,10 @@ const HomePage = ({ authUser, pushId }) => {
 
   const showPopup = () => {
     setPopupVisible(true);
-    axios.post("http://localhost:5000/api/notifications/send", {
-      message: "ikjwefojfgj",
+    axios.post("http://localhost:5000/api/projects/createProject", {
+      message: "asdf jkl asdf jkl",
       title: "wekfwefweoifjoi",
-      id: pushId, // Use pushId derived from subscription
+      id: pushId,
       userId: authUser._id,
     });
   };
@@ -60,19 +63,37 @@ const HomePage = ({ authUser, pushId }) => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-background font-poppins w-full h-auto">
+    <div className="min-h-screen flex flex-col bg-layoutColor font-poppins w-full h-auto">
       <div
         className="flex flex-col items-center w-full bg-layoutColor h-auto sticky top-0 z-10 transition-all duration-500"
         style={{ height: `${page1Height}px` }}
       >
-        <Page1 showPopup={showPopup} user={authUser} />
-        {/* Pass dynamic height to Page1 */}
+        <TopLayer showPopup={showPopup} user={authUser} />
       </div>
+      <GetDate />
+      <MobileMiddleLayer />
       <div
+        className="flex flex-col md:flex-row w-full bg-layoutColor xl:px-[10%] h-screen overflow-y-auto no-scrollbar"
         ref={page2Ref}
-        className="flex flex-col w-full bg-layoutColor xl:px-[10%] overflow-y-auto  h-screen"
       >
-        <Page2 />
+        {/* Scrollable ProjectCards */}
+        <div
+          className="flex-1 md:w-[60%] no-scrollbar"
+          style={{ height: "100%" }}
+        >
+          <ProjectCards />
+        </div>
+
+        {/* Fixed TabMiddleLayer */}
+        <div
+          className="hidden md:flex md:w-[40%]"
+          style={{
+            position: "sticky",
+            top: 0,
+          }}
+        >
+          <TabMiddleLayer />
+        </div>
       </div>
 
       {isPopupVisible && <Notifications onClose={hidePopup} />}

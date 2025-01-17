@@ -5,7 +5,7 @@ import bell from "../../assets/svg/Bell.svg";
 import SemiCircularProgressBar from "./SemiCircularProgressBar";
 import { useNavigate } from "react-router-dom";
 
-function Page1({ showPopup, user }) {
+function TopLayer({ showPopup, user }) {
   const navigate = useNavigate();
 
   return (
@@ -62,4 +62,4 @@ function Page1({ showPopup, user }) {
   );
 }
 
-export default Page1;
+export default TopLayer;
