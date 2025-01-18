@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 function MobileMiddleLayer() {
   const navigate = useNavigate();
   return (
-    <div>
-      <div className="flex md:hidden mb-3">
+    <div className="pb-2">
+      <div className="flex md:hidden">
         <div
           className="w-[99px] h-[54px] mr-[16px] border-2 rounded-xl rounded-l-none p-3 pl-8 cursor-pointer"
           onClick={() => {

@@ -63,40 +63,43 @@ const HomePage = ({ authUser, pushId }) => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-layoutColor font-poppins w-full h-auto">
+    <div className="bg-layoutColor font-poppins w-full h-auto">
       <div
-        className="flex flex-col items-center w-full bg-layoutColor h-auto sticky top-0 z-10 transition-all duration-500"
+        className="sticky top-0 z-10 transition-all duration-500 bg-layoutColor"
         style={{ height: `${page1Height}px` }}
       >
         <TopLayer showPopup={showPopup} user={authUser} />
       </div>
-      <GetDate />
-      <MobileMiddleLayer />
+
       <div
-        className="flex flex-col md:flex-row w-full bg-layoutColor xl:px-[10%] h-screen overflow-y-auto no-scrollbar"
-        ref={page2Ref}
+        className="hidden md:flex sticky transition-all duration-500 z-10 bg-layoutColor"
+        style={{ top: `${page1Height}px` }}
       >
-        {/* Scrollable ProjectCards */}
+        <GetDate />
+      </div>
+      <div
+        className="sticky flex-col md:hidden transition-all duration-500 z-10 bg-layoutColor"
+        style={{ top: `${page1Height}px` }}
+      >
+        <GetDate />
+
+        <MobileMiddleLayer />
+      </div>
+
+      <div className="flex flex-col md:flex-row">
         <div
-          className="flex-1 md:w-[60%] no-scrollbar"
-          style={{ height: "100%" }}
+          className="w-full md:w-3/5 h-screen overflow-y-auto no-scrollbar"
+          ref={page2Ref}
         >
           <ProjectCards />
         </div>
-
-        {/* Fixed TabMiddleLayer */}
         <div
-          className="hidden md:flex md:w-[40%]"
-          style={{
-            position: "sticky",
-            top: 0,
-          }}
+          className="w-full md:w-2/5 fixed transition-all duration-500"
+          style={{ top: `${page1Height + 48}px`, right: -40 }}
         >
           <TabMiddleLayer />
         </div>
       </div>
-
-      {isPopupVisible && <Notifications onClose={hidePopup} />}
     </div>
   );
 };

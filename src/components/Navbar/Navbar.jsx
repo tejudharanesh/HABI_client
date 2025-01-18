@@ -9,6 +9,7 @@ import SelectionIndicator from "./SelectionIndicator";
 import project from "../../assets/svg/Project.svg";
 import meeting from "../../assets/svg/meeting.svg";
 import live from "../../assets/svg/live.svg";
+import progress from "../../assets/svg/progress.svg";
 
 const Navbar = ({ isExpanded, user }) => {
   const location = useLocation();
@@ -46,6 +47,16 @@ const Navbar = ({ isExpanded, user }) => {
       link: "/dashboard/profile",
     },
   ];
+
+  if (user === "client") {
+    buttons.push({
+      id: "progress",
+      icon: progress,
+      alt: "status",
+      label: "Project status",
+      link: "/dashboard/status",
+    });
+  }
 
   return (
     <nav

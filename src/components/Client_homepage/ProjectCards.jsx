@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import site from "../../assets/images/site.png";
 import { apiRequest } from "../../services/api";
-import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 function ProjectCards() {
-  const [expandedIndex, setExpandedIndex] = useState(null);
+  const [expandedCompleted, setExpandedCompleted] = useState(false);
+  const [expandedPending, setExpandedPending] = useState(false);
 
   const { data: projectData, isLoading: isProjectLoading } = useQuery({
     queryKey: ["projects"],
@@ -15,107 +16,176 @@ function ProjectCards() {
     retry: false,
   });
 
-  const toggleExpand = (index) => {
-    setExpandedIndex(expandedIndex === index ? null : index);
+  const toggleExpandCompleted = () => {
+    setExpandedCompleted((prev) => !prev);
+  };
+
+  const toggleExpandPending = () => {
+    setExpandedPending((prev) => !prev);
+  };
+
+  const Card = ({ stageIndex, subStageIndex, stage, subStage }) => {
+    // Determine the card's styles based on the subStage status
+    const getStatusStyles = (status) => {
+      switch (status) {
+        case "ongoing":
+          return "bg-[#E1F2F9] border-primary text-primary";
+        case "completed":
+          return "bg-[#ECF5F1] border-[#7AD06D] text-[#7AD06D]";
+        case "pending":
+          return "bg-[#f3f3f9] border-[#c0c0c0] text-[#7c7c7c]";
+        default:
+          return "bg-gray-100 border-gray-300 text-primary"; // Fallback styles
+      }
+    };
+
+    return (
+      <div
+        key={`${stageIndex}-${subStageIndex}`} // Unique key for each subStage
+        className={`relative p-3 rounded-xl border mb-2 mx-4 md:mx-0 ${getStatusStyles(
+          subStage.status
+        )}`}
+      >
+        <div className="flex flex-row">
+          <div className="rounded-xl w-[160px] relative">
+            <img src={site} alt="" className="w-[100px] h-[100px] " />
+            <div className="flex items-center justify-center absolute bottom-0 left-0 w-[100px] h-[40px] bg-black/40 backdrop-blur-sm rounded-b-xl">
+              <p className="text-white">Design</p>
+            </div>
+          </div>
+          <div className="w-full">
+            <p className="text-black font-semibold ">
+              {subStage.name || "Design Presentation"}
+            </p>
+            <p className="text-black">{stage.name || "Architectural Design"}</p>
+            <div className="flex justify-between mt-3">
+              <p className="text-[#c0c0c0]">
+                {subStage.duration || "2 days"} Days
+              </p>
+              <p
+                className={`bg-transparent ${getStatusStyles(subStage.status)}`}
+              >
+                {subStage.status || "on going"}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
-    <div className="h-auto">
-      <div className="md:px-[8%] bg-layoutColor h-auto">
+    <div className="font-poppins">
+      <div className="md:px-[8%] bg-layoutColor">
         <div>
           {isProjectLoading && <p>Loading project details...</p>}
           {projectData && projectData.length === 0 && (
             <p>No ongoing projects</p>
           )}
+
+          {/* Toggle completed subStages */}
           {projectData && projectData.length > 0 && (
-            <p className="text-center text-green-400 cursor-pointer my-4">
-              Check completed Stages
-            </p>
+            <div>
+              <p
+                className={`text-center text-[#7AD06D] p-3 rounded-xl border border-[#7AD06D] mb-2 mx-4 md:mx-0 cursor-pointer ${
+                  expandedCompleted ? "" : "relative"
+                }`}
+                onClick={toggleExpandCompleted}
+              >
+                {expandedCompleted
+                  ? "Hide completed stages"
+                  : "Check completed stages"}
+              </p>
+              {expandedCompleted &&
+                projectData[0].stages?.map((stage, stageIndex) =>
+                  stage?.subStages
+                    ?.filter((subStage) => subStage.status === "completed")
+                    .map((subStage, subStageIndex) => (
+                      <Card
+                        key={`completed-${stageIndex}-${subStageIndex}`}
+                        stageIndex={stageIndex}
+                        subStageIndex={subStageIndex}
+                        stage={stage}
+                        subStage={subStage}
+                      />
+                    ))
+                )}
+            </div>
           )}
+
+          {/* Ongoing subStages */}
           {projectData &&
             projectData.length > 0 &&
-            projectData[0].stages?.map((stage, index) => (
-              <div
-                key={index}
-                onClick={() => toggleExpand(index)}
-                className="relative bg-primaryO p-3 rounded-3xl border-2 mb-2 mx-4 md:mx-0"
+            projectData[0].stages?.map((stage, stageIndex) =>
+              stage?.subStages?.map(
+                (subStage, subStageIndex) =>
+                  subStage.status === "ongoing" && (
+                    <Card
+                      key={`ongoing-${stageIndex}-${subStageIndex}`}
+                      stageIndex={stageIndex}
+                      subStageIndex={subStageIndex}
+                      stage={stage}
+                      subStage={subStage}
+                    />
+                  )
+              )
+            )}
+
+          {/* Display only one pending subStage, toggle to show all pending */}
+          {projectData && projectData.length > 0 && (
+            <div>
+              {expandedPending
+                ? projectData[0].stages?.map((stage, stageIndex) =>
+                    stage?.subStages
+                      ?.filter((subStage) => subStage.status === "pending")
+                      .map((subStage, subStageIndex) => (
+                        <Card
+                          key={`pending-${stageIndex}-${subStageIndex}`}
+                          stageIndex={stageIndex}
+                          subStageIndex={subStageIndex}
+                          stage={stage}
+                          subStage={subStage}
+                        />
+                      ))
+                  )
+                : (() => {
+                    const firstPendingStage = projectData[0].stages?.find(
+                      (stage) =>
+                        stage?.subStages?.some(
+                          (subStage) => subStage.status === "pending"
+                        )
+                    );
+                    if (firstPendingStage) {
+                      const firstPendingSubStage =
+                        firstPendingStage.subStages.find(
+                          (subStage) => subStage.status === "pending"
+                        );
+                      return (
+                        <Card
+                          key="first-pending"
+                          stageIndex={projectData[0].stages.indexOf(
+                            firstPendingStage
+                          )}
+                          subStageIndex={0}
+                          stage={firstPendingStage}
+                          subStage={firstPendingSubStage}
+                        />
+                      );
+                    }
+                    return null;
+                  })()}
+              <p
+                className={`relative text-center text-primary p-3 rounded-xl border border-primary mb-2 mx-4 md:mx-0 cursor-pointer ${
+                  expandedPending ? "" : ""
+                }`}
+                onClick={toggleExpandPending}
               >
-                <div className="flex flex-row ">
-                  <div className="rounded-xl mr-5">
-                    <img src={site} alt="" className="w-[100px] h-[100px]" />
-                  </div>
-                  <div className="w-3/4 p-3">
-                    <p>Design Presentation</p>
-                    <p>Architectural Design</p>
-
-                    <div className="flex justify-between">
-                      <p>2 days</p>
-                      <p>ongoing</p>
-                    </div>
-                  </div>
-                </div>
-                {/* <div className="flex justify-between items-center">
-                  <h3 className="font-bold text-gray-800">{stage.name}</h3>
-                  <p>
-                    {stage?.subStages?.some(
-                      (substage) => substage.status === "ongoing"
-                    )
-                      ? "Ongoing"
-                      : "Pending"}
-                  </p>
-                </div> */}
-                {/* {stage?.subStages?.map((substage) => (
-                  <p className="text-sm text-black">{substage.name}</p>
-                ))}
-                <p className="text-sm text-gray-500 inline mr-2">
-                  25 May 2024 - 26 May 2024
-                </p>
-                <p className="text-red-400 inline text-sm">2 days delay</p>
-                <div className="bg-red-400 w-1 h-1 rounded inline-block mb-0.5 ml-0.5"></div> */}
-                {/* <div className="flex justify-between items-center">
-                  <div className="h-3 bg-gray-200 rounded-full mt-2 w-[80%] inline-block">
-                    <div
-                      className="h-3 bg-primary rounded-full"
-                      style={{
-                        width: `${
-                          (stage?.subStages?.filter(
-                            (substage) => substage.status === "completed"
-                          ).length / stage?.subStages?.length || 0) * 100
-                        }%`,
-                      }}
-                    ></div>
-                  </div>
-                  <p className="inline text-black text-sm mt-2">
-                    {Math.round(
-                      (stage?.subStages?.filter(
-                        (substage) => substage.status === "completed"
-                      ).length / stage?.subStages?.length || 0) * 100
-                    )}
-                    %
-                  </p>
-                </div> */}
-
-                {/* {expandedIndex === index && (
-                  <div>
-                    <div>
-                      <img
-                        src={site}
-                        alt="Site Photo 1"
-                        className="w-[90px] h-[69px] object-cover rounded-lg inline-block"
-                      />
-                    </div>
-                    <div className="mt-4">
-                      <button className="px-4 py-2 border-red-400 border rounded-lg text-red-400 bg-red-50 w-[155px]">
-                        Query
-                      </button>
-                      <button className="px-4 py-2 text-white bg-primary rounded-lg ml-3 w-[155px]">
-                        Approve
-                      </button>
-                    </div>
-                  </div>
-                )} */}
-              </div>
-            ))}
+                {expandedPending
+                  ? "Hide upcoming stages"
+                  : "Show more upcoming stages"}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>
