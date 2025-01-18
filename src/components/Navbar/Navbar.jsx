@@ -54,7 +54,7 @@ const Navbar = ({ isExpanded, user }) => {
       icon: progress,
       alt: "status",
       label: "Project status",
-      link: "/dashboard/status",
+      link: "/dashboard/progress",
     });
   }
 

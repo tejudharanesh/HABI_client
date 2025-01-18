@@ -50,7 +50,7 @@ function ProjectCards() {
           <div className="rounded-xl w-[160px] relative">
             <img src={site} alt="" className="w-[100px] h-[100px] " />
             <div className="flex items-center justify-center absolute bottom-0 left-0 w-[100px] h-[40px] bg-black/40 backdrop-blur-sm rounded-b-xl">
-              <p className="text-white">Design</p>
+              <p className="text-white">{stage.category}</p>
             </div>
           </div>
           <div className="w-full">

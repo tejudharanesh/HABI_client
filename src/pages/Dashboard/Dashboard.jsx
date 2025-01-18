@@ -16,6 +16,7 @@ import Faqs from "../FAQ's/Faqs";
 import CostEstimator1 from "../NewUser/CostEstimator1";
 import DetailedReport from "../NewUser/DetailedReport";
 import PaymentSuccess from "../../components/Client_homepage/PaymentSuccess";
+import Progress from "../ExistingUser/Progress";
 
 import { useSubscribe } from "react-pwa-push-notifications";
 
@@ -199,6 +200,9 @@ function Dashboard({ authUser }) {
                 )
               }
             />
+
+            <Route path="/progress" element={<Progress />} />
+
             <Route
               path="/materials"
               element={<Materials isExpanded={collapsed} />}
