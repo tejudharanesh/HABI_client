@@ -100,6 +100,9 @@ const HomePage = ({ authUser, pushId }) => {
           <TabMiddleLayer />
         </div>
       </div>
+      <br />
+      <br />
+      <br />
     </div>
   );
 };

@@ -65,3 +65,27 @@
   -ms-overflow-style: none; /* Hides the scrollbar for IE and Edge */
   scrollbar-width: none; /* Hides the scrollbar for Firefox */
 }
+
+@font-face {
+  font-family: "larken";
+  src: url("assets/fonts/larken.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "gilroyB";
+  src: url("assets/fonts/GilroyB.ttf") format("truetype");
+}
+@font-face {
+  font-family: "gilroyM";
+  src: url("assets/fonts/GilroyM.ttf") format("truetype");
+}
+@font-face {
+  font-family: "gilroyS";
+  src: url("assets/fonts/GilroyS.ttf") format("truetype");
+}
+@font-face {
+  font-family: "dune";
+  src: url("assets/fonts/Dune_Rise.ttf") format("truetype");
+}

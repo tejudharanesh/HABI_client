@@ -1,7 +1,16 @@
 import React, { useState } from "react";
-import site from "../../assets/images/site.png";
 import { apiRequest } from "../../services/api";
 import { useQuery } from "@tanstack/react-query";
+import design from "../../assets/images/design.png";
+import preparation from "../../assets/images/preparation.png";
+import civil from "../../assets/images/civil.png";
+import electrical from "../../assets/images/electical.png";
+import plumbing from "../../assets/images/plumbing.png";
+import grill from "../../assets/images/grill.png";
+import flooring from "../../assets/images/floring.png";
+import doors from "../../assets/images/doors.png";
+import finishing from "../../assets/images/finishing.png";
+import painting from "../../assets/images/painting.png";
 
 function ProjectCards() {
   const [expandedCompleted, setExpandedCompleted] = useState(false);
@@ -22,6 +31,19 @@ function ProjectCards() {
 
   const toggleExpandPending = () => {
     setExpandedPending((prev) => !prev);
+  };
+
+  const images = {
+    design: design,
+    preparation: preparation,
+    civil: civil,
+    electrical: electrical,
+    plumbing: plumbing,
+    grill: grill,
+    flooring: flooring,
+    doors: doors,
+    finishing: finishing,
+    painting: painting,
   };
 
   const Card = ({ stageIndex, subStageIndex, stage, subStage }) => {
@@ -47,8 +69,12 @@ function ProjectCards() {
         )}`}
       >
         <div className="flex flex-row">
-          <div className="rounded-xl w-[160px] relative">
-            <img src={site} alt="" className="w-[100px] h-[100px] " />
+          <div className="rounded-lg w-[160px] relative">
+            <img
+              src={images[stage.category]}
+              alt=""
+              className="w-[100px] h-[100px] rounded-lg"
+            />
             <div className="flex items-center justify-center absolute bottom-0 left-0 w-[100px] h-[40px] bg-black/40 backdrop-blur-sm rounded-b-xl">
               <p className="text-white">{stage.category}</p>
             </div>
@@ -138,6 +164,7 @@ function ProjectCards() {
                 ? projectData[0].stages?.map((stage, stageIndex) =>
                     stage?.subStages
                       ?.filter((subStage) => subStage.status === "pending")
+                      .slice(0, 2) // Limit to 2 pending subStages
                       .map((subStage, subStageIndex) => (
                         <Card
                           key={`pending-${stageIndex}-${subStageIndex}`}
@@ -149,31 +176,38 @@ function ProjectCards() {
                       ))
                   )
                 : (() => {
-                    const firstPendingStage = projectData[0].stages?.find(
-                      (stage) =>
-                        stage?.subStages?.some(
-                          (subStage) => subStage.status === "pending"
-                        )
-                    );
-                    if (firstPendingStage) {
-                      const firstPendingSubStage =
-                        firstPendingStage.subStages.find(
-                          (subStage) => subStage.status === "pending"
-                        );
-                      return (
+                    const firstTwoPendingSubStages = projectData[0].stages
+                      ?.flatMap(
+                        (stage, stageIndex) =>
+                          stage.subStages
+                            ?.map((subStage, subStageIndex) => ({
+                              stage,
+                              stageIndex,
+                              subStage,
+                              subStageIndex,
+                            }))
+                            .filter(
+                              (item) => item.subStage.status === "pending"
+                            ) // Filter pending subStages
+                      )
+                      .slice(0, 2); // Get only the first two pending subStages
+
+                    return firstTwoPendingSubStages?.map(
+                      (
+                        { stage, stageIndex, subStage, subStageIndex },
+                        index
+                      ) => (
                         <Card
-                          key="first-pending"
-                          stageIndex={projectData[0].stages.indexOf(
-                            firstPendingStage
-                          )}
-                          subStageIndex={0}
-                          stage={firstPendingStage}
-                          subStage={firstPendingSubStage}
+                          key={`first-pending-${index}`}
+                          stageIndex={stageIndex}
+                          subStageIndex={subStageIndex}
+                          stage={stage}
+                          subStage={subStage}
                         />
-                      );
-                    }
-                    return null;
+                      )
+                    );
                   })()}
+
               <p
                 className={`relative text-center text-primary p-3 rounded-xl border border-primary mb-2 mx-4 md:mx-0 cursor-pointer ${
                   expandedPending ? "" : ""

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import ToggleButton from "../../components/Navbar/ToggleButton";
@@ -201,7 +201,12 @@ function Dashboard({ authUser }) {
               }
             />
 
-            <Route path="/progress" element={<Progress />} />
+            <Route
+              path="/progress"
+              element={
+                user === "client" ? <Progress /> : <Navigate to="/" replace />
+              }
+            />
 
             <Route
               path="/materials"

@@ -3,6 +3,16 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        poppins: ["Poppins", "sans-serif"],
+        DuneRise: ["Dune Rise", "sans-serif"],
+        Samarkan: ["Samarkan Normal V2"],
+        larken: ["larken", "sans-serif"],
+        giloryB: ["gilroyB"],
+        giloryM: ["gilroyM"],
+        giloryS: ["gilroyS"],
+        Dune: ["dune"],
+      },
       screens: {
         sm: "640px",
         // => @media (min-width: 640px) { ... }
@@ -19,11 +29,7 @@ export default {
         "2xl": "1536px",
         // => @media (min-width: 1536px) { ... }
       },
-      fontFamily: {
-        poppins: ["Poppins", "sans-serif"],
-        DuneRise: ["Dune Rise", "sans-serif"],
-        // Add more custom font families as needed
-      },
+
       colors: {
         primary: "#0FB4C3",
         primaryO: "rgba(15, 180, 195, 0.1)",
