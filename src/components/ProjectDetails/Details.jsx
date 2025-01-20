@@ -5,8 +5,9 @@ import duration from "../../assets/images/duration.png";
 import pincode from "../../assets/images/pincode.png";
 import plot from "../../assets/images/Plot.png";
 import floor from "../../assets/images/Floor.png";
+import { QueryClient } from "@tanstack/react-query";
 
-function Details({ isExpanded }) {
+function Details({ isExpanded, data }) {
   return (
     <div
       className={`flex flex-col w-full bg-layoutColor shadow h-auto p-2 mb-2 ${
@@ -22,13 +23,15 @@ function Details({ isExpanded }) {
         <div className="ml-3">
           <img src={user} alt="" className="w-6 h-6 inline-block mr-2" />
           <p className="inline-block text-black font-semibold">Name</p>
-          <p className="mb-2 ml-[32px] text-black">Yash</p>
+          <p className="mb-2 ml-[32px] text-black">{data[0]?.name}</p>
         </div>
         <div className="ml-3">
           <img src={cost} alt="" className="w-6 h-6 inline-block mr-2" />
           <p className="inline-block text-black font-semibold">Project Cost</p>
 
-          <p className="mb-2 ml-[32px] text-black">1.5 crores</p>
+          <p className="mb-2 ml-[32px] text-black">
+            ₹{data[0]?.projectCost.toLocaleString("en-IN")}
+          </p>
         </div>
         <div className="ml-3">
           <img src={duration} alt="" className="w-6 h-6 inline-block mr-2" />
@@ -47,12 +50,12 @@ function Details({ isExpanded }) {
           <div>
             <img src={plot} alt="" className="w-6 h-6 inline-block mr-2" />
 
-            <p className="inline-block">1200 Sq. ft</p>
+            <p className="inline-block">{data[0]?.dimension}</p>
           </div>
           <div>
             <img src={floor} alt="" className="w-6 h-6 inline-block mr-2" />
 
-            <p className="inline-block">G+2</p>
+            <p className="inline-block">G+{data[0]?.floor - 1}</p>
           </div>
         </div>
       </div>

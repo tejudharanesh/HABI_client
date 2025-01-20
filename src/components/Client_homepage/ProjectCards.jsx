@@ -64,7 +64,7 @@ function ProjectCards() {
     return (
       <div
         key={`${stageIndex}-${subStageIndex}`} // Unique key for each subStage
-        className={`relative p-3 rounded-xl border mb-2 mx-4 md:mx-0 ${getStatusStyles(
+        className={`relative p-2 rounded-xl border mb-2 mx-4 md:mx-0 ${getStatusStyles(
           subStage.status
         )}`}
       >
