@@ -23,6 +23,10 @@ const HomePage = ({ authUser, pushId }) => {
     });
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const hidePopup = () => {
     setPopupVisible(false);
   };

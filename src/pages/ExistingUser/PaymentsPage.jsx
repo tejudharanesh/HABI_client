@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PaymentBlock from "../../components/Client_homepage/PaymentBlock";
 import PaymentSummary from "../../components/Client_homepage/PaymentSummary";
 import back from "../../assets/images/back.png";
@@ -56,6 +56,11 @@ const PaymentsPage = () => {
   const totalSegments = 7;
   const segmentAngle = 360 / totalSegments;
   const paidAngle = (currentStage - 1) * segmentAngle;
+
+  useEffect(() => {
+    // Scroll to the top when the component mounts
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="relative flex flex-col md:flex-row items-start p-2 bg-layoutColor min-h-screen font-poppins px-4 md:pl-10 lg:pl-28 xl:pl-60">
       <div className="relative w-full md:w-[60%] lg:w-[50%]">

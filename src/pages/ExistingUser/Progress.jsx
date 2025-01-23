@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { apiRequest } from "../../services/api";
 import { useQuery } from "@tanstack/react-query";
 import design from "../../assets/images/design.png";
@@ -20,6 +20,10 @@ const Progress = () => {
       return await apiRequest("/projects/project", "GET");
     },
     retry: false,
+  });
+  useEffect(() => {
+    // Scroll to the top when the component mounts
+    window.scrollTo(0, 0);
   });
 
   const [selectedStage, setSelectedStage] = useState(null);
@@ -218,7 +222,7 @@ const Progress = () => {
               style={{ width: `${selectedStage.progress}%` }}
             />
           </div>
-          <div className="mt-4 overflow-y-auto max-h-[70vh] px-4">
+          <div className="mt-4 overflow-y-auto max-h-[70vh] grid px-4 md:grid-cols-2 xl:grid-cols-3 gap-4">
             {subStages?.map((subStage, index) => (
               <Card
                 key={index}
