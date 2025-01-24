@@ -21,10 +21,7 @@ const Progress = () => {
     },
     retry: false,
   });
-  useEffect(() => {
-    // Scroll to the top when the component mounts
-    window.scrollTo(0, 0);
-  });
+
 
   const [selectedStage, setSelectedStage] = useState(null);
   const [subStages, setSubStages] = useState([]);
@@ -243,4 +240,4 @@ const Progress = () => {
   );
 };
 
-export default Progress;
+export default Progress;  

@@ -18,16 +18,16 @@ import logout from "../../assets/svg/Logout.svg";
 import friend from "../../assets/images/friend.png";
 import family from "../../assets/images/family.png";
 
-const Profile = ({ isExpanded, user, authUser }) => {
+const Profile = ({ isExpanded, user }) => {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [editable, setEditable] = useState(false);
 
   const [formData, setFormData] = useState({
-    name: authUser.name,
-    phoneNumber: authUser.phoneNumber,
-    email: authUser.email,
-    sitePinCode: authUser.sitePinCode,
-    currentLocation: authUser.currentLocation,
+    name: user.name,
+    phoneNumber: user.phoneNumber,
+    email: user.email,
+    sitePinCode: user.sitePinCode,
+    currentLocation: user.currentLocation,
   });
 
   const navigate = useNavigate();
@@ -179,7 +179,7 @@ const Profile = ({ isExpanded, user, authUser }) => {
       )}
       <div className={containerClass}>
         <ul className="rounded-xl w-full p-3 py-1">
-          {user === "client" && (
+          {user.status === "client" && (
             <li className="flex justify-between items-center py-2 w-full cursor-pointer">
               <span className="flex items-center">
                 <img src={friend} alt="Friend" className="w-6 h-6" />
@@ -225,7 +225,7 @@ const Profile = ({ isExpanded, user, authUser }) => {
           <img src={logout} alt="" className="inline mr-2" />
           {isLoggingOut ? "Logging out..." : " Logout"}
         </button>
-        {user === "lead" && <Footer />}
+        {user.status === "lead" && <Footer />}
       </div>
       <br />
       <br />

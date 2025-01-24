@@ -19,10 +19,7 @@ function ProjectDetails({ isExpanded }) {
   if (isProjectLoading) {
     return <div>Loading...</div>;
   }
-  useEffect(() => {
-    // Scroll to the top when the component mounts
-    window.scrollTo(0, 0);
-  }, );
+
   return (
     <div className="min-h-screen flex flex-col font-poppins w-full bg-background h-auto ">
       <Details isExpanded={isExpanded} data={projectData} />

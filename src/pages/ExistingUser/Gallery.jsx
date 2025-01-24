@@ -8,7 +8,6 @@ function Gallery({ isExpanded }) {
   const [galleryData, setGalleryData] = useState([]);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     // Mock fetching data from backend
     const fetchGalleryData = async () => {
       // Replace with actual API call

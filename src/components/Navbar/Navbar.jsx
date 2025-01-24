@@ -27,28 +27,28 @@ const Navbar = ({ isExpanded, user }) => {
     },
     {
       id: "packages",
-      icon: user == "client" ? project : packagesIcon,
+      icon: user.status === "client" ? project : packagesIcon,
       alt: "Packages",
-      label: user == "client" ? "Project" : "Cost Estimator",
+      label: user.status === "client" ? "Project" : "Cost Estimator",
       link: "/dashboard/packages",
     },
     {
       id: "projects",
-      icon: user == "client" ? live : projectsIcon,
+      icon: user.status === "client" ? live : projectsIcon,
       alt: "Projects",
-      label: user == "client" ? "Live" : "Portfolio",
+      label: user.status === "client" ? "Live" : "Portfolio",
       link: "/dashboard/projects",
     },
     {
       id: "profile",
-      icon: user == "client" ? meeting : profileIcon,
+      icon: user.status === "client" ? meeting : profileIcon,
       alt: "Profile",
-      label: user == "client" ? "Meet Us" : "Profile",
+      label: user.status === "client" ? "Meet Us" : "Profile",
       link: "/dashboard/profile",
     },
   ];
 
-  if (user === "client") {
+  if (user.status === "client") {
     buttons.push({
       id: "progress",
       icon: progress,

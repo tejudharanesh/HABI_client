@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import ToggleButton from "../../components/Navbar/ToggleButton";
@@ -22,9 +22,18 @@ import { useSubscribe } from "react-pwa-push-notifications";
 
 function Dashboard({ authUser }) {
   const [collapsed, setCollapsed] = useState(false);
-  const [user, setUser] = useState(authUser?.status || "");
   const [vapidPublicKey, setVapidPublicKey] = useState(""); // State for VAPID public key
   const [pushId, setPushId] = useState(""); // State for Push ID
+  const location = useLocation();
+  const mainContentRef = useRef(null); // Reference to the scrollable container
+
+  useEffect(() => {
+    // Scroll the specific container to the top whenever the location (route) changes
+    if (mainContentRef.current) {
+      mainContentRef.current.scrollTo(0, 0);
+    }
+  }, [location]);
+
   const subscribeToPushNotifications = async (publicKey) => {
     try {
       const registration = await navigator.serviceWorker.ready;
@@ -111,11 +120,6 @@ function Dashboard({ authUser }) {
     requestNotificationPermission();
   }, [vapidPublicKey]); // Ensure dependencies are included
 
-  useEffect(() => {
-    if (authUser?.status) {
-      setUser(authUser.status);
-    }
-  }, [authUser]);
   const toggleSidebar = () => {
     setCollapsed(!collapsed);
   };
@@ -146,7 +150,7 @@ function Dashboard({ authUser }) {
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Navbar */}
-      <Navbar isExpanded={collapsed} user={user} />
+      <Navbar isExpanded={collapsed} user={authUser} />
 
       {/* Main Content */}
       <div className="flex flex-col flex-grow">
@@ -154,17 +158,17 @@ function Dashboard({ authUser }) {
         <ToggleButton collapsed={collapsed} toggleSidebar={toggleSidebar} />
 
         {/* Routes */}
-        <div className="flex-grow overflow-y-auto">
+        <div className="flex-grow overflow-y-auto" ref={mainContentRef}>
           <Routes>
             <Route
               path="/"
               element={
-                user === "lead" ? (
-                  <Consultation isExpanded={collapsed} user={user} />
+                authUser.status === "lead" ? (
+                  <Consultation isExpanded={collapsed} user={authUser} />
                 ) : (
                   <HomePage
                     isExpanded={collapsed}
-                    authUser={authUser}
+                    user={authUser}
                     pushId={pushId}
                   />
                 )
@@ -173,7 +177,7 @@ function Dashboard({ authUser }) {
             <Route
               path="/packages"
               element={
-                user === "lead" ? (
+                authUser.status === "lead" ? (
                   <CostEstimator1 isExpanded={collapsed} />
                 ) : (
                   <ProjectDetails isExpanded={collapsed} />
@@ -183,20 +187,18 @@ function Dashboard({ authUser }) {
             <Route
               path="/projects"
               element={
-                user === "lead" ? <Projects isExpanded={collapsed} /> : null
+                authUser.status === "lead" ? (
+                  <Projects isExpanded={collapsed} />
+                ) : null
               }
             />
             <Route
               path="/profile"
               element={
-                user === "lead" ? (
-                  <Profile
-                    isExpanded={collapsed}
-                    user={user}
-                    authUser={authUser}
-                  />
+                authUser.status === "lead" ? (
+                  <Profile isExpanded={collapsed} user={authUser} />
                 ) : (
-                  <Consultation isExpanded={collapsed} user={user} />
+                  <Consultation isExpanded={collapsed} user={authUser} />
                 )
               }
             />
@@ -204,7 +206,11 @@ function Dashboard({ authUser }) {
             <Route
               path="/progress"
               element={
-                user === "client" ? <Progress /> : <Navigate to="/" replace />
+                authUser.status === "client" ? (
+                  <Progress />
+                ) : (
+                  <Navigate to="/" replace />
+                )
               }
             />
 
@@ -218,13 +224,7 @@ function Dashboard({ authUser }) {
             />
             <Route
               path="/profile1"
-              element={
-                <Profile
-                  isExpanded={collapsed}
-                  user={user}
-                  authUser={authUser}
-                />
-              }
+              element={<Profile isExpanded={collapsed} user={authUser} />}
             />
             <Route
               path="/gallery"

@@ -5,10 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 function Materials({ isExpanded }) {
   const navigate = useNavigate();
-  useEffect(() => {
-    // Scroll to the top when the component mounts
-    window.scrollTo(0, 0);
-  }, []);
+ 
 
   return (
     <div className="min-h-screen flex flex-col font-poppins w-full bg-background h-auto">

@@ -158,10 +158,6 @@ function Consultation({ isExpanded, user }) {
     navigate("/dashboard/faq");
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, );
-
   return (
     <div className="min-h-screen flex flex-col bg-background font-poppins w-full h-auto">
       <div
@@ -172,7 +168,7 @@ function Consultation({ isExpanded, user }) {
         }`}
       >
         <h1 className="text-[20px] lg:text-[24px] text-black font-medium">
-          {user.type === "lead" ? "Book free Consultation" : "Meet with us  "}
+          {user.status === "lead" ? "Book free Consultation" : "Meet with us  "}
         </h1>
         {currentPage === "page1" ? (
           <Page1
@@ -197,9 +193,9 @@ function Consultation({ isExpanded, user }) {
           />
         )}
       </div>
-      <ImageUpload />
-      <OnePercent isExpanded={isExpanded} />
-      <Design isExpanded={isExpanded} />
+      {user.status === "lead" && <ImageUpload />}
+      {user.status === "lead" && <OnePercent isExpanded={isExpanded} />}
+      {user.status === "lead" && <Design isExpanded={isExpanded} />}
 
       <HabiFeatures isExpanded={isExpanded} />
       <Youtube isExpanded={isExpanded} />

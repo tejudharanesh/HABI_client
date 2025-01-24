@@ -9,7 +9,7 @@ import LoginPage from "./pages/Authentication/LoginPage";
 import Otp from "./pages/Authentication/Otp";
 import CompleteProfile from "./pages/Authentication/CompleteProfile";
 import Dashboard from "./pages/Dashboard/Dashboard";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "./components/Loading/Loading";

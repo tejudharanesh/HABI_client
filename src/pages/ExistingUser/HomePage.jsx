@@ -7,7 +7,7 @@ import TabMiddleLayer from "../../components/Client_homepage/TabMiddleLayer";
 import axios from "axios";
 import MobileMiddleLayer from "../../components/Client_homepage/MobileMiddleLayer";
 
-const HomePage = ({ authUser, pushId }) => {
+const HomePage = ({ user, pushId }) => {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [page1Height, setPage1Height] = useState(350);
   const page2Ref = useRef(null);
@@ -19,13 +19,10 @@ const HomePage = ({ authUser, pushId }) => {
       message: "asdf jkl asdf jkl",
       title: "wekfwefweoifjoi",
       id: pushId,
-      userId: authUser._id,
+      userId: user._id,
     });
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   const hidePopup = () => {
     setPopupVisible(false);
@@ -72,7 +69,7 @@ const HomePage = ({ authUser, pushId }) => {
         className="sticky top-0 z-10 transition-all duration-500 bg-layoutColor"
         style={{ height: `${page1Height}px` }}
       >
-        <TopLayer showPopup={showPopup} user={authUser} />
+        <TopLayer showPopup={showPopup} user />
       </div>
 
       <div
