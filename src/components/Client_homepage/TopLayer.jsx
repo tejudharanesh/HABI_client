@@ -24,7 +24,7 @@ function TopLayer({ showPopup, user }) {
           <SemiCircularProgressBar />
         </div>
         <div className="absolute bottom-3 left-40 md:bottom-8 md:left-60 text-white">
-          <p className="text-lg">CLIENT ID: {user.clientId}</p>
+          <p className="text-lg">CLIENT ID: {user?.clientId}</p>
           <p className="text-sm">Project Manager - Teju</p>
         </div>
         <div className="absolute top-3 left-3 md:top-2 md:left-auto md:right-20 flex items-center space-x-2 p-2 rounded-lg">

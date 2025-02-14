@@ -159,7 +159,7 @@ function CostEstimator1({ isExpanded }) {
           isExpanded
             ? "md:px-20 lg:px-60  xl:px-[300px]"
             : "md:px-12 lg:px-40  xl:px-[300px]"
-        }`}
+        }`}  
       >
         <h2 className="text-black font-bold text-xl md:text-2xl mb-6 text-center">
           Cost Estimator

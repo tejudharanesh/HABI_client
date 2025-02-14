@@ -15,14 +15,13 @@ const HomePage = ({ user, pushId }) => {
 
   const showPopup = () => {
     setPopupVisible(true);
-    axios.post("http://localhost:5000/api/projects/createProject", {
+    axios.post("http://localhost:5000/api/notifications/send", {
       message: "asdf jkl asdf jkl",
       title: "wekfwefweoifjoi",
       id: pushId,
       userId: user._id,
     });
   };
-
 
   const hidePopup = () => {
     setPopupVisible(false);
@@ -69,7 +68,7 @@ const HomePage = ({ user, pushId }) => {
         className="sticky top-0 z-10 transition-all duration-500 bg-layoutColor"
         style={{ height: `${page1Height}px` }}
       >
-        <TopLayer showPopup={showPopup} user />
+        <TopLayer showPopup={showPopup} user={user} />
       </div>
 
       <div
