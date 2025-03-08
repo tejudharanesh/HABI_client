@@ -16,7 +16,7 @@ const Progress = () => {
   const { data: projectData, isLoading: isProjectLoading } = useQuery({
     queryKey: ["projects"],
     queryFn: async () => {
-      console.log("Fetching projects...");
+      console.log("Fetching projects..");
       return await apiRequest("/projects/project", "GET");
     },
     retry: false,
